@@ -78,8 +78,8 @@ class BaseConfirmModal extends Component {
                   Do you want to delete the record of{' '}
                   <span className="confirmMsg_nm">
                     {valueToDisplay}
-                  </span>
                   ?
+                  </span>
                 </div>
               )}
 
@@ -102,7 +102,9 @@ class BaseConfirmModal extends Component {
               >
                 Close
               </button>
-              {additionalBtn && additionalBtn(data)}
+              {additionalBtn && additionalBtn(data, () => {
+                this.handleClose();
+              })}
             </div>
           </div>
         </div>

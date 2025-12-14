@@ -140,7 +140,7 @@ class AddAdminForm extends Component {
         AdminEnrollmentStore.validatedData=res;
         AdminEnrollmentStore.currentStep=StepperContants.MANUAL_ENROLL__CONFIRM;
       }, err => {
-        SettingsStore.showError(err);
+        SettingsStore.showModal({ type: 'error', errorList: err });
       }
     );
   };

@@ -1,26 +1,69 @@
-import { makeAutoObservable, observable, action, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import StepperContants from '../../contants/StepperContants';
 import api from '../api/api';
 
 class StudentEnrollmentStore {
-  constructor() {
-    makeAutoObservable(this, {
-    });
-  };
-  
-  errorList=[];
-  sectionList=[];
-  strandsList=[];
-  ackHeader={
+
+  constructor(snapshot) {
+    if (snapshot) {
+      Object.assign(this, snapshot);
+    }
+
+    this.reset();
+    this.resetErrorList();
+    this.resetInquiry();
+    this.resetInputs();
+
+    makeAutoObservable(this);
+  }
+
+  /* =====================
+     OBSERVABLE STATES
+     ===================== */
+
+  errorList = [];
+  inquiryData = [];
+  viewData = null;
+
+  currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+  searchStep = StepperContants.INQUIRY_INITIAL;
+
+  enrollmentRequest = {};
+  searchFields = [];
+
+  ackHeader = {
     ackMessage: null,
     refNo: null
   };
-  currentStep=StepperContants.MANUAL_ENROLL_CREATE;
-  searchStep=StepperContants.INQUIRY_INITIAL;
-  enrollmentRequest=this.initialEnrollmentRequest();
-  searchFields=this.getSearchFields();
-  inquiryData=[];
-  viewData=null;
+
+  /* =====================
+     RESET METHODS
+     ===================== */
+
+  reset() {
+    this.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+    this.searchStep = StepperContants.INQUIRY_INITIAL;
+    this.ackHeader = { ackMessage: null, refNo: null };
+    this.resetInquiry();
+    this.resetInputs();
+  };
+
+  resetInputs() {
+    this.enrollmentRequest = this.initialEnrollmentRequest();
+  };
+
+  resetInquiry(retainTblData = false) {
+    if (!retainTblData) this.inquiryData = [];
+    this.searchFields = this.getSearchFields();
+  };
+
+  resetErrorList() {
+    this.errorList = [];
+  };
+
+  /* =====================
+     FACTORY METHODS
+     ===================== */
 
   initialEnrollmentRequest() {
     return {
@@ -55,58 +98,28 @@ class StudentEnrollmentStore {
         label: 'LRN',
         value: null,
         type: 'text',
-        props: {
-          maxLength: 12,
-          onlyNumber: true
-        }
+        props: { maxLength: 12, onlyNumber: true }
       },
       {
         index: 'firstNm',
         label: 'First Name',
         value: null,
         type: 'text',
-        props: {
-          maxLength: 50,
-          onlyLetterSp: true
-        }
+        props: { maxLength: 50, onlyLetterSp: true }
       },
       {
         index: 'lastNm',
         label: 'Last Name',
         value: null,
         type: 'text',
-        props: {
-          maxLength: 50,
-          onlyLetterSp: true
-        }
-      },
-      // {
-      //   index: 'emailAddress',
-      //   label: 'Email Address',
-      //   value: null,
-      //   type: 'text',
-      //   props: {
-      //     maxLength: 255,
-      //     type: 'email'
-      //   }
-      // }
+        props: { maxLength: 50, onlyLetterSp: true }
+      }
     ];
   };
 
-  reset() {
-    this.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
-    this.searchStep = StepperContants.INQUIRY_INITIAL;
-    this.resetInputs();
-  };
-
-  resetInputs() {
-    this.enrollmentRequest = this.initialEnrollmentRequest();
-  };
-
-  resetInquiry(retainTblData) {
-    if (!retainTblData) this.inquiryData=[];
-    this.searchFields = this.getSearchFields();
-  };
+  /* =====================
+     API CALLS
+     ===================== */
 
   async getGenderList() {
     return await api.get.getGenderListStr();
@@ -140,44 +153,45 @@ class StudentEnrollmentStore {
     return await api.get.findStudentByLrn(lrn);
   };
 
+  async searchStudents(requestObj) {
+    try {
+      return await api.get.getStudentListBySearch(requestObj);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
 
-  //post request apis
-  validateEnrollment = (requestObj, onSuccess, onError) => {
-    api.post.postRequest('/studentEnrollment/validateEnrollment', requestObj, onSuccess, onError);
+  async deleteStudent(lrn, onSuccess, onError) {
+    try {
+      const result = await api.get.deleteStudentByLrn(lrn);
+      onSuccess?.(result);
+    } catch (error) {
+      onError?.(error?.errorList || [error.message]);
+    }
+  };
+
+  validateEnrollment(requestObj, onSuccess, onError) {
+    api.post.postRequest(
+      '/studentEnrollment/validateEnrollment',
+      requestObj,
+      onSuccess,
+      onError
+    );
   };
 
   validateEnrollmentNotInitial = (requestObj, onSuccess, onError) => {
     api.post.postRequest('/studentEnrollment/validateEnrollmentNotInitial', requestObj, onSuccess, onError);
   };
 
-  saveEnrollment = (requestObj, onSuccess, onError) => {
-    api.post.postRequest('/studentEnrollment/saveEnrollment', requestObj, onSuccess, onError);
+  saveEnrollment(requestObj, onSuccess, onError) {
+    api.post.postRequest(
+      '/studentEnrollment/saveEnrollment',
+      requestObj,
+      onSuccess,
+      onError
+    );
   };
-
-  //get request apis
-  searchStudents = async (requestObj) => {
-    try {
-      const result = await api.get.getStudentListBySearch(requestObj);
-      return result;
-    } catch (error) {
-      console.error('Search failed:', error);
-      return [];
-    }
-  };
-
-  deleteStudent = async (lrn, onSuccess, onError) => {
-    try {
-      const result = await api.get.deleteStudentByLrn(lrn);
-      if (onSuccess) onSuccess(result);
-    } catch (error) {
-      if (onError) {
-        const errorList = error?.errorList || [error.message || 'Something went wrong'];
-        onError(errorList);
-      }
-    }
-  };
-
-
 }
 
 export default StudentEnrollmentStore;

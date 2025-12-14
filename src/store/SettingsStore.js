@@ -154,10 +154,9 @@ class SettingsStore {
   }
 
   hideCustomModal() {
-    if (typeof this.customModal.onClose === 'function') {
-      this.customModal.onClose();
-    }
-    this.customModal.isVisible = false;
+    this.showConfirmModal=false;
+    this.showSuccessModal=false;
+    this.showErrorModal=false;
   };
 
 }

@@ -58,18 +58,20 @@ class StudentInquiryPanel extends Component {
     // Handle update modal here if needed
   };
 
-  onClickDelete = data => {
+  onClickDelete = (data, closeModal) => {
     const { StudentEnrollmentStore, SettingsStore } = this.context.store;
 
     StudentEnrollmentStore.deleteStudent(data && data.lrn, res => {
       StudentEnrollmentStore.ackHeader.ackMessage = res.ackMessage;
       StudentEnrollmentStore.ackHeader.refNo = res.refNo;
       StudentEnrollmentStore.inquiryData = [];
+
+      closeModal?.();
       
       SettingsStore.hideCustomModal();
       SettingsStore.showSuccessMsg(StudentEnrollmentStore.ackHeader);
     }, err => {
-      SettingsStore.showError(err);
+        SettingsStore.showModal({ type: 'error', errorList: err });
     });
   };
 
@@ -81,11 +83,11 @@ class StudentInquiryPanel extends Component {
       headerTitle: 'Delete Confirmation',
       valueToDisplay: data.studentFullNm,
       data: data,
-      additionalBtn: (data) => (
+      additionalBtn: (data, closeModal) => (
         <BaseButton
           customClassName="btn_delete"
           label="Delete"
-          onClick={() => this.onClickDelete(data)}
+          onClick={() => this.onClickDelete(data, closeModal)}
         />
       )
     });
