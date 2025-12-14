@@ -1,0 +1,248 @@
+.body_container {
+    margin-top: 150px;
+}
+
+.body_container .main_hdr {
+    display: flex;
+    flex-direction: column;
+}
+
+/* main container start */
+.body_container .header {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.body_container .sub_header {
+    font-size: 13px;
+}
+
+.body_container .main_content {
+    margin-top: 50px;
+}
+
+/* main container end */
+
+
+/* main form start */
+
+.main_form_ctr {
+    margin-top: 50px;
+    margin-bottom: 130px;
+}
+
+.main_form_ctr .main_form_footer {
+    margin-top: 100px;
+}
+
+/* main form end */
+
+.body_container .dashboard_hdr {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.body_container .dashboard_hdr .dashboard_display_user {
+    font-size: 23px;
+}
+
+.body_container .dashboard_hdr .dashboard_display_user .user_nm {
+    font-weight: 600;
+}
+
+.body_container .dashboard_hdr .user_badge {
+    margin-left: 10px;
+    font-size: 10px;
+    background-color: #0d6efd;
+    padding: 2px 6px;
+    border-radius: 5px;
+}
+
+.body_container .dashboard_hdr .user_badge span {
+    color: var(--main-white);
+    font-weight: 500;
+}
+
+.cards_ctr_hdr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.cards_ctr {
+    
+}
+
+.grid_ctr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.nav-tabs {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.nav-item .active {
+    font-weight: 700;
+}
+
+.facultyField {
+    margin-top: 5px;
+}
+
+.facultyField .viewField_val {
+    display: flex;
+    align-items: center;
+    background-color: crimson;
+    padding: 2px 8px;
+}
+
+.facultyField .hasNoValue span {
+    color: var(--main-white);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.statusField .viewField_val span {
+    color: var(--main-orange);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.statusField span i {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 18px;
+    color: var(--main-orange);
+}
+
+.enrollmentStep_btns {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 13px;
+    gap: 10px;
+    padding: 16px;
+    background-color: white;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.enrollmentStep_btns .btn_ctr button { 
+    padding: 10px 30px;
+    border: none;
+    font-weight: 600;
+    background: none;
+    width: 140px;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_reset {
+    margin-right: 10px;
+    color: var(--main-white);
+    background-color: var(--main-orange);
+    opacity: .8;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_next {
+    color: var(--main-white);
+    background-color: var(--main-blue);
+    opacity: .8;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_reset:hover,
+.enrollmentStep_btns .btn_ctr .onClick_next:hover {
+    opacity: 1;
+    transition: .2s ease-in-out;
+}
+
+.subjects_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.reg_irreg_ctr {
+    margin-top: 43px;
+}
+
+.reg_irreg_ctr select {
+    margin-bottom: 10px;
+}
+
+.warning_mgs_ctr {
+    display: flex;
+    align-items: center;
+}
+
+.warning_mgs_ctr .warning_msg_body {
+    color: var(--main-orange);
+    font-weight: 500;
+    padding: 3px;
+    font-size: 12px;
+}
+
+.warning_mgs_ctr .warning_msg_body i {
+    color: var(--main-orange);
+    margin-right: 7px;
+}
+
+.back_btn {
+  margin-top: 25px;
+  /* margin-bottom: 10px; */
+}
+
+.back_btn button {
+  border: none;
+  font-size: 13px;
+  padding: 5px 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.back_btn button i {
+  margin-right: 2px;
+}
+
+.back_btn button:hover {
+  padding-left: 5px;
+  transition: .2s ease-in-out;
+  text-decoration: underline;
+}
+
+.bi-shield-fill-exclamation {
+    color: crimson;
+    margin-right: 5px;
+}
+
+.bi-arrow-right {
+    color: var(--main-white);
+    margin-left: 5px;
+}
+
+.bi-person-vcard-fill {
+    color: var(--main-white);
+    margin-right: 8px;
+}
+
+.bi-caret-right-fill {
+    margin-right: 5px;
+}
+
+.bi-person-circle,
+.bi-box-arrow-right {
+    margin-right: 5px;
+}
