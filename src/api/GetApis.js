@@ -116,12 +116,28 @@ export const getStudentListBySearch = async (searchRequest) => {
 
 // DELETE API
 export const deleteStudentByLrn = async (lrn) => {
-  const response = await fetch(`${BASE_URL}/studentEnrollment/delete/${lrn}`, {
-    method: 'DELETE',
-  });
+  try {
+    const response = await fetch(
+      `${BASE_URL}/studentEnrollment/delete/${lrn}`,
+      { method: 'DELETE' }
+    );
 
-  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+    const body = await response.json().catch(() => null);
 
-  const data = await response.json();
-  return data.content;
+    if (!response.ok) {
+      throw {
+        errorList: body?.errorList || [UNIV_ERROR],
+        status: response.status,
+      };
+    }
+
+    return body.content;
+  } catch (error) {
+    // Network / unexpected errors
+    if (error?.errorList) throw error;
+
+    throw {
+      errorList: [error?.message || UNIV_ERROR],
+    };
+  }
 };

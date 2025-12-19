@@ -490,9 +490,10 @@
 }
 
 .modal-content .modal-body ul li {
-  font-size: 13px;
+  font-size: 12px;
   margin-bottom: 8px;
   font-weight: 500;
+  color: crimson;
 }
 
 .bi-exclamation-circle-fill {
@@ -511,7 +512,7 @@
 }
 
 .viewportlet_ctr {
-  margin-top: 64px;
+  /* margin-top: 64px; */
 }
 
 .isview {
@@ -1018,6 +1019,10 @@
   flex-direction: column;
 }
 
+.base_initial_ctr {
+  margin-top: 40px;
+}
+
 .base-address-field {
   font-weight: 600;
   font-size: 14px;
@@ -1078,7 +1083,18 @@
   font-size: 13px;
 }
 
-.alert-details strong {
+.alert-details span {
+  color: var(--main-green-dark);
+  font-weight: 700;
 }
+
+.api-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 9998;
+  pointer-events: all;
+}
+
 
 

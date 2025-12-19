@@ -27,7 +27,7 @@
 /* main form start */
 
 .main_form_ctr {
-    margin-top: 50px;
+    margin-top: 10px;
     margin-bottom: 130px;
 }
 
@@ -118,6 +118,11 @@
     color: var(--main-orange);
 }
 
+.steps_in_ctr {
+    font-weight: 700;
+    margin-left: 50px;
+}
+
 .enrollmentStep_btns {
     position: fixed;
     bottom: 0;
@@ -125,13 +130,18 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     font-size: 13px;
     gap: 10px;
     padding: 16px;
     background-color: white;
     box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
     z-index: 999;
+}
+
+.main_btns {
+    display: flex;
+    align-items: center;
 }
 
 .enrollmentStep_btns .btn_ctr button { 

@@ -7,6 +7,7 @@ import CollapsiblePortlet from '../base/CollapsiblePortlet/CollapsiblePortlet';
 import { Col, Row } from 'react-bootstrap';
 import GroupCheckboxesField from '../base/GroupCheckboxesField/GroupCheckboxesField';
 import BaseButton from '../base/BaseButton/BaseButton';
+import BaseTemplate from '../base/BaseTemplate/BaseTemplate';
 
 class StudentEnrollmentView extends Component {
   constructor(props) {
@@ -165,7 +166,7 @@ class StudentEnrollmentView extends Component {
             )}
           </div>
 
-          {isConfirm && (
+          {/* {isConfirm && (
             <div className='enrollmentStep_btns'>
               <BaseButton
                 customClassName={'onClick_reset'}
@@ -198,14 +199,24 @@ class StudentEnrollmentView extends Component {
                 label={'Back'}
               />
             </div>
-          )}
+          )} */}
         </ViewPortlet>
       </Fragment>
     );  
   };
 
   render() {
-    return this.getStudentEnrollmentView();
+    const { isConfirm, isAck, isView } = this.props;
+    return (
+      <BaseTemplate
+        onClickNext={isConfirm ? () => this.submitForm() : null}
+        onClickBack={(isConfirm || isAck || isView) ? () => this.onClickBack() : null}
+        {...this.props}
+        >
+        {this.getStudentEnrollmentView()}
+      </BaseTemplate>
+    );
+    //return this.getStudentEnrollmentView();
   };
 };
 

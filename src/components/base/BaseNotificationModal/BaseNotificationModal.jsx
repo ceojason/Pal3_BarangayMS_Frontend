@@ -16,49 +16,24 @@ class BaseNotificationModal extends Component {
     if (!this.modalRef.current) return;
 
     this.bsModal = new bootstrap.Modal(this.modalRef.current, {
-      keyboard: true,
-      //backdrop: 'static'
+      keyboard: true
     });
+
+    // ✅ ALWAYS SHOW ON MOUNT
+    setTimeout(() => this.bsModal.show(), 0);
 
     this.modalRef.current.addEventListener('hidden.bs.modal', () => {
       const { SettingsStore } = this.context.store;
 
-      // ✅ Reset notification states
-      SettingsStore.showErrorModal = false;
-      SettingsStore.errorList = [];
-
+      // ✅ Reset notification state
       SettingsStore.showSuccessModal = false;
-      SettingsStore.successMsg = {
-        ackMessage: null,
-        refNo: null
-      };
+      SettingsStore.showErrorModal = false;
+      SettingsStore.successMsg = { ackMessage: null, refNo: null };
+      SettingsStore.errorList = [];
+      SettingsStore.customModal = {};
 
-      if (this.props.onClose) {
-        this.props.onClose();
-      }
+      this.props.onClose?.();
     });
-
-    if (this.shouldShowModal(this.props)) {
-      setTimeout(() => this.bsModal?.show(), 0);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!this.bsModal) return;
-
-    const wasShowing = this.shouldShowModal(prevProps);
-    const isShowing = this.shouldShowModal(this.props);
-
-    if (!wasShowing && isShowing) {
-      this.bsModal.show();
-    } else if (wasShowing && !isShowing) {
-      this.bsModal.hide();
-    }
-  }
-
-  shouldShowModal(props = this.props) {
-    const { isSuccess, errorList } = props;
-    return isSuccess || (errorList && errorList.length > 0);
   }
 
   handleClose = () => {
@@ -68,65 +43,42 @@ class BaseNotificationModal extends Component {
   render() {
     const {
       headerTitle = '',
-      isSuccess = false,
+      type,
       successMsg = {},
       errorList = []
     } = this.props;
 
     return (
-      <div
-        className="modal fade"
-        tabIndex="-1"
-        aria-hidden="true"
-        ref={this.modalRef}
-      >
+      <div className="modal fade" tabIndex="-1" ref={this.modalRef}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
 
-            {/* HEADER */}
             <div className="modal-header">
               <h5 className="modal-title">{headerTitle}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={this.handleClose}
-              />
+              <button className="btn-close" onClick={this.handleClose} />
             </div>
 
-            {/* BODY */}
             <div className="modal-body">
-              {!isSuccess && errorList.length > 0 && (
+              {type === 'error' && (
                 <ul className="errorMsg_panel">
-                  {errorList.map((err, idx) => (
-                    <li key={idx}>
-                      <i className="bi bi-exclamation-circle-fill" /> {err}
-                    </li>
+                  {errorList.map((err, i) => (
+                    <li key={i}><i className="bi bi-exclamation-circle-fill"></i>{err}</li>
                   ))}
                 </ul>
               )}
 
-              {isSuccess && (
+              {type === 'success' && (
                 <div className="successMsg_panel">
-                  <span className="ackMsg">
-                    <i className="bi bi-check-circle-fill" />
-                    {successMsg?.ackMessage}
-                  </span>
-                  {successMsg?.refNo && (
-                    <span className="refNo">
-                      Your Reference Number is {successMsg.refNo}.
-                    </span>
+                  <div>{successMsg.ackMessage}</div>
+                  {successMsg.refNo && (
+                    <div>Reference Number {successMsg.refNo}</div>
                   )}
                 </div>
               )}
             </div>
 
-            {/* FOOTER */}
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={this.handleClose}
-              >
+              <button className="btn btn-secondary" onClick={this.handleClose}>
                 Close
               </button>
             </div>

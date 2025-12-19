@@ -162,13 +162,14 @@ class StudentEnrollmentStore {
     }
   };
 
-  async deleteStudent(lrn, onSuccess, onError) {
-    try {
-      const result = await api.get.deleteStudentByLrn(lrn);
-      onSuccess?.(result);
-    } catch (error) {
+  async deleteStudent(lrn, onSuccess, onError) { 
+    try { 
+      const result = await api.get.deleteStudentByLrn(lrn); onSuccess?.(result); 
+    } catch (error) 
+    { 
+      console.log("jasonn error : ", error) 
       onError?.(error?.errorList || [error.message]);
-    }
+    } 
   };
 
   validateEnrollment(requestObj, onSuccess, onError) {
@@ -181,7 +182,10 @@ class StudentEnrollmentStore {
   };
 
   validateEnrollmentNotInitial = (requestObj, onSuccess, onError) => {
-    api.post.postRequest('/studentEnrollment/validateEnrollmentNotInitial', requestObj, onSuccess, onError);
+    api.post.postRequest('/studentEnrollment/validateEnrollmentNotInitial', 
+      requestObj, 
+      onSuccess, 
+      onError);
   };
 
   saveEnrollment(requestObj, onSuccess, onError) {

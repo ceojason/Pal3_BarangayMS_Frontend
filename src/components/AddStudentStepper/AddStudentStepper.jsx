@@ -58,6 +58,8 @@ class AddStudentStepper extends Component {
             data={StudentEnrollmentStore.validatedData}
             isConfirm={true}
             onClickBack={() => this.onClickBack(false)}
+            currentStep={3}
+            totalSteps={4}
           />
         ),
         stepperLabel: 'Verify student information'
@@ -73,6 +75,8 @@ class AddStudentStepper extends Component {
             refNo={StudentEnrollmentStore.ackHeader.refNo}
             onClickBack={() => this.onClickBack(true)}
             hasHeader={true}
+            currentStep={4}
+            totalSteps={4}
           />
         ),
         stepperLabel: 'Success!'
@@ -81,7 +85,7 @@ class AddStudentStepper extends Component {
 
     return (
       <Fragment>
-        <MainStepper data={data} activeKey={StudentEnrollmentStore.currentStep} />
+        <MainStepper showStepperMap={false} data={data} activeKey={StudentEnrollmentStore.currentStep} />
       </Fragment>
     );
   };

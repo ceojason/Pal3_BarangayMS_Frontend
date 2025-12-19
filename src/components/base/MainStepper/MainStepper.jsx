@@ -8,13 +8,13 @@ class MainStepper extends Component {
   }
 
   render() {
-    const { data, activeKey, isInquiry } = this.props;
+    const { data, activeKey, showStepperMap } = this.props;
     const activeIndex = data.findIndex(step => step.key === activeKey);
     const activeStep = data[activeIndex];
 
     return (
       <div className="main-stepper-wrapper">
-        {!isInquiry && (
+        {showStepperMap && (
           <div className="stepper-bar mb-4">
             {data.map((step, index) => {
               const isActive = index === activeIndex;

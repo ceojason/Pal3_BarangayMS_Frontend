@@ -60,19 +60,34 @@ class StudentInquiryPanel extends Component {
 
   onClickDelete = (data, closeModal) => {
     const { StudentEnrollmentStore, SettingsStore } = this.context.store;
+    StudentEnrollmentStore.deleteStudent(
+      data.lrn,
+      res => {
+        StudentEnrollmentStore.ackHeader.ackMessage = res.ackMessage;
+        StudentEnrollmentStore.ackHeader.refNo = res.refNo;
+        StudentEnrollmentStore.inquiryData = [];
+        closeModal && closeModal();
 
-    StudentEnrollmentStore.deleteStudent(data && data.lrn, res => {
-      StudentEnrollmentStore.ackHeader.ackMessage = res.ackMessage;
-      StudentEnrollmentStore.ackHeader.refNo = res.refNo;
-      StudentEnrollmentStore.inquiryData = [];
-
-      closeModal?.();
-      
-      SettingsStore.hideCustomModal();
-      SettingsStore.showSuccessMsg(StudentEnrollmentStore.ackHeader);
-    }, err => {
-        SettingsStore.showModal({ type: 'error', errorList: err });
-    });
+        // setTimeout(() => {
+        //   SettingsStore.showModal({
+        //     type: 'success',
+        //     headerTitle: 'Success',
+        //     message: res.ackMessage,
+        //     refNo: res.refNo
+        //   });
+        // }, 300);
+      },
+      err => {
+        closeModal && closeModal();
+        setTimeout(() => {
+          SettingsStore.showModal({
+            type: 'error',
+            headerTitle: 'Transaction could not be processed.',
+            errorList: err
+          });
+        }, 150);
+      }
+    );
   };
 
   showDeleteModal = (data) => {

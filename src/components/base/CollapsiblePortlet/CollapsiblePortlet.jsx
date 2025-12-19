@@ -33,8 +33,8 @@ class CollapsiblePortlet extends Component {
       <div className={buildClassNames('collapseportlet_ctr', customClassName)}>
         <div className='collapseportlet_hdr'>
           {label!=null ? <span className='main_hdr_label'>{label}</span> : ''}
-          {headerDataLabel!=null && <span className='header_data_label'><i class="bi bi-person-vcard-fill"></i>{headerDataLabel}</span>}
-          {/* {headerDataLabel!=null && <span className='header_data_label'>{headerDataLabel}</span>} */}
+          {/* {headerDataLabel!=null && <span className='header_data_label'><i class="bi bi-person-vcard-fill"></i>{headerDataLabel}</span>}
+          {headerDataLabel!=null && <span className='header_data_label'>{headerDataLabel}</span>} */}
 
           <div className='header_data_with_icon'>
             <i class="bi bi-dot"></i>

@@ -4,147 +4,110 @@ class SettingsStore {
   constructor() {
     makeObservable(this, {
       showErrorModal: observable,
-      errorList: observable,
       showSuccessModal: observable,
       showConfirmModal: observable,
+      errorList: observable,
       successMsg: observable,
       customModal: observable,
-      showSuccessPanel: observable,
-      showError: action,
-      showSuccessMsg: action,
+      isInitialSearch: observable,
+
       showModal: action,
       hideCustomModal: action,
-      isInitialSearch: observable,
     });
-  };
+  }
 
-  // ✅ State for error modal
   showErrorModal = false;
+  showSuccessModal = false;
+  showConfirmModal = false;
+
   errorList = [];
 
-  // ✅ State for success modal
-  showSuccessModal = false;
   successMsg = {
     ackMessage: null,
     refNo: null
   };
 
-  showConfirmModal = false;
-
-  showSuccessPanel = false;
-
-  // ✅ State for flexible delete/update/custom modals
   customModal = {
-    isVisible: false,
-    type: null, // 'delete' | 'update' | 'custom'
+    type: null,
     headerTitle: '',
     valueToDisplay: '',
     additionalBtn: null,
     onClose: null,
-    data: null
+    data: null,
+    errorList: []
   };
 
   isInitialSearch = true;
 
-  showError(error) {
-    if (error != null && error.length > 0) {
-      this.showErrorModal = true;
-      this.errorList = error;
-    }
-  }
-
-  showSuccessMsg(succMsg) {
-    if (succMsg && succMsg.ackMessage) {
-      this.showSuccessModal = true;
-      this.successMsg = {
-        ackMessage: succMsg.ackMessage,
-        refNo: succMsg.refNo
-      };
-    }
-  }
-
+  // ===============================
+  // SHOW MODAL
+  // ===============================
   showModal(config = {}) {
     const {
-      type = 'info',
-      message = null,
+      type,
+      message = '',
       refNo = null,
       errorList = [],
+      headerTitle = '',
       valueToDisplay = '',
       additionalBtn = null,
-      headerTitle = '',
-      onClose = null,
-      data = null
+      data = null,
     } = config;
-    // Reset all modal states first
-    this.showErrorModal = false;
-    this.errorList = [];
-    this.showSuccessModal = false;
-    this.showConfirmModal = false;
-    this.successMsg = { ackMessage: null, refNo: null };
-    this.customModal = {
-      isVisible: false,
-      type: null,
-      headerTitle: '',
-      valueToDisplay: '',
-      additionalBtn: null,
-      onClose: null,
-      data: null
-    };
+
+    // 🔁 Reset everything first
+    this.hideCustomModal();
+
+    const onClose = () => this.hideCustomModal();
 
     switch (type) {
       case 'error':
         this.showErrorModal = true;
-        this.errorList = errorList || (message ? [message] : []);
+        this.errorList = errorList.length ? errorList : [message];
+
         this.customModal = {
-          isVisible: true,
           type: 'error',
-          headerTitle: 'An error occurred.',
+          headerTitle: headerTitle || 'Transaction could not be processed.',
           errorList: this.errorList,
-          valueToDisplay: '',
-          additionalBtn: null,
-          onClose: null,
-          data: null
+          onClose
         };
         break;
 
       case 'success':
         this.showSuccessModal = true;
-        this.successMsg = {
-          ackMessage: message,
-          refNo: refNo
-        };
+        this.successMsg = { ackMessage: message, refNo };
+
         this.customModal = {
-          isVisible: true,
           type: 'success',
-          headerTitle: 'Success',
+          headerTitle: headerTitle || 'Success',
           valueToDisplay: message,
-          additionalBtn: null,
-          onClose,
-          data,
+          onClose
         };
         break;
 
       case 'delete':
-        this.showConfirmModal = true,
+        this.showConfirmModal = true;
+
         this.customModal = {
-          type,
+          type: 'delete',
           headerTitle,
           valueToDisplay,
           additionalBtn,
-          onClose,
-          data
+          data,
+          onClose
         };
         break;
+
       case 'update':
       case 'custom':
+        this.showConfirmModal = true;
+
         this.customModal = {
-          isVisible: true,
           type,
           headerTitle,
           valueToDisplay,
           additionalBtn,
-          onClose,
-          data
+          data,
+          onClose
         };
         break;
 
@@ -153,12 +116,27 @@ class SettingsStore {
     }
   }
 
+  // ===============================
+  // HIDE MODAL
+  // ===============================
   hideCustomModal() {
-    this.showConfirmModal=false;
-    this.showSuccessModal=false;
-    this.showErrorModal=false;
-  };
+    this.showErrorModal = false;
+    this.showSuccessModal = false;
+    this.showConfirmModal = false;
 
+    this.errorList = [];
+    this.successMsg = { ackMessage: null, refNo: null };
+
+    this.customModal = {
+      type: null,
+      headerTitle: '',
+      valueToDisplay: '',
+      additionalBtn: null,
+      onClose: null,
+      data: null,
+      errorList: []
+    };
+  }
 }
 
 export default SettingsStore;

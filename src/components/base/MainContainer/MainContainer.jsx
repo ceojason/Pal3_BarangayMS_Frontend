@@ -15,17 +15,17 @@ class MainContainer extends Component {
 
     return (
       <div className='body_container'>
-        {(SettingsStore.showSuccessModal || SettingsStore.showErrorModal) && (
-          <BaseNotificationModal
-            {...customModal}
-          />
+        {(/** SettingsStore.showSuccessModal ||  */SettingsStore.showErrorModal) && (
+          <BaseNotificationModal {...SettingsStore.customModal} />
         )}
 
         {SettingsStore.showConfirmModal && (
-          <BaseConfirmModal
-            {...customModal}
-          />
+          <BaseConfirmModal {...SettingsStore.customModal} />
         )}
+
+        {SettingsStore.isScreenLoading ? (
+          <div className='api-backdrop' />
+        ) : <></>}
 
         <div className='main_hdr'>
           <span className='header'>{header}</span>

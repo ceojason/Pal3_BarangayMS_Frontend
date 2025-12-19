@@ -32,7 +32,7 @@ class CustomDatePicker extends Component {
         <DatePicker
           selected={selectedDate}
           onChange={this.handleDateChange}
-          dateFormat={dateFormat!=null ? dateFormat :"dd/MM/yyyy" }  // 👈 Change format here
+          dateFormat={dateFormat!=null ? dateFormat : "dd/MM/yyyy" }
           placeholderText="DD/MM/YYYY"
           className="date-picker-input"
         />

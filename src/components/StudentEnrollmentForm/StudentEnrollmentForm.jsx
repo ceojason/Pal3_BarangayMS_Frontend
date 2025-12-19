@@ -324,7 +324,9 @@ class StudentEnrollmentForm extends Component {
     return(
       <BaseTemplate
         onClickNext={() => this.onClickNext()}
-        onReset={() => this.onClickReset()}>
+        onReset={() => this.onClickReset()}
+        currentStep={1}
+        totalSteps={4}>
 
           {this.enrollmentForm()}
       </BaseTemplate>

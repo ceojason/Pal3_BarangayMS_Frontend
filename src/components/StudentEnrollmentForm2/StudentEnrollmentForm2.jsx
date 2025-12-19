@@ -118,7 +118,9 @@ class StudentEnrollmentForm2 extends Component {
     return (
       <BaseTemplate
         onClickNext={() => this.submitForm()}
-        onClickBack={() => this.onClickBack()}>
+        onClickBack={() => this.onClickBack()}
+        currentStep={2}
+        totalSteps={4}>
         <MainForm>
           <div className='enrollmentstep2_ctr'>
             <CollapsiblePortlet

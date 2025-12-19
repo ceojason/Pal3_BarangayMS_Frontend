@@ -47,7 +47,7 @@ class ViewPortlet extends Component {
                 <div class="alert-icon">✅</div>
                 <div class="alert-content">
                   <div class="alert-title">{ackMessage!=null ? ackMessage : ''}</div>
-                  <div class="alert-details">Reference Number <strong>AST-20251031-37289019</strong>.</div>
+                  <div class="alert-details">Reference Number <span>{refNo}.</span></div>
                 </div>
               </div>
             </Fragment>
