@@ -154,7 +154,9 @@ class AddAdminForm extends Component {
     return (
       <BaseTemplate
         onClickNext={() => this.onClickNext()}
-        onReset={() => this.onClickReset()}>
+        onReset={() => this.onClickReset()}
+        currentStep={1}
+        totalSteps={3}>
           {this.enrollmentForm()}
       </BaseTemplate>
     );

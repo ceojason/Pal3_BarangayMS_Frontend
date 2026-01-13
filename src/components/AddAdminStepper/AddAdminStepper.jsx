@@ -37,6 +37,8 @@ class AddAdminStepper extends Component {
             data={AdminEnrollmentStore.validatedData}
             isConfirm={true}
             onClickBack={() => this.onClickBack()}
+            currentStep={2}
+            totalSteps={3}
           />
         ),
         stepperLabel: 'Verify system administrator information'

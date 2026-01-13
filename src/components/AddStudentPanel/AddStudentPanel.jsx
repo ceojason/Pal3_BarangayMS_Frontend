@@ -11,7 +11,7 @@ class AddStudentPanel extends Component {
 
   componentDidMount() {
     this.onReset();
-  }
+  };
 
   onReset = () => {
     const { StudentEnrollmentStore, SettingsStore } = this.context.store;
