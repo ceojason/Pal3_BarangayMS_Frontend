@@ -9,6 +9,10 @@ class BaseTemplate extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  };
+
   render() {
     const { 
       onClickNext,
@@ -16,13 +20,19 @@ class BaseTemplate extends Component {
       onClickBack,
       currentStep,
       totalSteps,
-      isAck
+      isAck,
+      isConfirm,
+      header,
+      subHeader
     } = this.props;
     let isInitial = currentStep!=null && currentStep===1;
     console.log("JASON BASE TEMPLATE", currentStep, totalSteps)
 
     return (
-      <div className={buildClassNames('base_template_ctr', isInitial ? 'base_initial_ctr' : '')}>
+      <div className={buildClassNames('base_template_ctr', isInitial ? 'base_initial_ctr' : '', !isAck ? 'is_ack_base_ctr' : '')}>
+        <span className='header'>{header}</span>
+        <span className='sub_header'>{subHeader}</span>
+        {!isAck && <div className='form_divider'></div>}
         {this.props.children}
 
         <div className='enrollmentStep_btns'>
@@ -51,7 +61,7 @@ class BaseTemplate extends Component {
               <BaseButton
                 customClassName={'onClick_next'}
                 onClick={onClickNext}
-                label={'Next'}
+                label={isConfirm ? 'Submit' : 'Next'}
               />
             )}
           </div>

@@ -2,29 +2,27 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import api from '../api/api';
 
 class SessionStore {
+  currentUser = null;
+  loading = false;
+  error = null;
 
   constructor() {
     makeAutoObservable(this);
-  };
-
-  currentUser = null;
-  hasSession = false;
-  sessionId = null;
-  loading = false;
+  }
 
   setUser(user) {
-    if (user!=null && user!=undefined) {
-      this.currentUser=user;
+    if (user) {
+      this.currentUser = user;
       this.loading = false;
     }
-  };
+  }
 
   fetchUser = async () => {
     this.loading = true;
     this.error = null;
 
     try {
-      const data = await api.get.getDummyUser();
+      const data = await api.get.getSessionUser();
       runInAction(() => {
         this.setUser(data);
       });
@@ -36,6 +34,25 @@ class SessionStore {
     }
   };
 
+  fetchUser2 = async () => {
+    // Prevent multiple fetches if already loading or user exists
+    if (this.currentUser) return;
+
+    this.loading = true;
+    this.error = null;
+
+    try {
+      const data = await api.get.getSessionUser();
+      runInAction(() => {
+        this.setUser(data);
+      });
+    } catch (err) {
+      runInAction(() => {
+        this.error = err.message;
+        this.loading = false;
+      });
+    }
+  };
 }
 
 export default SessionStore;

@@ -7,6 +7,11 @@ import BaseConfirmModal from '../BaseConfirmModal/BaseConfirmModal';
 class MainContainer extends Component {
   static contextType = StoreContext;
 
+  componentDidMount() {
+    const { SessionStore } = this.context.store;
+    SessionStore.fetchUser2();
+  };
+
   render() {
     const { header, subHeader, children, isInquiry } = this.props;
     const { SettingsStore } = this.context.store;
@@ -28,10 +33,8 @@ class MainContainer extends Component {
         ) : <></>}
 
         <div className='main_hdr'>
-          <span className='header'>{header}</span>
-          <span className='sub_header'>{subHeader}</span>
         </div>
-
+        {/* <div className='form_divider'></div> */}
         <div className='main_content'>{children}</div>
       </div>
     );

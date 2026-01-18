@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
 import { buildClassNames } from '../../../utils/ClassUtils';
+import BaseAckPagePanel from '../BaseAckPagePanel/BaseAckPagePanel';
 
 class ViewPortlet extends Component {
   constructor(props) {
@@ -19,9 +20,12 @@ class ViewPortlet extends Component {
       hasDivider,
       refNo,
       ackMessage,
-      hasHeader
+      hasHeader,
+      data
     } = this.props;
     const { SettingsStore } = this.context.store;
+
+    if (isAck) return <BaseAckPagePanel {...this.props} />;
 
     return (
       <div className={buildClassNames('viewportlet_ctr', customClassName, isView ? 'isview' : '')}>
@@ -44,12 +48,13 @@ class ViewPortlet extends Component {
                 </span>
               </div> */}
               <div class="alert-success-box">
-                <div class="alert-icon">✅</div>
+                <div class="alert-icon"><i class="bi bi-check-circle-fill"></i></div>
                 <div class="alert-content">
                   <div class="alert-title">{ackMessage!=null ? ackMessage : ''}</div>
-                  <div class="alert-details">Reference Number <span>{refNo}.</span></div>
+                  <div class="alert-details">Reference Number <span>{refNo}</span></div>
                 </div>
               </div>
+              {<div className='form_divider'></div>}
             </Fragment>
           )}
         </div>

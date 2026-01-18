@@ -9,6 +9,10 @@ class MyAdminDashboard extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  };
+
   getDashboardDisplay = () => {
     return (
       <Fragment>
@@ -19,11 +23,28 @@ class MyAdminDashboard extends Component {
           </div>
           <div className='grid_ctr'>
             <div className='col_one'>
-              <DashboardCard />
+              <DashboardCard
+                header={'Residents / Users'}
+                icon={<i class="bi bi-people-fill"></i>}
+                className={'gradient_green'}
+              />
             </div>
             <div>
               <div className='col_two'>
-                <DashboardCard />
+                <DashboardCard
+                  header={'Document Services'}
+                  icon={<i class="bi bi-file-earmark-check-fill"></i>}
+                  className={'gradient_red'}
+                />
+              </div>
+            </div>
+            <div>
+              <div className='col_three'>
+                <DashboardCard
+                  header={'Pending Requests'}
+                  icon={<i class="bi bi-journal-album"></i>}
+                  className={'gradient_orange'}
+                />
               </div>
             </div>
           </div>
@@ -39,11 +60,29 @@ class MyAdminDashboard extends Component {
     return (
         <div className='body_container'>
           <div className='dashboard_hdr'>
-            <div className='dashboard_display_user'>
-              Hi, <span className='user_nm'>{currentUser!=null ? currentUser.firstName : ''}</span>!
+
+            <div className='left_panel'>
+              <div className='dashboard_display_system'>
+                <i class="bi bi-house-door-fill"/>Welcome back, {currentUser.firstNm}!
+                <div className='user_badge'>
+                  <span>{currentUser!=null ? currentUser.roleDscp : ''}</span>
+                </div>
+              </div>
+
+              {/* <div className='dashboard_notifs'>
+                <span>
+                  See what's new? Click here.
+                </span>
+              </div> */}
             </div>
-            <div className='user_badge'>
-              <span>{currentUser!=null ? currentUser.roleDscp : ''}</span>
+
+            <div className='right_panel'>
+              <div className='dt_time_panel'>
+                <span>
+                  <i class="bi bi-calendar-event-fill"/>
+                  Today is {currentUser.currentDtAndTime}
+                </span>
+              </div>
             </div>
           </div>
         </div>

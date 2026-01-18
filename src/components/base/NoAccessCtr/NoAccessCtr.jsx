@@ -7,13 +7,24 @@ class NoAccessCtr extends Component {
     super(props);
   }
 
+  redirectToLogin = () => {
+    // Redirect to login page
+    window.location.href = '/login';
+  };
+
   render() {
     return (
-      <div className='no_access_ctr'>
+      <div className='no_access_ctr' style={{ textAlign: 'center', marginTop: '50px' }}>
         <span>
-          <i class="bi bi-pc-display-horizontal"></i>
-          Sorry, you have no access for this page.
+          <i className="bi bi-pc-display-horizontal" style={{ marginRight: '8px' }}></i>
+          Sorry, you have no access to this page.
         </span>
+
+        <button 
+          className='btn' 
+          onClick={this.redirectToLogin}>
+            Click here to redirect in the login page.
+        </button>
       </div>
     );
   }

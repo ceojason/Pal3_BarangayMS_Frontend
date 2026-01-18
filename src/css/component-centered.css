@@ -11,6 +11,7 @@
 .body_container .header {
     font-weight: 700;
     font-size: 30px;
+    color: var(--main-green);
 }
 
 .body_container .sub_header {
@@ -18,7 +19,7 @@
 }
 
 .body_container .main_content {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     background: var(--main-white);
 }
 
@@ -41,28 +42,108 @@
 .body_container .dashboard_hdr {
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
+    background: linear-gradient(40deg, var(--main-green), #079D68);
+    padding: 45px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.body_container .dashboard_hdr .dashboard_display_user {
-    font-size: 23px;
+.body_container .dashboard_hdr .dashboard_display_system {
+    font-size: 25px;
+    color: var(--main-white);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.body_container .dashboard_hdr .dashboard_display_system i {
+    margin-right: 12px;
+    font-size: 50px;
+    color: var(--main-white);
 }
 
 .body_container .dashboard_hdr .dashboard_display_user .user_nm {
     font-weight: 600;
+    color: var(--main-white);
 }
 
 .body_container .dashboard_hdr .user_badge {
     margin-left: 10px;
-    font-size: 10px;
+    font-size: 11px;
     background-color: #0d6efd;
-    padding: 2px 6px;
+    padding: 4px 8px;
     border-radius: 5px;
 }
 
 .body_container .dashboard_hdr .user_badge span {
     color: var(--main-white);
     font-weight: 500;
+}
+
+.body_container .dashboard_hdr .dt_time_panel {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.body_container .dashboard_hdr .dt_time_panel span,
+.body_container .dashboard_hdr .dt_time_panel span i {
+    color: var(--main-green);
+    font-weight: 500;
+}
+
+.body_container .dashboard_hdr .dt_time_panel span i {
+    margin-right: 10px;
+}
+
+.body_container .dashboard_hdr .dashboard_notifs span {
+    color: var(--main-white);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 12px !important;
+}
+
+.card .card-header {
+    font-weight: 600;
+    /* background: linear-gradient(40deg, #1A235C, #6A76F0); */
+    color: var(--main-white);
+    font-size: 14px;
+    padding: 15px 15px;
+}
+
+.gradient_green {
+    background: linear-gradient(40deg, #0b3d2e, #0f625f);
+}
+
+.gradient_orange {
+    background: linear-gradient(40deg, #944000, #ffaa66);
+}
+
+.gradient_red {
+    background: linear-gradient(40deg, #8b0000, #ff4d4d);
+}
+
+.gradient_blue {
+    background: linear-gradient(40deg, #00334d, #006699);
+}
+
+.gradient_yellow {
+    background: linear-gradient(40deg, #996600, #ffe066);
+}
+
+.card .card-header i {
+    color: var(--main-white);
+    font-size: 14px;
+    margin-right: 7px;
 }
 
 .cards_ctr_hdr {
@@ -76,7 +157,7 @@
 
 .grid_ctr {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
 }
 
@@ -256,4 +337,43 @@
 .bi-person-circle,
 .bi-box-arrow-right {
     margin-right: 5px;
+}
+
+.groupcheckboxes_body {
+  display: flex;
+  flex-wrap: wrap;   /* moves to next line if too many */
+  gap: 8px;          /* space between boxes */
+}
+
+.checkboxes_displayinrow {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+  width: auto;
+  width: 500px;
+}
+
+.with_highlight .viewField_val span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.with_highlight .viewField_val span,
+.with_highlight .viewField_val span i {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--main-green) !important;
+}
+
+.with_highlight .viewField_val span i {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.is_ack_base_ctr {
+    /* border: 2px solid var(--main-green); */
+    border-radius: 10px;
+    padding: 40px 45px 25px 45px;
+    margin-bottom: 100px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }

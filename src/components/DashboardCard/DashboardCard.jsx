@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
+import { buildClassNames } from '../../utils/ClassUtils';
 
 class DashboardCard extends Component {
   constructor(props) {
@@ -12,12 +13,15 @@ class DashboardCard extends Component {
       header,
       cardTitle,
       cardText,
-      hasButton
+      hasButton,
+      icon,
+      className
     } = this.props;
 
     return (
       <div class="card">
-        <div class="card-header">
+        <div className={buildClassNames('card-header', className)}>
+          {icon}
           {header}
         </div>
         <div class="card-body">

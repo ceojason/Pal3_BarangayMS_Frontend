@@ -7,6 +7,8 @@ import MyProfileMainCtr from './containers/MyProfile/MyProfileMainCtr.jsx';
 import SearchStudentMainCtr from './containers/SearchStudent/SearchStudentMainCtr.jsx';
 import AddStudentMainCtr from './containers/AddStudent/AddStudentMainCtr.jsx';
 import AddAdminMainCtr from './containers/AddAdmin/AddAdminMainCtr.jsx';
+import AddUsersMainCtr from './containers/AddUsers/AddUsersMainCtr.jsx';
+import SearchUsersMainCtr from './containers/SearchUsers/SearchUsersMainCtr.jsx';
 
 
 const router = createBrowserRouter([
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
         path: 'adminAdd',
         element: <AddAdminMainCtr />,
       },
+      {
+              path: 'usersAdd',
+              element: <AddUsersMainCtr />,
+            },
+      {
+              path: 'usersSearch',
+              element: <SearchUsersMainCtr />,
+            },
     ],
   }
 ]);

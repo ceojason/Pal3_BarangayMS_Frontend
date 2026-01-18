@@ -6,6 +6,7 @@ class InputField extends Component {
     super(props);
     this.state = {
       error: null,
+      showPassword: false, // for password toggle
     };
   }
 
@@ -13,7 +14,7 @@ class InputField extends Component {
     if (prevProps.value !== this.props.value && !this.props.value) {
       this.setState({ error: null });
     }
-  };
+  }
 
   handleChange = (e) => {
     const {
@@ -30,53 +31,38 @@ class InputField extends Component {
     let inputVal = e.target.value;
     let error = null;
 
-    // Apply validations
     if (inputVal.trim() === '') {
-      if (isRequired) {
-        error = 'This field is required';
-      }
-      // Convert empty strings to null
+      if (isRequired) error = 'This field is required';
       inputVal = null;
     } else {
       if (type === 'number' || onlyNumber || isMobileNumber) {
-        if (!/^\d*$/.test(inputVal)) {
-          error = 'Only numbers are allowed';
-        }
+        if (!/^\d*$/.test(inputVal)) error = 'Only numbers are allowed';
       } else if (onlyLetterNumber) {
-        if (!/^[a-zA-Z0-9]*$/.test(inputVal)) {
-          error = 'Only letters and numbers are allowed';
-        }
+        if (!/^[a-zA-Z0-9]*$/.test(inputVal)) error = 'Only letters and numbers are allowed';
       } else if (onlyLetterNumberSp) {
-        if (!/^[a-zA-Z0-9 ]*$/.test(inputVal)) {
-          error = 'Only letters, numbers, and spaces are allowed';
-        }
+        if (!/^[a-zA-Z0-9 ]*$/.test(inputVal)) error = 'Only letters, numbers, and spaces are allowed';
       } else if (onlyLetterSp) {
-        if (!/^[a-zA-Z\s]*$/.test(inputVal)) {
-          error = 'Only letters and spaces are allowed';
-        }
+        if (!/^[a-zA-Z\s]*$/.test(inputVal)) error = 'Only letters and spaces are allowed';
       } else if (type === 'email') {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(inputVal)) {
-          error = 'Invalid email format';
-        }
+        if (!emailRegex.test(inputVal)) error = 'Invalid email format';
       }
     }
 
     this.setState({ error });
 
-    // Fire parent onChange with cleaned value
     if (onChange) {
-      // Create a synthetic event to keep consistency
       const syntheticEvent = {
         ...e,
-        target: {
-          ...e.target,
-          value: inputVal
-        }
+        target: { ...e.target, value: inputVal }
       };
       onChange(syntheticEvent);
     }
-  };
+  }
+
+  togglePassword = () => {
+    this.setState((prev) => ({ showPassword: !prev.showPassword }));
+  }
 
   render() {
     const {
@@ -89,33 +75,60 @@ class InputField extends Component {
       isMobileNumber,
       value,
       name,
+      inst
     } = this.props;
-    const { error } = this.state;
+
+    const { error, showPassword } = this.state;
+
+    // Use 'text' if showing password
+    const inputType = type === 'password' && showPassword ? 'text' : type || 'text';
 
     return (
       <div className={buildClassNames('inputField_ctr', customClassName)}>
         <div className="inputField_hdr">
-          <span>{label!=null ? label : ''}</span>
+          <span>{label || ''}</span>
           {isRequired && <span className="isRequired_ast">*</span>}
         </div>
 
-        <input
-          type={type!=null ? type : 'text'}
-          name={name}
-          value={value!=null ? value : ''}
-          onChange={this.handleChange}
-          placeholder={placeholder!=null ? placeholder : `Enter ${label}`}
-          maxLength={maxLength!=null ? maxLength : null}
-          required={isRequired!=null ? isRequired : false}
-          inputMode={isMobileNumber ? 'numeric' : undefined}
-          pattern={isMobileNumber ? '[0-9]*' : undefined}
-        />
+        <div className="input_wrapper" style={{ position: 'relative' }}>
+          <input
+            type={inputType}
+            name={name}
+            value={value || ''}
+            onChange={this.handleChange}
+            placeholder={placeholder || `Enter ${label}`}
+            maxLength={maxLength || null}
+            required={isRequired || false}
+            inputMode={isMobileNumber ? 'numeric' : undefined}
+            pattern={isMobileNumber ? '[0-9]*' : undefined}
+          />
 
-        {error && (
-          <div className="inputField_error">
-            <small>{error}</small>
-          </div>
-        )}
+          {/* Show/hide button for password */}
+          {type === 'password' && (
+            <button
+              type="button"
+              onClick={this.togglePassword}
+              style={{
+                position: 'absolute',
+                right: '20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                fontSize: '20px',
+                color: '#05714B',
+                fontWeight: 600
+              }}
+            >
+              {showPassword ? <i class="bi bi-eye-slash-fill"></i> : <i class="bi bi-eye-fill"></i>}
+            </button>
+          )}
+        </div>
+
+        {inst && <div className='input_inst'><small>{inst}</small></div>}
+        {error && <div className="inputField_error"><small>{error}</small></div>}
       </div>
     );
   }

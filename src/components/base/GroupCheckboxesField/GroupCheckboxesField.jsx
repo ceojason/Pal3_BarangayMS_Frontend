@@ -52,7 +52,8 @@ class GroupCheckboxesField extends Component {
       startingIndex,
       keyValue,
       hasAutoCheckedKeys = [],
-      isView
+      isView,
+      inst
     } = this.props;
 
     if (isView) {
@@ -60,32 +61,37 @@ class GroupCheckboxesField extends Component {
     };
 
     return (
-      <div className={buildClassNames('groupcheckboxes_ctr', customClassName)}>
-        <div className='groupcheckboxes_hdr'>
-          <span>{label != null ? label : ''}</span>
-        </div>
+      <Fragment>
+        <div className={buildClassNames('groupcheckboxes_ctr', customClassName)}>
+          <div className='groupcheckboxes_hdr'>
+            <span>{label != null ? label : ''}</span>
+          </div>
 
-        <div className='groupcheckboxes_body'>
-          {values && values.length > 0 && values.map((item, index) => {
-            const itemValue = item[value];
-            
-            // Start checked if enrolledSubjects contains itemValue OR
-            // keyValue is in auto-check keys (initially checked)
-            const isChecked = store.includes(itemValue) || hasAutoCheckedKeys.includes(keyValue);
+          <div className='groupcheckboxes_body'>
+            {values && values.length > 0 && values.map((item, index) => {
+              const itemValue = item[value];
+              
+              // Start checked if enrolledSubjects contains itemValue OR
+              // keyValue is in auto-check keys (initially checked)
+              const isChecked = store.includes(itemValue) || hasAutoCheckedKeys.includes(keyValue);
 
-            return (
-              <CheckBoxComponent
-                key={startingIndex != null ? startingIndex + index : index}
-                label={item[itemLabel]} //per item label
-                index={startingIndex != null ? startingIndex + index : index}
-                isChecked={isChecked}
-                onChange={() => this.handleChange(itemValue)}
-                value={itemValue}
-              />
-            );
-          })}
+              return (
+                <CheckBoxComponent
+                  key={startingIndex != null ? startingIndex + index : index}
+                  label={item[itemLabel]} //per item label
+                  index={startingIndex != null ? startingIndex + index : index}
+                  isChecked={isChecked}
+                  onChange={() => this.handleChange(itemValue)}
+                  value={itemValue}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+        <div className='input_inst'>
+          <small>{inst}</small>
+        </div>
+      </Fragment>
     );
   };
 };

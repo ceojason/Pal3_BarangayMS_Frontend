@@ -11,6 +11,45 @@ export const getDummyUser = async () => {
   return data.content;
 };
 
+/* ========================
+   API CALLS FOR BMS - START
+   ===================== */
+
+export const getSessionUser = async () => {
+  const response = await fetch(`${BASE_URL}/auth/login/session-user`, {
+    method: "GET",
+    credentials: "include", // important: sends session cookie
+  });
+
+  if (!response.ok) {
+    throw new Error("No active session");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const getUsersList = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/users/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
+/* ========================
+   API CALLS FOR BMS - END
+   ===================== */
 
 export const getServiceListForNav = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getServiceListForNav`);
@@ -30,6 +69,38 @@ export const getSystemUserListForLogin = async () => {
 
 export const getGenderListStr = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getGenderListStr`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getCivilStatusList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getCivilStatusList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getPhaseList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getPhaseList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getYesNoList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getYesNoList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getResidentTypeList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getResidentTypeList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();

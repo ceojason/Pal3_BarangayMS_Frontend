@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
-import east_logo from '../../../assets/images/east_logo.png';
+import logo from '../../../assets/images/logo.png';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link } from 'react-router-dom';
 
@@ -33,19 +33,24 @@ class Navbar extends Component {
               </button>
 
               <Link className="navbar-brand" to="/dashboard">
-                <img src={east_logo} alt='eastLogoHere' />
-                <span>
-                  EASTudent Portal
-                </span>
+                <img src={logo} alt='eastLogoHere' />
+                <div className='nav_hdr_logo'>
+                  <span className='hdr_one'>
+                    eBarangayConnect
+                  </span>
+                  <span className='hdr_two'>
+                    Your Community, Your Voice.
+                  </span>
+                </div>
               </Link>
             </div>
 
             <div className='user_info'>
               <div className='user_icon'>
-                <span><i class="bi bi-person-circle"></i></span>
+                <span>{currentUser.initialsInNav}</span>
               </div>
               <div className='user_nm_dt'>
-                <span className='nm'>{currentUser.fullName}</span>
+                <span className='nm'>{currentUser.displayNmInNav}</span>
                 <span className='dt'>{currentUser.lastLoginDtString}</span>
               </div>
               <div className='user_viewProfile'>
@@ -59,9 +64,32 @@ class Navbar extends Component {
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/dashboard" onClick={this.closeOffcanvas}>
-                      <i class="bi bi-box-arrow-right"></i>Logout
-                    </Link>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const { SessionStore } = this.context.store;
+
+                        try {
+                          // Call backend logout endpoint
+                          await fetch("http://localhost:8080/auth/login/logout", {
+                            method: "POST",
+                            credentials: "include" // important to send session cookie
+                          });
+
+                          // Clear frontend session
+                          SessionStore.setUser(null);
+
+                          // Redirect to login page
+                          window.location.href = "/"; // or use navigate from react-router
+                        } catch (err) {
+                          console.error("Logout failed", err);
+                        }
+                      }}
+                    >
+                      <i className="bi bi-box-arrow-right"></i> Logout
+                    </a>
                   </li>
                 </ul>
 
@@ -71,11 +99,11 @@ class Navbar extends Component {
 
           <div className="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div className="offcanvas-header">
-              <img src={east_logo} alt='eastLogoHere' />
+              <img src={logo} alt='eastLogoHere' />
               <span>
-                EASTudent Portal
+                eBarangayConnect
               </span>
-              {/* <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> */}
+              <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
 
             <div className="offcanvas-body">
@@ -87,7 +115,7 @@ class Navbar extends Component {
               <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li className="nav-item">
                   <Link className="nav-link" to="/dashboard" onClick={this.closeOffcanvas}>
-                    <i className="bi bi-house-door"></i>Dashboard
+                    <i class="bi bi-house-door-fill"></i>Dashboard
                   </Link>
                 </li>
 
@@ -98,23 +126,23 @@ class Navbar extends Component {
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <i className="bi bi-person-lines-fill"></i>Student Management
+                    <i class="bi bi-people-fill"/>Users Management
                   </a>
                   <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item" to="/studentAdd" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-caret-right-fill"></i>Add New Student
+                      <Link className="dropdown-item" to="/usersAdd" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-caret-right-fill"></i>Add New User
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/studentSearch" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-caret-right-fill"></i>Search Student
+                      <Link className="dropdown-item" to="/usersSearch" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-caret-right-fill"></i>Search User
                       </Link>
                     </li>
                   </ul>
                 </li>
 
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
                     href="#"
@@ -204,10 +232,10 @@ class Navbar extends Component {
                       </Link>
                     </li>
                   </ul>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
-                    <i className="bi bi-gear"></i>System Configuration
+                    <i class="bi bi-gear-fill"></i>System Configuration
                   </Link>
                 </li>
               </ul>

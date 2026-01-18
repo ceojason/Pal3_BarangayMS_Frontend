@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import east_logo from '../../assets/images/east_logo.png';
+import { Navigate } from 'react-router-dom'; // <-- for redirect
+import logo from '../../assets/images/logo.png';
 import StoreContext from '../../store/StoreContext';
 import InputField from '../base/InputField/InputField';
 import { Col, Row } from 'react-bootstrap';
@@ -9,46 +10,57 @@ import BaseButton from '../base/BaseButton/BaseButton';
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      redirect: false, // <-- add redirect flag
+    };
   }
 
   onClickLogin = async (e) => {
     const { LoginStore, SettingsStore, SessionStore } = this.context.store;
     e.preventDefault();
-    LoginStore.login(LoginStore.loginRequest, res => {
-      SessionStore.setUser(res);
-    }, err => {
-        SettingsStore.showError(err);
-    });
-  };
 
+    LoginStore.login(
+      LoginStore.loginRequest,
+      res => {
+        SessionStore.setUser(res);       // set user in MobX store
+        console.log("current user -> ", SessionStore.currentUser);
+
+        // Redirect to dashboard
+        this.setState({ redirect: true });
+      },
+      err => {
+        SettingsStore.showError(err);
+      }
+    );
+  };
 
   onChangeInputs = (fieldId, val) => {
     const { LoginStore } = this.context.store;
 
-    if (val!=null) {
-      LoginStore.loginRequest[fieldId]=val;
-    }else{
-      LoginStore.loginRequest[fieldId]=null;
-    }
+    LoginStore.loginRequest[fieldId] = val ?? null;
   };
 
   loginForm = () => {
     const { LoginStore } = this.context.store;
 
+    // Redirect if login successful
+    if (this.state.redirect) {
+      return <Navigate to="/dashboard" replace />;
+    }
+
     return (
       <div className='login_ctr'>
         <div className='login_hdr'>
           <div className='login_hdr_main'>
-            <img src={east_logo} alt='eastLogoHere' />
-            <span className='main_hdr'>EASTudent PORTAL</span>
+            <img src={logo} alt='eastLogoHere' />
+            <span className='main_hdr'>eBarangayConnect</span>
           </div>
-
-          <span className='sec_hdr'>Don't let your grades define your future</span>
+          <span className='sec_hdr'>Your Community, Your Voice.</span>
         </div>
 
-        {LoginStore.error!=null && (
+        {LoginStore.error && (
           <div className="alert alert-danger" role="alert">
-            <i class="bi bi-shield-fill-exclamation"></i>{LoginStore.error}
+            <i className="bi bi-shield-fill-exclamation"></i>{LoginStore.error}
           </div>
         )}
 
@@ -57,11 +69,11 @@ class Login extends Component {
             <Row>
               <Col md={12}>
                 <InputField
-                  type={'text'}
+                  type='text'
                   maxLength={32}
-                  isRequired={true}
-                  placeholder={'Enter User ID/LRN'}
-                  label={'User ID/LRN'}
+                  isRequired
+                  placeholder='Enter User ID'
+                  label='User ID'
                   value={LoginStore.loginRequest.cd}
                   onChange={e => this.onChangeInputs('cd', e.target.value)}
                 />
@@ -70,10 +82,10 @@ class Login extends Component {
             <Row>
               <Col md={12}>
                 <InputField
-                  type={'password'}
-                  isRequired={true}
-                  placeholder={'Enter Password'}
-                  label={'Password'}
+                  type='password'
+                  isRequired
+                  placeholder='Enter Password'
+                  label='Password'
                   value={LoginStore.loginRequest.password}
                   onChange={e => this.onChangeInputs('password', e.target.value)}
                 />
@@ -82,8 +94,8 @@ class Login extends Component {
 
             <div className='login_footer'>
               <BaseButton
-                type={'submit'}
-                label={'Log In'}
+                type='submit'
+                label='Log In'
               />
               <span>
                 Forgot password? Click <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">here.</a>
@@ -93,16 +105,16 @@ class Login extends Component {
         </form>
 
         <div className='login_btm_links'>
-          <span className='web_link'>
-            <a href='https://deihs.depeddasma.edu.ph/' target='_blank'>DEIHS Website</a>
-          </span>
-          <span className='link_divider'>|</span>
-          <span className=''>
-            <i class="bi bi-c-circle"></i> Copyright 2025 DEIHS Senior High School
+          <span>
+            <i className="bi bi-c-circle"></i> Copyright 2026 - Barangay Paliparan III
           </span>
           <span className='link_divider'>|</span>
           <span className='portal_nm'>
-            EASTudent Portal
+            eBarangayConnect
+          </span>
+          <span className='link_divider'>|</span>
+          <span className='web_link'>
+            <a href='https://cavite.gov.ph/home/cities-and-municipalities/city-of-dasmarinas/' target='_blank'>City of Dasmariñas</a>
           </span>
         </div>
       </div>
@@ -110,9 +122,8 @@ class Login extends Component {
   };
 
   render() {
-
     return this.loginForm();
-  };
+  }
 };
 
 Login.contextType = StoreContext;

@@ -5,7 +5,7 @@ import StudentEnrollmentStore from './StudentEnrollmentStore';
 import SettingsStore from './SettingsStore';
 import SessionStore from './SessionStore';
 import AdminEnrollmentStore from './AdminEnrollmentStore';
-
+import UsersStore from './UsersStore';
 
 
 
@@ -24,6 +24,7 @@ class RootStore {
     this.UserStore = new UserStore();
     this.DashboardStore = new DashboardStore();
     this.LoginStore = new LoginStore();
+    this.UsersStore = new UsersStore();
   }
 }
 
