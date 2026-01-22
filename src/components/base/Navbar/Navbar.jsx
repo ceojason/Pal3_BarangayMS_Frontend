@@ -142,6 +142,35 @@ class Navbar extends Component {
                   </ul>
                 </li>
 
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="bi bi-megaphone-fill"></i>Announcement Management
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link className="dropdown-item" to="/announcementAdd" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-caret-right-fill"></i>Add New Announcement
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/announcementSearch" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-caret-right-fill"></i>Search Announcement
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
+                    <i class="bi bi-stickies-fill"></i>Notification Logs
+                  </Link>
+                </li>
+
                 {/* <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"

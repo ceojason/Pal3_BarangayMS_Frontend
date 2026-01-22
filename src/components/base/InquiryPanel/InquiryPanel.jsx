@@ -47,7 +47,7 @@ class InquiryPanel extends Component {
   };
 
   getSearchFilters = () => {
-    const { filterList, hasDownload} = this.props;
+    const { filterList, hasDownload, data } = this.props;
 
     if (!filterList) return null;
     const fieldRows = this.chunkFields(filterList, 3);
@@ -65,7 +65,7 @@ class InquiryPanel extends Component {
               className='toggle_btn'>
               <i className="bi bi-search"></i>Toggle Filters
             </button>
-            {hasDownload && (
+            {(hasDownload && data!=null && data.length > 0) && (
               <BaseButton
                 customClassName={'download_btn'}
                 onClick={this.onClickDownload}
@@ -82,7 +82,7 @@ class InquiryPanel extends Component {
                 {fieldRows.map((row, rowIndex) => (
                   <Row key={rowIndex} className="mb-3"> {/* spacing between rows */}
                     {row.map((field) => (
-                      <Col key={field.index} md={4}>
+                      <Col key={field.index} md={6}>
                         <div className="form-group">
                           {this.renderFilterField(field)}
                         </div>

@@ -6,6 +6,10 @@ import SettingsStore from './SettingsStore';
 import SessionStore from './SessionStore';
 import AdminEnrollmentStore from './AdminEnrollmentStore';
 import UsersStore from './UsersStore';
+import NotificationLogsStore from './NotificationLogsStore';
+import AnnouncementStore from './AnnouncementStore';
+
+
 
 
 
@@ -13,6 +17,10 @@ import UsersStore from './UsersStore';
 
 class RootStore {
   constructor() {
+    this.AnnouncementStore = new AnnouncementStore();
+
+    this.NotificationLogsStore = new NotificationLogsStore();
+
     this.AdminEnrollmentStore = new AdminEnrollmentStore();
 
     this.SessionStore = new SessionStore();

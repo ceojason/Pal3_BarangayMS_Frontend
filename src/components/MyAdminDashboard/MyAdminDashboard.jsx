@@ -11,9 +11,18 @@ class MyAdminDashboard extends Component {
 
   componentDidMount() {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+    const { DashboardStore, SessionStore } = this.context.store;
+    if (SessionStore.currentUser!=null && SessionStore.currentUser.roleKey!=null) {
+      DashboardStore.getAdminDashboardData(SessionStore.currentUser!=null ? SessionStore.currentUser.roleKey : null).then(data => {
+        DashboardStore.data=data;
+      });
+    }
   };
 
   getDashboardDisplay = () => {
+    const { DashboardStore } = this.context.store;
+
     return (
       <Fragment>
         {this.dashboardHdr()}
@@ -24,17 +33,21 @@ class MyAdminDashboard extends Component {
           <div className='grid_ctr'>
             <div className='col_one'>
               <DashboardCard
-                header={'Residents / Users'}
+                header={'Users'}
                 icon={<i class="bi bi-people-fill"></i>}
                 className={'gradient_green'}
+                data={DashboardStore.data.paramCount1}
+                label={DashboardStore.data.paramLabel1}
               />
             </div>
             <div>
               <div className='col_two'>
                 <DashboardCard
-                  header={'Document Services'}
-                  icon={<i class="bi bi-file-earmark-check-fill"></i>}
+                  header={'Active Announcement'}
+                  icon={<i class="bi bi-megaphone-fill"></i>}
                   className={'gradient_red'}
+                  data={DashboardStore.data.paramCount2}
+                  label={DashboardStore.data.paramLabel2}
                 />
               </div>
             </div>
@@ -42,8 +55,10 @@ class MyAdminDashboard extends Component {
               <div className='col_three'>
                 <DashboardCard
                   header={'Pending Requests'}
-                  icon={<i class="bi bi-journal-album"></i>}
+                  icon={<i class="bi bi-file-earmark-word-fill"></i>}
                   className={'gradient_orange'}
+                  data={DashboardStore.data.paramCount3}
+                  label={DashboardStore.data.paramLabel3}
                 />
               </div>
             </div>

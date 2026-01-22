@@ -9,6 +9,8 @@ import AddStudentMainCtr from './containers/AddStudent/AddStudentMainCtr.jsx';
 import AddAdminMainCtr from './containers/AddAdmin/AddAdminMainCtr.jsx';
 import AddUsersMainCtr from './containers/AddUsers/AddUsersMainCtr.jsx';
 import SearchUsersMainCtr from './containers/SearchUsers/SearchUsersMainCtr.jsx';
+import NotificationLogsMainCtr from './containers/NotificationLogs/NotificationLogsMainCtr.jsx';
+import AddAnnouncementMainCtr from './containers/AddAnnouncement/AddAnnouncementMainCtr.jsx';
 
 
 const router = createBrowserRouter([
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
       {
               path: 'usersSearch',
               element: <SearchUsersMainCtr />,
+            },
+      {
+              path: 'notificationLogs',
+              element: <NotificationLogsMainCtr />,
+            },
+      {
+              path: 'announcementAdd',
+              element: <AddAnnouncementMainCtr />,
             },
     ],
   }

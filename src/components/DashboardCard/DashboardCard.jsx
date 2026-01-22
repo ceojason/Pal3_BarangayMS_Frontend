@@ -15,11 +15,15 @@ class DashboardCard extends Component {
       cardText,
       hasButton,
       icon,
-      className
+      className,
+      data,
+      label
     } = this.props;
 
+    // if (data==null) return <></>;
+
     return (
-      <div class="card">
+      <div class="card dashboard_card">
         <div className={buildClassNames('card-header', className)}>
           {icon}
           {header}
@@ -27,6 +31,20 @@ class DashboardCard extends Component {
         <div class="card-body">
           <h5 class="card-title">{cardTitle}</h5>
           <p class="card-text">{cardText}</p>
+          
+          <div className='card_body_main'>
+            {data!=null && (
+              <span className='data'>{data}</span>
+            )}
+            {icon != null && (
+              <span className={buildClassNames('icon')}>
+                {icon}
+              </span>
+            )}
+          </div>
+          {label!=null && (
+            <span className='card_body_main_label'>{label}</span>
+          )}
           {hasButton && <a href="#" class="btn btn-primary">Go somewhere</a>}
         </div>
       </div>

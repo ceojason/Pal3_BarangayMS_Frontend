@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
 import UsersViewPanel from '../../UsersViewPanel/UsersViewPanel';
+import AnnouncementViewPanel from '../../AnnouncementViewPanel/AnnouncementViewPanel';
 
 class BaseAckPagePanel extends Component {
   constructor(props) {
     super(props);
     this.state={
-      showDetails: false
+      showDetails: true
     }
   };
 
@@ -18,7 +19,7 @@ class BaseAckPagePanel extends Component {
   };
 
   render() {
-    const { ackMessage, refNo, isUser, data } = this.props;
+    const { ackMessage, refNo, isUser, data, isAnnouncement } = this.props;
     const { showDetails } = this.state;
 
     return (
@@ -44,14 +45,20 @@ class BaseAckPagePanel extends Component {
           </div>
         </div>
 
-        {(isUser && showDetails) ? (
+        {(isUser && showDetails) && (
           <UsersViewPanel 
             data={data}
             header={'User Information'}
             subHeader={'The user information below was successfully saved in the system.'}
           />
-        ):(
-          <></>
+        )}
+
+        {(isAnnouncement && showDetails) && (
+          <AnnouncementViewPanel
+            data={data}
+            header={'Announcement Information'}
+            subHeader={'This announcement was saved and been delivered to corresponding recipients.'}
+          />
         )}
       </Fragment>
     );

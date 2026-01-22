@@ -47,6 +47,50 @@ export const getUsersList = async (searchRequest) => {
   return data.content.content;
 };
 
+export const getAdminDashboardData = async (roleKey) => {
+  const response = await fetch(`${BASE_URL}/dashboard/admin/${roleKey}`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getUsersListBySearch = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/users/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
+export const getNotifLogsBySearch = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/notifLogs/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
 /* ========================
    API CALLS FOR BMS - END
    ===================== */
@@ -61,6 +105,38 @@ export const getServiceListForNav = async () => {
 
 export const getSystemUserListForLogin = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getSystemUserListForLogin`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getSmsTypeList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getSmsTypeList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getAlertStatusList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getAlertStatusList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getChannelList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getChannelList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getAllResidentTypeList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getAllResidentTypeList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();

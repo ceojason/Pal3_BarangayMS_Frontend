@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import api from '../api/api';
 import StepperContants from '../../contants/StepperContants';
 
-class UsersStore {
+class AnnouncementStore {
   constructor() {
 
     this.reset();
@@ -10,10 +10,10 @@ class UsersStore {
     makeAutoObservable(this);
   };
 
-
-  /* =====================
+   /* =====================
   OBSERVABLE STATES
   ===================== */
+
   errorList = [];
   inquiryData = [];
   viewData = null;
@@ -73,84 +73,55 @@ class UsersStore {
     ];
   };
 
+
   /* =====================
   FACTORY METHODS
   ===================== */
 
   initialEnrollmentRequest() {
     return {
-      firstNm: null,
-      middleNm: null,
-      lastNm: null,
-      suffix: null,
-      birthDt: null,
-      birthPlace: null,
-      gender: null,
-      civilStatusKey: null,
-      mobileNo: null,
-      emailAddress: null,
-      phaseKey: null,
-      homeAddress: null,
-      householdKey: null,
-      occupation: null,
-      religion: null,
-      isRegisteredVoter: null,
-      residentClassKeys: [],
-      //educationStatus: null,
-      status: null,
+      recipientKeys: [],
+      header: null,
+      isSmsEmail: null,
+      message: null,
+      type: null,
+      alertStatus: null,
     };
   };
 
-  /* =====================
-   API CALLS
-   ===================== */
-
-  async getGenderList() {
-    return await api.get.getGenderListStr();
+  async getSmsTypeList() {
+    return await api.get.getSmsTypeList();
   };
 
-  async getCivilStatusList() {
-    return await api.get.getCivilStatusList();
+  async getAlertStatusList() {
+    return await api.get.getAlertStatusList();
+  };
+  
+  async getChannelList() {
+    return await api.get.getChannelList();
   };
 
-  async getPhaseList() {
-    return await api.get.getPhaseList();
+  async getAllResidentTypeList() {
+    return await api.get.getAllResidentTypeList();
   };
 
-  async getYesNoList() {
-    return await api.get.getYesNoList();
-  };
-
-  async getResidentTypeList() {
-    return await api.get.getResidentTypeList();
-  };
-
-  async searchUsers(requestObj) {
-    try {
-      return await api.get.getUsersListBySearch(requestObj);
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
-  validateEnrollment(requestObj, onSucc, onErr) {
+  validateRequest(requestObj, onSucc, onErr) {
     api.post.postRequest(
-      '/users/validateEnrollment',
+      '/announcement/validateRequest',
       requestObj,
       onSucc,
       onErr
     );
   };
 
-  saveEnrollment(requestObj, onSuccess, onError) {
-      api.post.postRequest(
-        '/users/saveEnrollment',
-        requestObj,
-        onSuccess,
-        onError
-      );
-    };
+  saveRequest(requestObj, onSucc, onErr) {
+    api.post.postRequest(
+      '/announcement/saveRequest',
+      requestObj,
+      onSucc,
+      onErr
+    );
+  };
 }
 
-export default UsersStore;
+export default AnnouncementStore;

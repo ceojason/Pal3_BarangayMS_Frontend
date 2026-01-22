@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
 import BaseButton from '../BaseButton/BaseButton';
+import { buildClassNames } from '../../../utils/ClassUtils';
 
 class BaseHyperlink extends Component {
   constructor(props) {
@@ -14,10 +15,10 @@ class BaseHyperlink extends Component {
   };
 
   render() {
-    const { value } = this.props;
+    const { value, customClassName } = this.props;
 
     return (
-      <div className='clickablelink'>
+      <div className={buildClassNames('clickablelink', customClassName)}>
         <BaseButton
           onClick={this.onClickLink}
           label={value}

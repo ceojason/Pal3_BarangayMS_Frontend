@@ -80,7 +80,8 @@ class ViewFieldComponent extends Component {
       label,
       value,
       valueIfNull,
-      icon
+      icon,
+      isMessage
     } = this.props;
 
     return (
@@ -94,7 +95,7 @@ class ViewFieldComponent extends Component {
            ? ''
            : 'hasNoValue'
         )}>
-          <span>
+          <span className={isMessage ? 'white_line' : ''}>
             {icon!=null
               ? icon
               : <></>
