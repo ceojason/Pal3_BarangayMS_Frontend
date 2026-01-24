@@ -25,6 +25,7 @@ class SessionStore {
       const data = await api.get.getSessionUser();
       runInAction(() => {
         this.setUser(data);
+        this.loading = false;
       });
     } catch (err) {
       runInAction(() => {

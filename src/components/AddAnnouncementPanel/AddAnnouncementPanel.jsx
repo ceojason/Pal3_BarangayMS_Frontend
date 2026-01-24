@@ -148,12 +148,15 @@ class AddAnnouncementPanel extends Component {
 
   onClickNext = () => {
     const { AnnouncementStore, SettingsStore } = this.context.store;
+    SettingsStore.isLoading=true;
 
     AnnouncementStore.validateRequest(
       AnnouncementStore.enrollmentRequest, res => {
+        SettingsStore.isLoading=false;
         AnnouncementStore.validatedData = res;
         AnnouncementStore.currentStep = StepperContants.MANUAL_ENROLL__CONFIRM;
       }, error => {
+        SettingsStore.isLoading=false;
         SettingsStore.showModal({
           type: 'error',
           errorList: error

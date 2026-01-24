@@ -47,8 +47,30 @@ export const getUsersList = async (searchRequest) => {
   return data.content.content;
 };
 
-export const getAdminDashboardData = async (roleKey) => {
-  const response = await fetch(`${BASE_URL}/dashboard/admin/${roleKey}`);
+export const getDashboardData = async (roleKey) => {
+  const response = await fetch(`${BASE_URL}/dashboard/${roleKey}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const findUserdataById = async (userId) => {
+  const response = await fetch(`${BASE_URL}/users/${userId}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();
@@ -75,6 +97,24 @@ export const getUsersListBySearch = async (searchRequest) => {
 
 export const getNotifLogsBySearch = async (searchRequest) => {
   const res = await fetch(`${BASE_URL}/notifLogs/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
+export const searchAnnouncement = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/announcement/search`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

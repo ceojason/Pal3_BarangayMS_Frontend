@@ -75,7 +75,8 @@ class InputField extends Component {
       isMobileNumber,
       value,
       name,
-      inst
+      inst,
+      disabled
     } = this.props;
 
     const { error, showPassword } = this.state;
@@ -101,6 +102,7 @@ class InputField extends Component {
             required={isRequired || false}
             inputMode={isMobileNumber ? 'numeric' : undefined}
             pattern={isMobileNumber ? '[0-9]*' : undefined}
+            disabled={disabled}
           />
 
           {/* Show/hide button for password */}

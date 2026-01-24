@@ -1,0 +1,40 @@
+/* Mobile */
+@media (max-width: 768px) {
+    .body_container {
+        margin-top: 120px !important;
+    }
+    .navbar .user_info, .user_badge, .right_panel {
+        display: none;
+    }
+
+    .dashboard_display_system .left_main_message,
+    .dashboard_display_system .left_main_message i {
+        font-size: 18px;
+    }
+
+    .dashboard_display_system .left_main_message i {
+        font-size: 45px !important;
+    }
+
+    .left_panel .dashboard_notifs span {
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+    }
+
+}
+
+/* Tablet */
+@media (min-width: 769) {
+
+    .dashboard_display_system .left_main_message,
+    .dashboard_display_system .left_main_message i {
+        font-size: 20px !important;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+    .navbar {
+        padding: 0 2rem;
+    }
+}

@@ -28,9 +28,9 @@ class MainContainer extends Component {
           <BaseConfirmModal {...SettingsStore.customModal} />
         )}
 
-        {SettingsStore.isScreenLoading ? (
+        {/* {SettingsStore.isLoading ? (
           <div className='api-backdrop' />
-        ) : <></>}
+        ) : <></>} */}
 
         <div className='main_hdr'>
         </div>

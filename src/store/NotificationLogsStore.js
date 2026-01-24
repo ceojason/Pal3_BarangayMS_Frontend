@@ -47,13 +47,13 @@ class NotificationLogsStore {
    ===================== */
 
   async searchNotifLogs(requestObj) {
-      try {
-        return await api.get.getNotifLogsBySearch(requestObj);
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-    };
+    try {
+      return await api.get.getNotifLogsBySearch(requestObj);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
 }
 
 export default NotificationLogsStore;

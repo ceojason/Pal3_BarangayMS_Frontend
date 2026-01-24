@@ -22,8 +22,8 @@ class DashboardStore {
   // #############################
   //          API calls
   // #############################
-  async getAdminDashboardData(roleKey) {
-    return await api.get.getAdminDashboardData(roleKey);
+  async getDashboardData(roleKey) {
+    return await api.get.getDashboardData(roleKey);
   };
 
 };

@@ -15,10 +15,10 @@ const App = observer(() => {
 
   if (SessionStore.loading) {
     return <></>;
-  }else{
-    if (SessionStore.currentUser==null || SessionStore.currentUser==undefined) {
-      return <NoAccessCtr />;
-    }
+  }
+
+  if (!SessionStore.currentUser) {
+    return <NoAccessCtr />;
   }
 
   return (

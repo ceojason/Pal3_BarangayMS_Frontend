@@ -57,6 +57,13 @@ class AnnouncementStore {
       //   props: { maxLength: 12, onlyNumber: true }
       // },
       {
+        index: 'refNo',
+        label: 'Reference Number',
+        value: null,
+        type: 'text',
+        props: { maxLength: 50 }
+      },
+      {
         index: 'firstNm',
         label: 'First Name',
         value: null,
@@ -69,7 +76,7 @@ class AnnouncementStore {
         value: null,
         type: 'text',
         props: { maxLength: 50, onlyLetterSp: true }
-      }
+      },
     ];
   };
 
@@ -121,6 +128,15 @@ class AnnouncementStore {
       onSucc,
       onErr
     );
+  };
+
+  async searchAnnouncement(requestObj) {
+    try {
+      return await api.get.searchAnnouncement(requestObj);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   };
 }
 

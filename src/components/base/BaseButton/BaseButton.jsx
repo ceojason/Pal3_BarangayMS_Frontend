@@ -10,10 +10,11 @@ class BaseButton extends Component {
 
   onClickBtn = () => {
     const { onClick } = this.props;
-    onClick&&onClick();
+    if (onClick) onClick();   // just call it
   };
 
   render() {
+    const { SettingsStore } = this.context.store;
     const {
       isDelete,
       isUpdate,
@@ -39,8 +40,12 @@ class BaseButton extends Component {
             isUpdate ? 'btn_update' : '',
             customClassName
           )}
+          disabled={SettingsStore.isLoading ? true : false}
           type={type!=null ? type : 'button'}
           onClick={this.onClickBtn}>
+            {/* <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div> */}
             {hasIcon && hasIconPrefix ? icon : null}
             {label!=null ? label : defaultBtnLabel}
             {hasIcon && !hasIconPrefix ? icon : null}

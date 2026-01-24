@@ -14,8 +14,10 @@ class UsersViewPanel extends Component {
 
   submitForm = () => {
     const { UsersStore, SettingsStore } = this.context.store;
+    SettingsStore.isLoading=true;
 
     UsersStore.saveEnrollment(UsersStore.validatedData, res => {
+      SettingsStore.isLoading=false;
       UsersStore.validatedData=null;
       UsersStore.ackHeader.ackMessage=res.ackMessage;
       UsersStore.ackHeader.refNo=res.refNo;
@@ -23,6 +25,7 @@ class UsersViewPanel extends Component {
       UsersStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
       SettingsStore.showSuccessPanel=true;
     }, err => {
+        SettingsStore.isLoading=false;
         SettingsStore.showModal({ type: 'error', errorList: err });
       }
     );

@@ -19,7 +19,7 @@ class BaseAckPagePanel extends Component {
   };
 
   render() {
-    const { ackMessage, refNo, isUser, data, isAnnouncement } = this.props;
+    const { ackMessage, refNo, isUser, data, isAnnouncement, icon } = this.props;
     const { showDetails } = this.state;
 
     return (
@@ -50,6 +50,7 @@ class BaseAckPagePanel extends Component {
             data={data}
             header={'User Information'}
             subHeader={'The user information below was successfully saved in the system.'}
+            icon={icon}
           />
         )}
 
@@ -58,6 +59,7 @@ class BaseAckPagePanel extends Component {
             data={data}
             header={'Announcement Information'}
             subHeader={'This announcement was saved and been delivered to corresponding recipients.'}
+            icon={icon}
           />
         )}
       </Fragment>

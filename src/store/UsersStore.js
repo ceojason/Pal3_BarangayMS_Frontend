@@ -49,13 +49,13 @@ class UsersStore {
 
   getSearchFields() {
     return [
-      // {
-      //   index: 'lrn',
-      //   label: 'LRN',
-      //   value: null,
-      //   type: 'text',
-      //   props: { maxLength: 12, onlyNumber: true }
-      // },
+      {
+        index: 'refNo',
+        label: 'Reference Number',
+        value: null,
+        type: 'text',
+        props: { maxLength: 50}
+      },
       {
         index: 'firstNm',
         label: 'First Name',
@@ -69,7 +69,7 @@ class UsersStore {
         value: null,
         type: 'text',
         props: { maxLength: 50, onlyLetterSp: true }
-      }
+      },
     ];
   };
 
@@ -132,6 +132,10 @@ class UsersStore {
       console.error(error);
       return [];
     }
+  };
+
+  async findUserdataById(userId) {
+    return await api.get.findUserdataById(userId);
   };
 
   validateEnrollment(requestObj, onSucc, onErr) {

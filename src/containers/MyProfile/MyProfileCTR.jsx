@@ -1,10 +1,14 @@
 import React from 'react';
+import MainContainer from '../../components/base/MainContainer/MainContainer';
+import MyProfilePanel from '../../components/MyProfilePanel/MyProfilePanel';
 
 const MyProfileCTR = () => {
   return (
-    <div className="MyProfileCTR">
-      MyProfileCTR Component
-    </div>
+    <MainContainer>
+      <div className="MyProfileCTR">
+        <MyProfilePanel />
+      </div>
+    </MainContainer>
   );
 };
 

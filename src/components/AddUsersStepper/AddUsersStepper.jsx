@@ -27,7 +27,7 @@ class AddUsersStepper extends Component {
 
   render() {
     const { UsersStore } = this.context.store;
-    const { isAdd, header, subHeader } = this.props;
+    const { isAdd, header, subHeader, icon } = this.props;
 
     const data = [
       {
@@ -37,6 +37,7 @@ class AddUsersStepper extends Component {
             isAdd={isAdd} 
             header={header}
             subHeader={subHeader}
+            icon={icon}
           />
         )
       },
@@ -51,6 +52,7 @@ class AddUsersStepper extends Component {
             subHeader={subHeader}
             data={UsersStore.validatedData}
             onClickBack={() => this.onClickBack(false)}
+            icon={icon}
           />
         )
       },
@@ -67,6 +69,7 @@ class AddUsersStepper extends Component {
             ackMessage={UsersStore.ackHeader.ackMessage}
             refNo={UsersStore.ackHeader.refNo}
             isUser={true}
+            icon={icon}
           />
         )
       }

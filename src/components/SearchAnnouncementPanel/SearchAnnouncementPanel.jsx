@@ -3,35 +3,33 @@ import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import InquiryPanel from '../base/InquiryPanel/InquiryPanel';
 import InquiryTable from '../base/InquiryTable/InquiryTable';
-import SearchFilterUtils from '../../utils/SearchFilterUtils';
 import BaseHyperlink from '../base/BaseHyperlink/BaseHyperlink';
-import BaseButton from '../base/BaseButton/BaseButton';
-import BaseColumnWithSubData from '../base/BaseColumnWithSubData/BaseColumnWithSubData';
 import MessageModal from '../base/MessageModal/MessageModal';
+import SearchFilterUtils from '../../utils/SearchFilterUtils';
 
-class NotificationLogsPanel extends Component {
+class SearchAnnouncementPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
       modalContent: ''
     };
-  };
+  }
 
   componentDidMount() {
     this.onSearch();
   };
 
   onSearch = () => {
-    const { NotificationLogsStore, SettingsStore } = this.context.store;
+    const { AnnouncementStore, SettingsStore } = this.context.store;
     SettingsStore.isLoading=true;
 
     let searchFilter = SearchFilterUtils.getSearchFilterObject(
-      NotificationLogsStore.searchFields
+      AnnouncementStore.searchFields
     );
 
     let multiSort = {
-      sortBy: 'sent_dt',
+      sortBy: 'created_dt',
       direction: 'DESC'
     };
 
@@ -43,9 +41,9 @@ class NotificationLogsPanel extends Component {
       ...pagination
     };
     
-    NotificationLogsStore.searchNotifLogs(requestObj).then(data => {
+    AnnouncementStore.searchAnnouncement(requestObj).then(data => {
       SettingsStore.isLoading=false;
-      NotificationLogsStore.inquiryData = data;
+      AnnouncementStore.inquiryData = data;
       SettingsStore.isInitialSearch = false;
     });
   };
@@ -66,8 +64,8 @@ class NotificationLogsPanel extends Component {
       },
       {
         name: 'RECIPIENT',
-        index: 'recipient',
-        sortBy: 'recipient'
+        index: 'recipientFullNm',
+        sortBy: 'recipientFullNm'
       },
       {
         name: 'CHANNEL',
@@ -75,7 +73,7 @@ class NotificationLogsPanel extends Component {
       },
       {
         name: 'SENT DATE',
-        index: 'sentDtString'
+        index: 'createdDtString'
       },
       {
         name: 'MESSAGE',
@@ -101,31 +99,31 @@ class NotificationLogsPanel extends Component {
   };
 
   onReset = () => {
-    const { NotificationLogsStore } = this.context.store;
-    NotificationLogsStore.resetInquiry(true);
+    const { AnnouncementStore } = this.context.store;
+    AnnouncementStore.resetInquiry(true);
   };
 
   render() {
-    const { NotificationLogsStore } = this.context.store;
+    const { AnnouncementStore } = this.context.store;
 
     return (
       <Fragment>
         <InquiryPanel
-          header={'Notification Logs'}
-          subHeader={'View, resend, and manage sent user notification through this module.'}
+          header={'Search Announcement'}
+          subHeader={'Manage and search all the announcement created and sent through this module.'}
           hasSearchFilter={true}
           columns={this.getDataCols()}
           fileTitle="Notification Logs Report"
           fileName="Notification_Logs.pdf"
-          data={NotificationLogsStore.inquiryData}
+          data={AnnouncementStore.inquiryData}
           onSearch={() => this.onSearch()}
           onReset={() => this.onReset()}
           hasDivider={true}
-          icon={<i class="bi bi-stickies-fill"></i>}
-          filterList={NotificationLogsStore.searchFields}
+          icon={<i className="bi bi-search"></i>}
+          filterList={AnnouncementStore.searchFields}
           hasDownload={true}>
             <InquiryTable
-              data={NotificationLogsStore.inquiryData}
+              data={AnnouncementStore.inquiryData}
               columns={this.getDataCols()}
             />
         </InquiryPanel>
@@ -140,6 +138,6 @@ class NotificationLogsPanel extends Component {
   }
 };
 
-NotificationLogsPanel.contextType = StoreContext;
+SearchAnnouncementPanel.contextType = StoreContext;
 
-export default observer(NotificationLogsPanel);
+export default observer(SearchAnnouncementPanel);

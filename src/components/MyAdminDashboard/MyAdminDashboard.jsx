@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import DashboardCard from '../DashboardCard/DashboardCard';
-import NoAccessCtr from '../base/NoAccessCtr/NoAccessCtr';
+import MyDashboard from '../MyDashboard/MyDashboard';
+import BaseImageSlider from '../base/BaseImageSlider/BaseImageSlider';
 
 class MyAdminDashboard extends Component {
   constructor(props) {
@@ -13,8 +14,9 @@ class MyAdminDashboard extends Component {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 
     const { DashboardStore, SessionStore } = this.context.store;
+    SessionStore.isLoading=true;
     if (SessionStore.currentUser!=null && SessionStore.currentUser.roleKey!=null) {
-      DashboardStore.getAdminDashboardData(SessionStore.currentUser!=null ? SessionStore.currentUser.roleKey : null).then(data => {
+      DashboardStore.getDashboardData(SessionStore.currentUser!=null ? SessionStore.currentUser.roleKey : null).then(data => {
         DashboardStore.data=data;
       });
     }
@@ -39,6 +41,7 @@ class MyAdminDashboard extends Component {
                 data={DashboardStore.data.paramCount1}
                 label={DashboardStore.data.paramLabel1}
               />
+              <BaseImageSlider />
             </div>
             <div>
               <div className='col_two'>
@@ -84,11 +87,11 @@ class MyAdminDashboard extends Component {
                 </div>
               </div>
 
-              {/* <div className='dashboard_notifs'>
+              <div className='dashboard_notifs'>
                 <span>
-                  See what's new? Click here.
+                  Manage resident's account, create an announcement, and process document requests with eBarangayConnect!
                 </span>
-              </div> */}
+              </div>
             </div>
 
             <div className='right_panel'>
@@ -105,6 +108,10 @@ class MyAdminDashboard extends Component {
   };
 
   render() {
+    const { SessionStore, DashboardStore } = this.context.store;
+    let data = DashboardStore.data!=null && DashboardStore.data.announcementList;
+    if (SessionStore.currentUser!=null && SessionStore.currentUser.roleKey!==2) return <MyDashboard data={data} />;
+
     return this.getDashboardDisplay();
   };
 };

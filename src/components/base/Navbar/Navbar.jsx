@@ -8,6 +8,22 @@ import { Link } from 'react-router-dom';
 class Navbar extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      profileImage: null,
+    };
+  }
+
+  componentDidMount() {
+    const { SessionStore } = this.context.store;
+    const currentUser = SessionStore.currentUser;
+
+    if (currentUser?.userId) {
+      // Load profile image from localStorage for this user
+      const savedImage = localStorage.getItem(`profileImage_${currentUser.userId}`);
+      if (savedImage) {
+        this.setState({ profileImage: savedImage });
+      }
+    }
   }
 
   closeOffcanvas = () => {
@@ -21,6 +37,8 @@ class Navbar extends Component {
   defaultNavbar = () => {
     const { SessionStore } = this.context.store;
     let currentUser = SessionStore.currentUser;
+    let isAdminUser = currentUser.roleKey===2;
+    const { profileImage } = this.state;
 
     return (
       <nav className="navbar bg-body-tertiary fixed-top">
@@ -47,7 +65,16 @@ class Navbar extends Component {
 
             <div className='user_info'>
               <div className='user_icon'>
-                <span>{currentUser.initialsInNav}</span>
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="rounded-circle"
+                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <span>{currentUser.initialsInNav}</span>
+                )}
               </div>
               <div className='user_nm_dt'>
                 <span className='nm'>{currentUser.displayNmInNav}</span>
@@ -72,23 +99,22 @@ class Navbar extends Component {
                         const { SessionStore } = this.context.store;
 
                         try {
-                          // Call backend logout endpoint
                           await fetch("http://localhost:8080/auth/login/logout", {
                             method: "POST",
-                            credentials: "include" // important to send session cookie
+                            credentials: "include"
                           });
 
                           // Clear frontend session
                           SessionStore.setUser(null);
 
                           // Redirect to login page
-                          window.location.href = "/"; // or use navigate from react-router
+                          window.location.href = "/";
                         } catch (err) {
                           console.error("Logout failed", err);
                         }
                       }}
                     >
-                      <i className="bi bi-box-arrow-right"></i> Logout
+                      <i class="bi bi-door-open-fill"></i>Sign Out
                     </a>
                   </li>
                 </ul>
@@ -106,168 +132,135 @@ class Navbar extends Component {
               <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
 
-            <div className="offcanvas-body">
-              <div className='is_menu'>
-                <span>
-                  Menu
-                </span>
+            <div className="offcanvas-body d-flex flex-column">
+              <div className="flex-grow-1">
+                <div className='is_menu'>
+                  <span>
+                    Menu
+                  </span>
+                </div>
+                
+                {isAdminUser ? (
+                  <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/dashboard" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-house-door-fill"></i>Dashboard
+                      </Link>
+                    </li>
+
+                    <li className="nav-item dropdown">
+                      <a
+                        className="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-people-fill"/>Users Management
+                      </a>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <Link className="dropdown-item" to="/usersAdd" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Add New User
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" to="/usersSearch" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Search User
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li className="nav-item dropdown">
+                      <a
+                        className="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-megaphone-fill"></i>Announcement Management
+                      </a>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <Link className="dropdown-item" to="/announcementAdd" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Add New Announcement
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" to="/announcementSearch" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Search Announcement
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-stickies-fill"></i>Notification Logs
+                      </Link>
+                    </li>
+                    
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-gear-fill"></i>System Configuration
+                      </Link>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/dashboard" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-house-door-fill"></i>Dashboard
+                      </Link>
+                    </li>
+
+                    {/* <li className="nav-item">
+                      <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-person-circle"></i>My Profile
+                      </Link>
+                    </li> */}
+
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/myaccount/announcementLogs" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-megaphone-fill"></i>Announcement History
+                      </Link>
+                    </li>
+
+                    <li className="nav-item dropdown">
+                      <a
+                        className="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-file-earmark-post"></i>Request Document/s
+                      </a>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <Link className="dropdown-item" to="/myaccount/documentRequest" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Request Now
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" to="/myaccount/documentHistory" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Request History
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/aboutPaliparan" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-houses-fill"></i>About Paliparan III
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
-              <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard" onClick={this.closeOffcanvas}>
-                    <i class="bi bi-house-door-fill"></i>Dashboard
-                  </Link>
-                </li>
-
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="bi bi-people-fill"/>Users Management
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to="/usersAdd" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-caret-right-fill"></i>Add New User
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/usersSearch" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-caret-right-fill"></i>Search User
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="bi bi-megaphone-fill"></i>Announcement Management
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to="/announcementAdd" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-caret-right-fill"></i>Add New Announcement
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/announcementSearch" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-caret-right-fill"></i>Search Announcement
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
-                    <i class="bi bi-stickies-fill"></i>Notification Logs
-                  </Link>
-                </li>
-
-                {/* <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i className="bi bi-person-video3"></i>Teacher Management
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to="/teacherAdd" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Add New Teacher
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/teacherSearch" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Search Teacher
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i className="bi bi-journal-text"></i>Subject Management
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to="/subjectAdd" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Add New Subject
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/subjectSearch" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Search Subjects
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i className="bi bi-stickies"></i>Section Management
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to="/sectionAdd" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Add New Section
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/sectionSearch" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Search Section
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="bi bi-diagram-3-fill"></i>Admin Management
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link className="dropdown-item" to="/adminAdd" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Add New System Admin
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/adminSearch" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-caret-right-fill"></i>Search System Admin
-                      </Link>
-                    </li>
-                  </ul>
-                </li> */}
-                <li className="nav-item">
-                  <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
-                    <i class="bi bi-gear-fill"></i>System Configuration
-                  </Link>
-                </li>
-              </ul>
+              <div className="offcanvas-footer border-top pt-3 mt-3 text-center small">
+                <div className='copyright'>©{new Date().getFullYear()} eBarangayConnect</div>
+                <div className="text-muted">Your Community, Your Voice.</div>
+              </div>
             </div>
           </div>
         </div>

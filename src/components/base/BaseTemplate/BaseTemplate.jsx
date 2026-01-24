@@ -23,14 +23,17 @@ class BaseTemplate extends Component {
       isAck,
       isConfirm,
       header,
-      subHeader
+      subHeader,
+      icon
     } = this.props;
     let isInitial = currentStep!=null && currentStep===1;
-    console.log("JASON BASE TEMPLATE", currentStep, totalSteps)
 
     return (
       <div className={buildClassNames('base_template_ctr', isInitial ? 'base_initial_ctr' : '', !isAck ? 'is_ack_base_ctr' : '')}>
-        <span className='header'>{header}</span>
+        <span className='header'>
+          {!isAck && icon ? icon : null}
+          {header}
+        </span>
         <span className='sub_header'>{subHeader}</span>
         {!isAck && <div className='form_divider'></div>}
         {this.props.children}

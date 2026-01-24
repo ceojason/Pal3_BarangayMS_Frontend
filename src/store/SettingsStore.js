@@ -13,12 +13,15 @@ class SettingsStore {
 
       showModal: action,
       hideCustomModal: action,
+      isLoading: observable,
     });
   }
 
   showErrorModal = false;
   showSuccessModal = false;
   showConfirmModal = false;
+
+  isLoading = false;
 
   errorList = [];
 
@@ -98,6 +101,18 @@ class SettingsStore {
         break;
 
       case 'update':
+        this.showConfirmModal = true;
+
+        this.customModal = {
+          type: 'update',
+          headerTitle,
+          valueToDisplay,
+          additionalBtn,
+          data,
+          onClose
+        };
+        break;
+        
       case 'custom':
         this.showConfirmModal = true;
 

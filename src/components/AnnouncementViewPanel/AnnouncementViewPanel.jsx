@@ -14,8 +14,10 @@ class AnnouncementViewPanel extends Component {
 
   submitForm = () => {
     const { AnnouncementStore, SettingsStore } = this.context.store;
+    SettingsStore.isLoading=true;
 
     AnnouncementStore.saveRequest(AnnouncementStore.validatedData, res => {
+      SettingsStore.isLoading=false;
       AnnouncementStore.validatedData=null;
       AnnouncementStore.ackHeader.ackMessage=res.ackMessage;
       AnnouncementStore.ackHeader.refNo=res.refNo;
@@ -23,6 +25,7 @@ class AnnouncementViewPanel extends Component {
       AnnouncementStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
       SettingsStore.showSuccessPanel=true;
     }, err => {
+      SettingsStore.isLoading=false;
       SettingsStore.showModal({ type: 'error', errorList: err });
     });
   };

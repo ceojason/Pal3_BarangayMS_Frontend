@@ -32,9 +32,9 @@ class SearchUsersPanel extends Component {
     return [
       {
         name: 'USER ID',
-        index: 'cd',
+        index: 'refNo',
         cell: data => (
-          <BaseHyperlink value={data.cd} onClick={() => this.onClickLink(data)} />
+          <BaseHyperlink value={data.refNo} onClick={() => this.onClickLink(data)} customClassName={'add_width'} />
         )
       },
       {
@@ -46,11 +46,11 @@ class SearchUsersPanel extends Component {
           <BaseColumnWithSubData data={data.fullNm} subData={data.statusString} className={data.status===1 ? 'is_green' : 'is_red'} />
         )
       },
-      {
-        name: 'PHONE NUMBER',
-        index: 'mobileNo',
-        sortBy: 'mobileNo'
-      },
+      // {
+      //   name: 'PHONE NUMBER',
+      //   index: 'mobileNo',
+      //   sortBy: 'mobileNo'
+      // },
       {
         name: 'HOME ADDRESS',
         index: 'homeAddress',
@@ -91,13 +91,14 @@ class SearchUsersPanel extends Component {
 
   onSearch = () => {
     const { UsersStore, SettingsStore } = this.context.store;
+    SettingsStore.isLoading=true;
 
     let searchFilter = SearchFilterUtils.getSearchFilterObject(
       UsersStore.searchFields
     );
 
     let multiSort = {
-      sortBy: 'first_nm',
+      sortBy: 'last_nm',
       direction: 'ASC'
     };
 
@@ -110,6 +111,7 @@ class SearchUsersPanel extends Component {
     };
     
     UsersStore.searchUsers(requestObj).then(data => {
+      SettingsStore.isLoading=false;
       UsersStore.inquiryData = data;
       SettingsStore.isInitialSearch = false;
     });
@@ -136,6 +138,7 @@ class SearchUsersPanel extends Component {
         onReset={() => this.onReset()}
         hasDivider={true}
         filterList={UsersStore.searchFields}
+        icon={<i className="bi bi-search"></i>}
         hasDownload={true}>
         <InquiryTable
           data={UsersStore.inquiryData}

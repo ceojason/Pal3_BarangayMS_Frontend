@@ -82,7 +82,7 @@ class InquiryPanel extends Component {
                 {fieldRows.map((row, rowIndex) => (
                   <Row key={rowIndex} className="mb-3"> {/* spacing between rows */}
                     {row.map((field) => (
-                      <Col key={field.index} md={6}>
+                      <Col key={field.index} md={4}>
                         <div className="form-group">
                           {this.renderFilterField(field)}
                         </div>
@@ -156,13 +156,14 @@ class InquiryPanel extends Component {
       subHeader,
       hasSearchFilter,
       customClassName,
-      hasDivider
+      hasDivider,
+      icon
     } = this.props;
 
     return (
       <div className={buildClassNames('inquirypanel_ctr', customClassName)}>
         <div className='inquirypanel_hdr'>
-          {header!=null && <span className='main_hdr'>{header}</span>}
+          {header!=null && <span className='main_hdr'>{icon}{header}</span>}
           {subHeader!=null && <span className='subheader'>{subHeader}</span>}
         </div>
         

@@ -6,7 +6,8 @@ const AddUsersCTR = () => {
   return (
     <MainContainer>
       <div className="AddUsersCTR">
-        <AddUsersStepper 
+        <AddUsersStepper
+          icon={<i class="bi bi-people-fill"></i>}
           header={'Add User'}
           subHeader={'Please make sure all the details are correct before proceeding with the registration.'}
         />
