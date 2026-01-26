@@ -6,6 +6,8 @@ class SettingsStore {
       showErrorModal: observable,
       showSuccessModal: observable,
       showConfirmModal: observable,
+      showSuccessPanel: observable,
+      showErrorPanel: observable,
       errorList: observable,
       successMsg: observable,
       customModal: observable,
@@ -20,6 +22,10 @@ class SettingsStore {
   showErrorModal = false;
   showSuccessModal = false;
   showConfirmModal = false;
+
+  // NEW ACK PANEL
+  showSuccessPanel = false;
+  showErrorPanel = false;
 
   isLoading = false;
 
@@ -139,8 +145,8 @@ class SettingsStore {
     this.showSuccessModal = false;
     this.showConfirmModal = false;
 
-    this.errorList = [];
-    this.successMsg = { ackMessage: null, refNo: null };
+    // this.errorList = [];
+    // this.successMsg = { ackMessage: null, refNo: null };
 
     this.customModal = {
       type: null,

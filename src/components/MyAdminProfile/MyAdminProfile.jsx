@@ -145,7 +145,7 @@ class MyAdminProfile extends Component {
 
   adminProfile = () => {
     const { profileImage, phaseList, genderList } = this.state;
-    const { SessionStore, UsersStore, AdminEnrollmentStore } = this.context.store;
+    const { SessionStore, SettingsStore, AdminEnrollmentStore } = this.context.store;
 
     const currentUser = SessionStore.currentUser;
 
@@ -153,11 +153,17 @@ class MyAdminProfile extends Component {
 
     return (
       <Fragment>
-        {this.state.updateSaved && (
+        {SettingsStore.showSuccessPanel && (
           <div className='my_profile_changes_saved_banner'>
-            <span><i class="bi bi-check-circle-fill"></i>{'The changes were successfully saved.'}</span>
+            <span><i class="bi bi-check-circle-fill"></i>{SettingsStore.successMsg.ackMessage}</span>
           </div>
         )}
+        {SettingsStore.showErrorPanel && (
+          <div className='my_profile_changes_error_banner'>
+            <span><i class="bi bi-exclamation-circle-fill"></i>{SettingsStore.errorList[0]}</span>
+          </div>
+        )}
+
         <div className="my_profile_ctr">
           <div className="profile_img_ctr" style={{ position: 'relative' }}>
             {profileImage ? (
@@ -210,7 +216,6 @@ class MyAdminProfile extends Component {
                   <InputField
                     label={'Middle Name'}
                     maxLength={50}
-                    isRequired={true}
                     type={'text'}
                     value={AdminEnrollmentStore.enrollmentRequest.middleNm}
                     onChange={e => this.onChangeInputs('middleNm', e.target.value)}
@@ -375,45 +380,48 @@ class MyAdminProfile extends Component {
   };
 
   onClickSaveChanges = () => {
-      const { SettingsStore, AdminEnrollmentStore } = this.context.store;
-  
-      SettingsStore.showModal({
-        type: 'update',
-        headerTitle: 'Update Confirmation',
-        valueToDisplay: 'yourself',
-        data: AdminEnrollmentStore.enrollmentRequest,
-        additionalBtn: (data, closeModal) => (
-          <BaseButton
-            customClassName="btn_update"
-            label="Save"
-            onClick={() => this.onClickUpdate(data, closeModal)}
-          />
-        )
-      });
-    };
-  
-    onClickUpdate = (data, closeModal) => {
-      const { SettingsStore, AdminEnrollmentStore } = this.context.store;
-  
-      AdminEnrollmentStore.validateAndUpdate(AdminEnrollmentStore.enrollmentRequest, res => {
-        this.setState({
-          updateSaved: true
-        }, () => {
-          closeModal && closeModal();
-        });
-        window.scrollTo(0, 0);
-        setTimeout(() => this.setState({ updateSaved: false }), 10000);
-      }, error => {
-        closeModal && closeModal();
-        setTimeout(() => {
-          SettingsStore.showModal({
-            type: 'error',
-            headerTitle: 'Transaction could not be processed.',
-            errorList: error
-          });
-        }, 150);
-      });
-    };
+    const { SettingsStore, AdminEnrollmentStore } = this.context.store;
+
+    SettingsStore.showModal({
+      type: 'update',
+      headerTitle: 'Update Confirmation',
+      valueToDisplay: 'yourself',
+      data: AdminEnrollmentStore.enrollmentRequest,
+      additionalBtn: (data, closeModal) => (
+        <BaseButton
+          customClassName="btn_update"
+          label="Save"
+          onClick={() => this.onClickUpdate(data, closeModal)}
+        />
+      )
+    });
+  };
+
+  onClickUpdate = (data, closeModal) => {
+    const { SettingsStore, AdminEnrollmentStore } = this.context.store;
+
+    window.scrollTo(0, 0);
+    AdminEnrollmentStore.validateAndUpdate(AdminEnrollmentStore.enrollmentRequest, res => {
+      SettingsStore.showSuccessPanel = true;
+      SettingsStore.successMsg = {
+        ackMessage: res.ackMessage
+      };
+      setTimeout(() => {
+        SettingsStore.showSuccessPanel = false;
+        SettingsStore.successMsg = {};
+      }, 10000);
+    }, error => {
+      SettingsStore.showErrorPanel = true;
+      SettingsStore.errorList = error;
+      setTimeout(() => {
+        SettingsStore.showErrorPanel = false;
+        SettingsStore.errorList = [];
+      }, 10000);
+    });
+    AdminEnrollmentStore.enrollmentRequest.cd = null;
+    AdminEnrollmentStore.enrollmentRequest.password = null;
+    closeModal && closeModal();
+  };
 
   render() {
     return this.adminProfile();

@@ -20,7 +20,6 @@ class MyProfilePanel extends Component {
       yesNoList: [],
       residentTypeList: [],
       imageSaved: false,
-      updateSaved: false
     };
   }
 
@@ -166,7 +165,7 @@ class MyProfilePanel extends Component {
 
   getMyProfile = () => {
     const { genderList, civilStatusList, phaseList, yesNoList, residentTypeList, profileImage } = this.state;
-    const { SessionStore, UsersStore } = this.context.store;
+    const { SessionStore, UsersStore, SettingsStore } = this.context.store;
 
     const currentUser = SessionStore.currentUser;
 
@@ -174,11 +173,17 @@ class MyProfilePanel extends Component {
 
     return (
       <Fragment>
-        {this.state.updateSaved && (
+        {SettingsStore.showSuccessPanel && (
           <div className='my_profile_changes_saved_banner'>
-            <span><i class="bi bi-check-circle-fill"></i>{'The changes were successfully saved.'}</span>
+            <span><i class="bi bi-check-circle-fill"></i>{SettingsStore.successMsg.ackMessage}</span>
           </div>
         )}
+        {SettingsStore.showErrorPanel && (
+          <div className='my_profile_changes_error_banner'>
+            <span><i class="bi bi-exclamation-circle-fill"></i>{SettingsStore.errorList[0]}</span>
+          </div>
+        )}
+
         <div className="my_profile_ctr">
           <div className="profile_img_ctr" style={{ position: 'relative' }}>
             {profileImage ? (
@@ -477,24 +482,27 @@ class MyProfilePanel extends Component {
   onClickUpdate = (data, closeModal) => {
     const { SettingsStore, UsersStore } = this.context.store;
 
+    window.scrollTo(0, 0);
     UsersStore.validateAndUpdate(UsersStore.enrollmentRequest, res => {
-      this.setState({
-        updateSaved: true
-      }, () => {
-        closeModal && closeModal();
-      });
-      window.scrollTo(0, 0);
-      setTimeout(() => this.setState({ updateSaved: false }), 10000);
-    }, error => {
-      closeModal && closeModal();
+      SettingsStore.showSuccessPanel = true;
+      SettingsStore.successMsg = {
+        ackMessage: res.ackMessage
+      };
       setTimeout(() => {
-        SettingsStore.showModal({
-          type: 'error',
-          headerTitle: 'Transaction could not be processed.',
-          errorList: error
-        });
-      }, 150);
+        SettingsStore.showSuccessPanel = false;
+        SettingsStore.successMsg = {};
+      }, 10000);
+    }, error => {
+      SettingsStore.showErrorPanel = true;
+      SettingsStore.errorList = error;
+      setTimeout(() => {
+        SettingsStore.showErrorPanel = false;
+        SettingsStore.errorList = [];
+      }, 10000);
     });
+    UsersStore.enrollmentRequest.cd = null;
+    UsersStore.enrollmentRequest.password = null;
+    closeModal && closeModal();
   };
 
   render() {

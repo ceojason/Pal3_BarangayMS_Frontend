@@ -178,6 +178,15 @@ class UsersStore {
     )
   };
 
+  resetUser(data, onSuccess, onError) {
+    api.post.postRequest(
+      '/users/reset',
+      data,
+      onSuccess,
+      onError
+    );
+  };
+
   uploadImageToServer = async (file, userId, onSuccess, onError) => {
     await api.post.uploadProfileImage(userId, file, onSuccess, onError);
   };

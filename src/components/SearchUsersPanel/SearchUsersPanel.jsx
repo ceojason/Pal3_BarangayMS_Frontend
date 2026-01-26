@@ -74,10 +74,10 @@ class SearchUsersPanel extends Component {
           <div className="actionbtns_ctr">
             <BaseButton
               customClassName="btn_update"
-              onClick={() => this.onClickUpdate(data)}
-              label="Update"
+              onClick={() => this.onClickReset(data)}
+              label="Reset"
               hasIcon
-              icon={<i className="bi bi-pencil-square"></i>}
+              icon={<i class="bi bi-arrow-clockwise"></i>}
             />
             <BaseButton
               customClassName="btn_delete"
@@ -90,6 +90,49 @@ class SearchUsersPanel extends Component {
         )
       }
     ];
+  };
+
+  onClickReset = data => {
+    const { SettingsStore, UsersStore } = this.context.store;
+    
+    SettingsStore.showModal({
+      type: 'update',
+      headerTitle: 'Reset User Credentials',
+      valueToDisplay: data.fullNm,
+      data: data,
+      additionalBtn: (data, closeModal) => (
+        <BaseButton
+          customClassName="btn_update"
+          label="Reset"
+          onClick={() => this.onResetUser(data, closeModal)}
+        />
+      )
+    });
+  };
+
+  onResetUser = (data, closeModal) => {
+    const { SettingsStore, UsersStore } = this.context.store;
+
+    window.scrollTo(0, 0);
+    UsersStore.resetUser(data, res => {
+      SettingsStore.showSuccessPanel = true;
+      SettingsStore.successMsg = {
+        ackMessage: res.ackMessage
+      };
+      setTimeout(() => {
+        SettingsStore.showSuccessPanel = false;
+        SettingsStore.successMsg = {};
+      }, 10000);
+    }, error => {
+      SettingsStore.showErrorPanel = true;
+      SettingsStore.errorList = error;
+      setTimeout(() => {
+        SettingsStore.showErrorPanel = false;
+        SettingsStore.errorList = [];
+      }, 10000);
+    });
+    this.onSearch();
+    closeModal && closeModal();
   };
 
   showDeleteModal = (data) => {
@@ -112,10 +155,11 @@ class SearchUsersPanel extends Component {
 
   onClickDelete = (data, closeModal) => {
     const { UsersStore, SettingsStore } = this.context.store;
+
+    closeModal && closeModal();
     UsersStore.deleteUser(
       data.id,
       res => {
-        closeModal && closeModal();
         this.setState({
           processedDelete: true
         }, () => {
@@ -124,7 +168,6 @@ class SearchUsersPanel extends Component {
         setTimeout(() => this.setState({ processedDelete: false }), 10000);
       },
       err => {
-        closeModal && closeModal();
         setTimeout(() => {
           SettingsStore.showModal({
             type: 'error',
@@ -179,6 +222,18 @@ class SearchUsersPanel extends Component {
             <span><i class="bi bi-check-circle-fill"></i>{'User has been successfully deleted.'}</span>
           </div>
         )}
+
+        {SettingsStore.showSuccessPanel && (
+          <div className='my_profile_changes_saved_banner'>
+            <span><i class="bi bi-check-circle-fill"></i>{SettingsStore.successMsg.ackMessage}</span>
+          </div>
+        )}
+        {SettingsStore.showErrorPanel && (
+          <div className='my_profile_changes_error_banner'>
+            <span><i class="bi bi-exclamation-circle-fill"></i>{SettingsStore.errorList[0]}</span>
+          </div>
+        )}
+
         <InquiryPanel
           header={'Search Users'}
           subHeader={'Manager, update, and track users information here.'}
