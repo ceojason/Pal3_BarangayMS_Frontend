@@ -4,6 +4,8 @@ import StepperContants from '../../contants/StepperContants';
 
 class AdminEnrollmentStore {
   constructor() {
+
+    this.reset();
     makeAutoObservable(this);
   };
 
@@ -14,7 +16,17 @@ class AdminEnrollmentStore {
   };
   currentStep=StepperContants.MANUAL_ENROLL_CREATE;
   searchStep=StepperContants.INQUIRY_INITIAL;
-  inputs=this.initialEnrollmentRequest();
+
+  enrollmentRequest = {};
+
+  reset() {
+    this.resetInputs();
+  };
+
+  resetInputs() {
+    this.enrollmentRequest = this.initialEnrollmentRequest();
+
+  };
 
   initialEnrollmentRequest() {
     return {
@@ -48,9 +60,25 @@ class AdminEnrollmentStore {
 
   //post request apis
   validateEnrollment = (requestObj, onSuccess, onError) => {
-    api.post.postRequest('/adminEnrollment/validateEnrollment', requestObj, onSuccess, onError);
+    api.post.postRequest('/administrator/validateEnrollment', requestObj, onSuccess, onError);
   };
 
+  async getAdminProfileImage(userId) {
+    return await api.get.getAdminProfileImage(userId);
+  };
+
+  async findAdmindataById(userId) {
+    return await api.get.findAdmindataById(userId);
+  };
+
+  validateAndUpdate(requestObj, onSuccess, onError) {
+    api.post.postRequest(
+      '/administrator/update',
+      requestObj,
+      onSuccess,
+      onError
+    );
+  };
 }
 
 export default AdminEnrollmentStore;

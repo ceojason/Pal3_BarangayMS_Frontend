@@ -16,6 +16,41 @@ export const loginUser = async (credentials) => {
   return response.json();
 };
 
+export const uploadProfileImage = async (userId, file, onSuccess, onError) => {
+  try {
+    const formData = new FormData();
+    formData.append('profileImage', file);
+
+    const response = await fetch(`${BASE_URL}/users/${userId}/profile-image`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      let errorBody;
+      try {
+        errorBody = await response.json();
+      } catch (_) {
+        throw new Error('Failed to upload profile image.');
+      }
+      throw errorBody;
+    }
+
+    const json = await response.json();
+
+    if (onSuccess) {
+      onSuccess(json.content || json); // adjust if your API wraps response in 'content'
+    }
+
+    return json;
+  } catch (error) {
+    const errorList = (error && error.errorList) || [error.message || 'Something went wrong'];
+    if (onError) {
+      onError(errorList);
+    }
+  }
+};
+
 
 // POST APIs
 export const postRequest = async (endpoint, data, onSuccess, onError) => {

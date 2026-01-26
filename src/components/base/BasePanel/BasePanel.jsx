@@ -13,7 +13,7 @@ class BasePanel extends Component {
     return (
       <div className='main_panel_ctr'>
         <div className='header'>
-          <span className='string'>{header}</span>
+          <span className='string'>{icon}{header}</span>
         </div>
         {this.props.children}
         <div className='form_divider'></div>

@@ -74,6 +74,7 @@ class AddUsersPanel extends Component {
     return (
       <MainForm>
         <BasePanel
+          icon={<i class="bi bi-person-circle"></i>}
           header={'Personal Information'}>
           <Row>
             <Col md={3}>
@@ -163,7 +164,7 @@ class AddUsersPanel extends Component {
           </Row>
         </BasePanel>
 
-        <BasePanel header={'Contact Information'}>
+        <BasePanel header={'Contact Information'} icon={<i class="bi bi-telephone-forward-fill"></i>}>
           <Row>
             <Col md={4}>
               <InputField
@@ -199,7 +200,7 @@ class AddUsersPanel extends Component {
           </Row>
         </BasePanel>
 
-        <BasePanel header={'Address, Household, and Other Information'}>
+        <BasePanel header={'Address, Household, and Other Information'} icon={<i class="bi bi-geo-fill"></i>}>
           <Row>
             <Col md={8}>
               <InputField

@@ -10,7 +10,24 @@ import StepperContants from '../../../contants/StepperContants';
 class UsersViewPanel extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      profileImage: null,
+    };
   }
+
+  componentDidMount() {
+    const { SessionStore, UsersStore } = this.context.store;
+    const { data } = this.props;
+
+    const userId = data!=null && data.id;
+    if (userId) {
+      UsersStore.getProfileImage(userId).then((imageUrl) => {
+        if (imageUrl) {
+          this.setState({ profileImage: imageUrl });
+        }
+      });
+    }
+  };
 
   submitForm = () => {
     const { UsersStore, SettingsStore } = this.context.store;
@@ -33,11 +50,12 @@ class UsersViewPanel extends Component {
 
   getViewPanel = () => {
     const { data, isView } = this.props;
+    const { profileImage } = this.state;
 
     return (
       <Fragment>
         <ViewPortlet {...this.props}>
-          <BasePanel header={'Personal Information'}>
+          <BasePanel header={'Personal Information'} icon={<i class="bi bi-person-circle"></i>}>
             <Row>
               <Col md={6}>
                 <ViewField
@@ -45,6 +63,7 @@ class UsersViewPanel extends Component {
                   value={data.fullNm}
                   customClassName={'with_highlight'}
                   icon={<i class="bi bi-person-check-fill"></i>}
+                  modalDisplay={profileImage} 
                 />
               </Col>
             </Row>
@@ -80,7 +99,7 @@ class UsersViewPanel extends Component {
             </Row>
           </BasePanel>
 
-          <BasePanel header={'Contact Information'}>
+          <BasePanel header={'Contact Information'} icon={<i class="bi bi-telephone-forward-fill"></i>}>
             <Row>
               <Col md={4}>
                 <ViewField
@@ -103,7 +122,7 @@ class UsersViewPanel extends Component {
             </Row>
           </BasePanel>
 
-          <BasePanel header={'Address, Household, and Other Information'}>
+          <BasePanel header={'Address, Household, and Other Information'} icon={<i class="bi bi-geo-fill"></i>}>
             <Row>
               <Col md={6}>
                 <ViewField

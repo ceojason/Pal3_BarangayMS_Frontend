@@ -73,6 +73,24 @@ class ViewPortlet extends Component {
 };
 
 class ViewFieldComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false
+    };
+  }
+
+  openModal = () => {
+    if (this.props.onClick) {
+      this.props.onClick(); // call parent callback if provided
+    } else {
+      this.setState({ showModal: true });
+    }
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+  };
 
   render() {
     const { 
@@ -81,37 +99,45 @@ class ViewFieldComponent extends Component {
       value,
       valueIfNull,
       icon,
-      isMessage
+      isMessage,
+      modalDisplay
     } = this.props;
 
+    const { showModal } = this.state;
+
     return (
-      <div className={buildClassNames('viewField_ctr', customClassName)}>
-        <div className='viewField_hdr'>
-          <span>{label!=null ? label : ''}</span>
+      <>
+        <div 
+          className={buildClassNames('viewField_ctr', customClassName)} 
+          style={{ cursor: modalDisplay ? 'pointer' : 'default' }}
+          onClick={modalDisplay ? this.openModal : undefined}
+        >
+          <div className='viewField_hdr'>
+            <span>{label || ''}</span>
+          </div>
+
+          <div className={buildClassNames('viewField_val', value ? '' : 'hasNoValue')}>
+            <span className={isMessage ? 'white_line' : ''}>
+              {icon || null}
+              {value != null ? value : valueIfNull || ''}
+              {modalDisplay!=null && <i class="bi bi-camera-fill"></i>}
+            </span>
+          </div>
         </div>
 
-        <div className={buildClassNames('viewField_val', 
-          value!=null 
-           ? ''
-           : 'hasNoValue'
-        )}>
-          <span className={isMessage ? 'white_line' : ''}>
-            {icon!=null
-              ? icon
-              : <></>
-            }
-            {value!=null 
-             ? value
-             : valueIfNull!=null
-             ? valueIfNull
-             : ''
-            }
-          </span>
-        </div>
-      </div>
+        {showModal && modalDisplay && (
+          <div className="modal_overlay" onClick={this.closeModal}>
+            <div className="modal_content" onClick={e => e.stopPropagation()}>
+              <img src={modalDisplay} alt="Profile" className="modal_img" />
+              <button className="modal_close_btn" onClick={this.closeModal}>×</button>
+            </div>
+          </div>
+        )}
+      </>
     );
-  };
+  }
 };
+
 const ViewField = observer(ViewFieldComponent);
 
 ViewPortlet.defaultProps = {

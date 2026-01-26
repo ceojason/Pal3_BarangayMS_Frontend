@@ -125,6 +125,10 @@ class UsersStore {
     return await api.get.getResidentTypeList();
   };
 
+  async getProfileImage(userId) {
+    return await api.get.getProfileImage(userId);
+  };
+
   async searchUsers(requestObj) {
     try {
       return await api.get.getUsersListBySearch(requestObj);
@@ -148,13 +152,35 @@ class UsersStore {
   };
 
   saveEnrollment(requestObj, onSuccess, onError) {
-      api.post.postRequest(
-        '/users/saveEnrollment',
-        requestObj,
-        onSuccess,
-        onError
-      );
-    };
+    api.post.postRequest(
+      '/users/saveEnrollment',
+      requestObj,
+      onSuccess,
+      onError
+    );
+  };
+
+  validateAndUpdate(requestObj, onSuccess, onError) {
+    api.post.postRequest(
+      '/users/update',
+      requestObj,
+      onSuccess,
+      onError
+    );
+  };
+
+  deleteUser(userId, onSuccess, onError) {
+    api.del.deleteRecord(
+      '/users/delete',
+      userId,
+      onSuccess,
+      onError
+    )
+  };
+
+  uploadImageToServer = async (file, userId, onSuccess, onError) => {
+    await api.post.uploadProfileImage(userId, file, onSuccess, onError);
+  };
 }
 
 export default UsersStore;

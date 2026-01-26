@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import InquiryPanel from '../base/InquiryPanel/InquiryPanel';
@@ -12,6 +12,9 @@ import BaseColumnWithSubData from '../base/BaseColumnWithSubData/BaseColumnWithS
 class SearchUsersPanel extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      processedDelete: false
+    };
   }
 
   componentDidMount() {
@@ -40,7 +43,7 @@ class SearchUsersPanel extends Component {
       {
         name: 'NAME',
         index: 'fullNm',
-        sortBy: 'firstNm',
+        sortBy: 'lastNm',
         width: '290px',
         cell: data => (
           <BaseColumnWithSubData data={data.fullNm} subData={data.statusString} className={data.status===1 ? 'is_green' : 'is_red'} />
@@ -89,6 +92,50 @@ class SearchUsersPanel extends Component {
     ];
   };
 
+  showDeleteModal = (data) => {
+    const { SettingsStore } = this.context.store;
+
+    SettingsStore.showModal({
+      type: 'delete',
+      headerTitle: 'Delete Confirmation',
+      valueToDisplay: data.fullNm,
+      data: data,
+      additionalBtn: (data, closeModal) => (
+        <BaseButton
+          customClassName="btn_delete"
+          label="Delete"
+          onClick={() => this.onClickDelete(data, closeModal)}
+        />
+      )
+    });
+  };
+
+  onClickDelete = (data, closeModal) => {
+    const { UsersStore, SettingsStore } = this.context.store;
+    UsersStore.deleteUser(
+      data.id,
+      res => {
+        closeModal && closeModal();
+        this.setState({
+          processedDelete: true
+        }, () => {
+          this.onSearch();
+        });
+        setTimeout(() => this.setState({ processedDelete: false }), 10000);
+      },
+      err => {
+        closeModal && closeModal();
+        setTimeout(() => {
+          SettingsStore.showModal({
+            type: 'error',
+            headerTitle: 'Transaction could not be processed.',
+            errorList: err
+          });
+        }, 150);
+      }
+    );
+  };
+
   onSearch = () => {
     const { UsersStore, SettingsStore } = this.context.store;
     SettingsStore.isLoading=true;
@@ -126,25 +173,32 @@ class SearchUsersPanel extends Component {
     const { UsersStore, SettingsStore } = this.context.store;
 
     return (
-      <InquiryPanel
-        header={'Search Users'}
-        subHeader={'Manager, update, and track users information here.'}
-        hasSearchFilter={true}
-        columns={this.getDataCols()}
-        fileTitle="Users Report"
-        fileName="Users_Report.pdf"
-        data={UsersStore.inquiryData}
-        onSearch={() => this.onSearch()}
-        onReset={() => this.onReset()}
-        hasDivider={true}
-        filterList={UsersStore.searchFields}
-        icon={<i className="bi bi-search"></i>}
-        hasDownload={true}>
-        <InquiryTable
-          data={UsersStore.inquiryData}
+      <Fragment>
+        {this.state.processedDelete && (
+          <div className='my_profile_changes_saved_banner'>
+            <span><i class="bi bi-check-circle-fill"></i>{'User has been successfully deleted.'}</span>
+          </div>
+        )}
+        <InquiryPanel
+          header={'Search Users'}
+          subHeader={'Manager, update, and track users information here.'}
+          hasSearchFilter={true}
           columns={this.getDataCols()}
-        />
-      </InquiryPanel>
+          fileTitle="Users Report"
+          fileName="Users_Report.pdf"
+          data={UsersStore.inquiryData}
+          onSearch={() => this.onSearch()}
+          onReset={() => this.onReset()}
+          hasDivider={true}
+          filterList={UsersStore.searchFields}
+          icon={<i className="bi bi-search"></i>}
+          hasDownload={true}>
+          <InquiryTable
+            data={UsersStore.inquiryData}
+            columns={this.getDataCols()}
+          />
+        </InquiryPanel>
+      </Fragment>
     );
   };
 };

@@ -328,3 +328,50 @@ export const deleteStudentByLrn = async (lrn) => {
     };
   }
 };
+
+export const getProfileImage = async (userId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/${userId}/profile-image`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) throw new Error('Failed to fetch profile image');
+
+    const blob = await response.blob(); // get image as blob
+    return URL.createObjectURL(blob);   // convert to temporary URL for <img>
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const getAdminProfileImage = async (userId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/administrator/${userId}/profile-image`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) throw new Error('Failed to fetch profile image');
+
+    const blob = await response.blob(); // get image as blob
+    return URL.createObjectURL(blob);   // convert to temporary URL for <img>
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const findAdmindataById = async (userId) => {
+  const response = await fetch(`${BASE_URL}/administrator/${userId}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};

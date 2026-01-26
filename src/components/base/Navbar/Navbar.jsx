@@ -14,15 +14,15 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
-    const { SessionStore } = this.context.store;
+    const { SessionStore, UsersStore } = this.context.store;
     const currentUser = SessionStore.currentUser;
 
-    if (currentUser?.userId) {
-      // Load profile image from localStorage for this user
-      const savedImage = localStorage.getItem(`profileImage_${currentUser.userId}`);
-      if (savedImage) {
-        this.setState({ profileImage: savedImage });
-      }
+    if (currentUser!=null && currentUser.userId!=null) {
+      UsersStore.getProfileImage(currentUser.userId).then((imageUrl) => {
+        if (imageUrl) {
+          this.setState({ profileImage: imageUrl });
+        }
+      });
     }
   }
 

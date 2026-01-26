@@ -2,14 +2,11 @@ import React, { Component, Fragment } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
-import ViewField from '../base/ViewPortlet/ViewPortlet';
-import ViewPortlet from '../base/ViewPortlet/ViewPortlet';
 import InputField from '../base/InputField/InputField';
 import SelectField from '../base/SelectField/SelectField';
 import BaseButton from '../base/BaseButton/BaseButton';
-import MyAdminProfile from '../MyAdminProfile/MyAdminProfile';
 
-class MyProfilePanel extends Component {
+class MyAdminProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,55 +15,37 @@ class MyProfilePanel extends Component {
       civilStatusList: [],
       phaseList: [],
       yesNoList: [],
-      residentTypeList: [],
       imageSaved: false,
       updateSaved: false
     };
   }
 
   componentDidMount() {
-    const { SessionStore, UsersStore } = this.context.store;
-    let currentUser = SessionStore.currentUser;
-    let isAdminUser = currentUser.roleKey===2;
+    const { SessionStore, AdminEnrollmentStore, UsersStore } = this.context.store;
 
     const userId = SessionStore.currentUser?.userId;
-    if (!isAdminUser) {
-      if (userId) {
-        // const savedImage = localStorage.getItem(`profileImage_${userId}`);
-        // if (savedImage) {
-        //   this.setState({ profileImage: savedImage });
-        // }
-        UsersStore.getProfileImage(userId).then((imageUrl) => {
-          if (imageUrl) {
-            this.setState({ profileImage: imageUrl });
-          }
-        });
-
-        // Load user data
-        UsersStore.findUserdataById(userId).then(data => {
-          UsersStore.enrollmentRequest = data;
-        });
-      }
-
-      // Load dropdown lists
-      UsersStore.getGenderList().then(list => {
-        this.setState({ genderList: list.genderListStr });
-      });
-
-      UsersStore.getCivilStatusList().then(list => {
-        this.setState({ civilStatusList: list.civilStatusList });
+    if (userId) {
+      // const savedImage = localStorage.getItem(`profileImage_${userId}`);
+      // if (savedImage) {
+      //   this.setState({ profileImage: savedImage });
+      // }
+      AdminEnrollmentStore.getAdminProfileImage(userId).then((imageUrl) => {
+        if (imageUrl) {
+          this.setState({ profileImage: imageUrl });
+        }
       });
 
       UsersStore.getPhaseList().then(list => {
         this.setState({ phaseList: list.purokList });
       });
 
-      UsersStore.getYesNoList().then(list => {
-        this.setState({ yesNoList: list.yesNoList });
+      UsersStore.getGenderList().then(list => {
+        this.setState({ genderList: list.genderListStr });
       });
 
-      UsersStore.getResidentTypeList().then(list => {
-        this.setState({ residentTypeList: list.residentTypeList });
+      // Load user data
+      AdminEnrollmentStore.findAdmindataById(userId).then(data => {
+        AdminEnrollmentStore.enrollmentRequest = data;
       });
     }
   };
@@ -145,28 +124,28 @@ class MyProfilePanel extends Component {
   };
 
   onChangeInputs = (fieldId, val) => {
-    const { UsersStore } = this.context.store;
+    const { AdminEnrollmentStore } = this.context.store;
 
     if (val!=null) {
-      UsersStore.enrollmentRequest[fieldId]=val;
+      AdminEnrollmentStore.enrollmentRequest[fieldId]=val;
     }else{
-      UsersStore.enrollmentRequest[fieldId]=null;
+      AdminEnrollmentStore.enrollmentRequest[fieldId]=null;
     }
   };
 
   onChangeSelect = (fieldId, val) => {
-    const { UsersStore } = this.context.store;
+    const { AdminEnrollmentStore } = this.context.store;
 
     if (val!=null && val.key!=null) {
-      UsersStore.enrollmentRequest[fieldId]=val.key;
+      AdminEnrollmentStore.enrollmentRequest[fieldId]=val.key;
     }else{
-      UsersStore.enrollmentRequest[fieldId]=null;
+      AdminEnrollmentStore.enrollmentRequest[fieldId]=null;
     }
   };
 
-  getMyProfile = () => {
-    const { genderList, civilStatusList, phaseList, yesNoList, residentTypeList, profileImage } = this.state;
-    const { SessionStore, UsersStore } = this.context.store;
+  adminProfile = () => {
+    const { profileImage, phaseList, genderList } = this.state;
+    const { SessionStore, UsersStore, AdminEnrollmentStore } = this.context.store;
 
     const currentUser = SessionStore.currentUser;
 
@@ -205,7 +184,7 @@ class MyProfilePanel extends Component {
 
           <div className='profile_last_logindt'>
             <span className='date_label'>Active since</span>
-            <span className='date'>{UsersStore.enrollmentRequest.lastLoginDtString}</span>
+            <span className='date'>{AdminEnrollmentStore.enrollmentRequest.lastLoginDtString}</span>
           </div>
 
           <div className='profile_body'>
@@ -222,7 +201,7 @@ class MyProfilePanel extends Component {
                     maxLength={50}
                     isRequired={true}
                     type={'text'}
-                    value={UsersStore.enrollmentRequest.firstNm}
+                    value={AdminEnrollmentStore.enrollmentRequest.firstNm}
                     onChange={e => this.onChangeInputs('firstNm', e.target.value)}
                     onlyLetterSp={true}
                   />
@@ -233,7 +212,7 @@ class MyProfilePanel extends Component {
                     maxLength={50}
                     isRequired={true}
                     type={'text'}
-                    value={UsersStore.enrollmentRequest.middleNm}
+                    value={AdminEnrollmentStore.enrollmentRequest.middleNm}
                     onChange={e => this.onChangeInputs('middleNm', e.target.value)}
                     onlyLetterSp={true}
                   />
@@ -244,7 +223,7 @@ class MyProfilePanel extends Component {
                     maxLength={50}
                     isRequired={true}
                     type={'text'}
-                    value={UsersStore.enrollmentRequest.lastNm}
+                    value={AdminEnrollmentStore.enrollmentRequest.lastNm}
                     onChange={e => this.onChangeInputs('lastNm', e.target.value)}
                     onlyLetterSp={true}
                   />
@@ -254,52 +233,21 @@ class MyProfilePanel extends Component {
                     label={'Suffix'}
                     maxLength={5}
                     type={'text'}
-                    value={UsersStore.enrollmentRequest.suffix}
+                    value={AdminEnrollmentStore.enrollmentRequest.suffix}
                     onChange={e => this.onChangeInputs('suffix', e.target.value)}
                     onlyLetterSp={true}
                     inst={'Leave blank if not applicable'}
                   />
                 </Col>
               </Row>
-              
               <Row>
-                <Col md={3}>
-                  <InputField
-                    label={'Birth Date'}
-                    isRequired={true}
-                    disabled={true}
-                    value={UsersStore.enrollmentRequest.birthDtString}
-                  />
-                </Col>
-                <Col md={5}>
-                  <InputField
-                    label={'Birth Place'}
-                    maxLength={255}
-                    isRequired={true}
-                    type={'text'}
-                    value={UsersStore.enrollmentRequest.birthPlace}
-                    onChange={e => this.onChangeInputs('birthPlace', e.target.value)}
-                    inst={'City/Municipality, Province, Country'}
-                    disabled={true}
-                  />
-                </Col>
                 <Col md={2}>
                   <SelectField
                     label={'Gender'}
                     isRequired={true}
                     options={genderList}
-                    value={UsersStore.enrollmentRequest.gender}
+                    value={AdminEnrollmentStore.enrollmentRequest.gender}
                     onChange={e => this.onChangeSelect('gender', e.target.value)}
-                    disabled={true}
-                  />
-                </Col>
-                <Col md={2}>
-                  <SelectField
-                    label={'Civil Status'}
-                    isRequired={true}
-                    options={civilStatusList}
-                    value={UsersStore.enrollmentRequest.civilStatusKey}
-                    onChange={e => this.onChangeSelect('civilStatusKey', e.target.value)}
                   />
                 </Col>
               </Row><div className='form_divider'></div>
@@ -310,35 +258,26 @@ class MyProfilePanel extends Component {
                 </span>
               </div> 
               <Row>
-                <Col md={4}>
+                <Col md={6}>
                   <InputField
                     label={'Contact Number'}
                     placeholder={'09XXXXXXXXX'}
                     isRequired={true}
                     type={'text'}
                     maxLength={11}
-                    value={UsersStore.enrollmentRequest.mobileNo}
+                    value={AdminEnrollmentStore.enrollmentRequest.mobileNo}
                     onChange={e => this.onChangeInputs('mobileNo', e.target.value)}
                     isMobileNumber={true}
                   />
                 </Col>
-                <Col md={4}>
+                <Col md={6}>
                   <InputField
                     label={'Email Address'}
                     placeholder={'resident.user@example.com'}
                     maxLength={255}
                     type={'email'}
-                    value={UsersStore.enrollmentRequest.emailAddress}
+                    value={AdminEnrollmentStore.enrollmentRequest.emailAddress}
                     onChange={e => this.onChangeInputs('emailAddress', e.target.value)}
-                  />
-                </Col>
-                <Col md={4}>
-                  <SelectField
-                    label={'Purok'}
-                    isRequired={true}
-                    options={phaseList}
-                    value={UsersStore.enrollmentRequest.phaseKey}
-                    onChange={e => this.onChangeSelect('phaseKey', e.target.value)}
                   />
                 </Col>
               </Row><div className='form_divider'></div>
@@ -355,7 +294,7 @@ class MyProfilePanel extends Component {
                     maxLength={255}
                     isRequired={true}
                     type={'text'}
-                    value={UsersStore.enrollmentRequest.homeAddress}
+                    value={AdminEnrollmentStore.enrollmentRequest.homeAddress}
                     onChange={e => this.onChangeInputs('homeAddress', e.target.value)}
                     inst={'House Number, Lot, Street, Barangay, City/Municipality, Province'}
                   />
@@ -365,40 +304,19 @@ class MyProfilePanel extends Component {
                     label={'Household'}
                     // isRequired={true}
                     options={null}
-                    value={UsersStore.enrollmentRequest.householdKey}
+                    value={AdminEnrollmentStore.enrollmentRequest.householdKey}
                     onChange={e => this.onChangeSelect('householdKey', e.target.value)}
                   />
                 </Col>
               </Row>
-
               <Row>
                 <Col md={4}>
-                  <InputField
-                    label={'Occupation'}
-                    placeholder={'Enter Occupation'}
-                    maxLength={100}
-                    value={UsersStore.enrollmentRequest.occupation}
-                    onChange={e => this.onChangeInputs('occupation', e.target.value)}
-                    inst={'Leave blank if not applicable'}
-                  />
-                </Col>
-                <Col md={4}>
-                  <InputField
-                    label={'Religion'}
-                    maxLength={50}
-                    isRequired={true}
-                    type={'text'}
-                    value={UsersStore.enrollmentRequest.religion}
-                    onChange={e => this.onChangeInputs('religion', e.target.value)}
-                  />
-                </Col>
-                <Col md={4}>
                   <SelectField
-                    label={'Is a Registered Voter?'}
+                    label={'Purok'}
                     isRequired={true}
-                    options={yesNoList}
-                    value={UsersStore.enrollmentRequest.isRegisteredVoter}
-                    onChange={e => this.onChangeSelect('isRegisteredVoter', e.target.value)}
+                    options={phaseList}
+                    value={AdminEnrollmentStore.enrollmentRequest.phaseKey}
+                    onChange={e => this.onChangeSelect('phaseKey', e.target.value)}
                   />
                 </Col>
               </Row><div className='form_divider'></div>
@@ -414,7 +332,7 @@ class MyProfilePanel extends Component {
                     label={'User ID'}
                     maxLength={25}
                     type={'text'}
-                    value={UsersStore.enrollmentRequest.cd}
+                    value={AdminEnrollmentStore.enrollmentRequest.cd}
                     onChange={e => this.onChangeInputs('cd', e.target.value)}
                   />
                 </Col>
@@ -425,7 +343,7 @@ class MyProfilePanel extends Component {
                     label={'Password'}
                     maxLength={25}
                     type='password'
-                    value={UsersStore.enrollmentRequest.password}
+                    value={AdminEnrollmentStore.enrollmentRequest.password}
                     onChange={e => this.onChangeInputs('password', e.target.value)}
                   />
                 </Col>
@@ -457,56 +375,51 @@ class MyProfilePanel extends Component {
   };
 
   onClickSaveChanges = () => {
-    const { SettingsStore, UsersStore } = this.context.store;
-
-    SettingsStore.showModal({
-      type: 'update',
-      headerTitle: 'Update Confirmation',
-      valueToDisplay: 'yourself',
-      data: UsersStore.enrollmentRequest,
-      additionalBtn: (data, closeModal) => (
-        <BaseButton
-          customClassName="btn_update"
-          label="Save"
-          onClick={() => this.onClickUpdate(data, closeModal)}
-        />
-      )
-    });
-  };
-
-  onClickUpdate = (data, closeModal) => {
-    const { SettingsStore, UsersStore } = this.context.store;
-
-    UsersStore.validateAndUpdate(UsersStore.enrollmentRequest, res => {
-      this.setState({
-        updateSaved: true
-      }, () => {
-        closeModal && closeModal();
+      const { SettingsStore, AdminEnrollmentStore } = this.context.store;
+  
+      SettingsStore.showModal({
+        type: 'update',
+        headerTitle: 'Update Confirmation',
+        valueToDisplay: 'yourself',
+        data: AdminEnrollmentStore.enrollmentRequest,
+        additionalBtn: (data, closeModal) => (
+          <BaseButton
+            customClassName="btn_update"
+            label="Save"
+            onClick={() => this.onClickUpdate(data, closeModal)}
+          />
+        )
       });
-      window.scrollTo(0, 0);
-      setTimeout(() => this.setState({ updateSaved: false }), 10000);
-    }, error => {
-      closeModal && closeModal();
-      setTimeout(() => {
-        SettingsStore.showModal({
-          type: 'error',
-          headerTitle: 'Transaction could not be processed.',
-          errorList: error
+    };
+  
+    onClickUpdate = (data, closeModal) => {
+      const { SettingsStore, AdminEnrollmentStore } = this.context.store;
+  
+      AdminEnrollmentStore.validateAndUpdate(AdminEnrollmentStore.enrollmentRequest, res => {
+        this.setState({
+          updateSaved: true
+        }, () => {
+          closeModal && closeModal();
         });
-      }, 150);
-    });
-  };
+        window.scrollTo(0, 0);
+        setTimeout(() => this.setState({ updateSaved: false }), 10000);
+      }, error => {
+        closeModal && closeModal();
+        setTimeout(() => {
+          SettingsStore.showModal({
+            type: 'error',
+            headerTitle: 'Transaction could not be processed.',
+            errorList: error
+          });
+        }, 150);
+      });
+    };
 
   render() {
-    const { SessionStore } = this.context.store;
-    let currentUser = SessionStore.currentUser;
-    let isAdminUser = currentUser.roleKey===2;
+    return this.adminProfile();
+  };
+};
 
-    if (isAdminUser) return <MyAdminProfile />;
-    return this.getMyProfile();
-  }
-}
+MyAdminProfile.contextType = StoreContext;
 
-MyProfilePanel.contextType = StoreContext;
-
-export default observer(MyProfilePanel);
+export default observer(MyAdminProfile);

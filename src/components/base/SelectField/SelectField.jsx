@@ -44,7 +44,8 @@ class SelectField extends Component {
       isRequired,
       options,
       customClassName,
-      value
+      value,
+      disabled
     } = this.props;
 
     return (
@@ -61,6 +62,7 @@ class SelectField extends Component {
               value={value!=null ? value : ''}
               onChange={this.handleChange}
               className='select-dropdown'
+              disabled={disabled}
             > 
               <option hidden>Choose {label} here.</option>
               {options.map((item, index) => (
