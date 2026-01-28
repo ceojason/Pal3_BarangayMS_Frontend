@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite preview", 
+    "start": "vite preview",
     "start-dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -17,7 +17,7 @@
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
     "@react-google-maps/api": "^2.20.7",
-    "bootstrap": "^5.3.7",
+    "bootstrap": "^5.3.8",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.24",

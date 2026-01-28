@@ -3,6 +3,7 @@ import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
 import UsersViewPanel from '../../UsersViewPanel/UsersViewPanel';
 import AnnouncementViewPanel from '../../AnnouncementViewPanel/AnnouncementViewPanel';
+import DocumentRequestView from '../../DocumentRequestView/DocumentRequestView';
 
 class BaseAckPagePanel extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class BaseAckPagePanel extends Component {
   };
 
   render() {
-    const { ackMessage, refNo, isUser, data, isAnnouncement, icon } = this.props;
+    const { ackMessage, refNo, isUser, data, isAnnouncement, icon, isDocumentRequest } = this.props;
     const { showDetails } = this.state;
 
     return (
@@ -60,6 +61,16 @@ class BaseAckPagePanel extends Component {
             header={'Announcement Information'}
             subHeader={'This announcement was saved and been delivered to corresponding recipients.'}
             icon={icon}
+          />
+        )}
+
+        {(isDocumentRequest && showDetails) && (
+          <DocumentRequestView
+            data={data}
+            header={'Document Request'}
+            subHeader={'This document request was successfully submitted.'}
+            icon={icon}
+            isView={true}
           />
         )}
       </Fragment>

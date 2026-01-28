@@ -1,39 +1,39 @@
 import React, { Component, Fragment } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
-import StepperContants from '../../../contants/StepperContants';
-import AddUsersPanel from '../../components/AddUsersPanel/AddUsersPanel';
-import UsersViewPanel from '../../components/UsersViewPanel/UsersViewPanel';
 import MainStepper from '../base/MainStepper/MainStepper';
+import StepperContants from '../../../contants/StepperContants';
+import DocumentRequestPanel from '../../components/DocumentRequestPanel/DocumentRequestPanel';
+import DocumentRequestView from '../../components/DocumentRequestView/DocumentRequestView';
 
-class AddUsersStepper extends Component {
+class DocumentRequestStepper extends Component {
   constructor(props) {
     super(props);
   }
 
   onClickBack = isAckPage => {
-    const { UsersStore } = this.context.store;
+    const { DocumentStore } = this.context.store;
 
     if (!isAckPage) {
-      UsersStore.validatedData = null;
-      UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+      DocumentStore.validatedData = null;
+      DocumentStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
     }else{
-      UsersStore.reset();
-      UsersStore.validatedData = null;
-      UsersStore.savedData = null;
-      UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+      DocumentStore.reset();
+      DocumentStore.validatedData = null;
+      DocumentStore.savedData = null;
+      DocumentStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
     }
   };
 
   render() {
-    const { UsersStore } = this.context.store;
+    const { DocumentStore } = this.context.store;
     const { isAdd, header, subHeader, icon } = this.props;
 
     const data = [
       {
         key: StepperContants.MANUAL_ENROLL_CREATE,
         content: (
-          <AddUsersPanel
+          <DocumentRequestPanel
             isAdd={isAdd} 
             header={header}
             subHeader={subHeader}
@@ -44,13 +44,13 @@ class AddUsersStepper extends Component {
       {
         key: StepperContants.MANUAL_ENROLL__CONFIRM,
         content: (
-          <UsersViewPanel
+          <DocumentRequestView
             currentStep={2}
             totalSteps={3}
             isConfirm={true}
             header={header + ' Confirmation'}
             subHeader={subHeader}
-            data={UsersStore.validatedData}
+            data={DocumentStore.validatedData}
             onClickBack={() => this.onClickBack(false)}
             icon={icon}
           />
@@ -59,17 +59,17 @@ class AddUsersStepper extends Component {
       {
         key: StepperContants.MANUAL_ENROLL__ACK,
         content: (
-          <UsersViewPanel
+          <DocumentRequestView
             currentStep={3}
             totalSteps={3}
             isAck={true}
-            data={UsersStore.savedData}
+            data={DocumentStore.savedData}
             onClickBack={() => this.onClickBack(true)}
             hasHeader={true}
-            ackMessage={UsersStore.ackHeader.ackMessage}
-            refNo={UsersStore.ackHeader.refNo}
-            isUser={true}
+            ackMessage={DocumentStore.ackHeader.ackMessage}
+            refNo={DocumentStore.ackHeader.refNo}
             icon={icon}
+            isDocumentRequest={true}
           />
         )
       }
@@ -77,12 +77,16 @@ class AddUsersStepper extends Component {
 
     return (
       <Fragment>
-        <MainStepper showStepperMap={false} data={data} activeKey={UsersStore.currentStep} />
+        <MainStepper
+          showStepperMap={false}
+          data={data}
+          activeKey={DocumentStore.currentStep}
+        />
       </Fragment>
     );
   }
 };
 
-AddUsersStepper.contextType = StoreContext;
+DocumentRequestStepper.contextType = StoreContext;
 
-export default observer(AddUsersStepper);
+export default observer(DocumentRequestStepper);

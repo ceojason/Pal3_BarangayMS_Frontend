@@ -175,8 +175,31 @@ export const getChannelList = async () => {
   return data.content;
 };
 
+export const getDocumentList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getDocumentList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getAllResidentTypeList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getAllResidentTypeList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getAnnouncementListGrouped = async (roleKey) => {
+  const response = await fetch(`${BASE_URL}/announcement/getAnnouncementListGrouped/${roleKey}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();
@@ -217,6 +240,14 @@ export const getYesNoList = async () => {
 
 export const getResidentTypeList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getResidentTypeList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getDocumentTypeList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getDocumentList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();

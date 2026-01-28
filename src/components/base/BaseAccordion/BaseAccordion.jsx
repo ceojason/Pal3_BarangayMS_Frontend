@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
 import { buildClassNames } from '../../../utils/ClassUtils';
@@ -9,56 +9,63 @@ class BaseAccordion extends Component {
   }
 
   getAccordion = () => {
-    const { header, data, noContentMsg } = this.props;
-    
+    const { header, data, noContentMsg, showFirst } = this.props;
+
     if (!data || data.length === 0) {
       return (
         <div className="accordion_ctr accordion_no_content">
           <div className="accordion_hdr">
-            <span className='header'>
+            <span className="header">
               <i className="bi bi-megaphone-fill"></i>{header}
             </span>
           </div>
-          <div className='no_item'>
-            <p><i class="bi bi-database-fill-x"></i>{noContentMsg!=null ? noContentMsg : 'No content available.'}</p>
+          <div className="no_item">
+            <p>
+              <i className="bi bi-database-fill-x"></i>
+              {noContentMsg != null ? noContentMsg : 'No content available.'}
+            </p>
           </div>
         </div>
       );
     }
 
+    const accordionId = `accordion-${header.replace(/[^a-zA-Z0-9]/g, "-")}`;
+
     return (
       <div className="accordion_ctr">
         <div className="accordion_hdr">
-          <span className='header'>
+          <span className="header">
             <i className="bi bi-megaphone-fill"></i>{header}
           </span>
-          <span className='data_count'>
-            {data.length > 0 ? data.length : ''}
-          </span>
+          <span className="data_count">{data.length}</span>
         </div>
 
-        <div className="accordion" id="accordionExample">
+        <div className="accordion" id={accordionId}>
           {data.map((announcement, index) => {
-            const collapseId = `collapse${index}`;
-            const isFirst = index === 0;
-            // const isFirst = false;
+            const collapseId = `collapse-${index}-${accordionId}`;
+            const isFirst = index === 0 && showFirst;
 
             return (
               <div className="accordion-item" key={index}>
                 <h2 className="accordion-header">
                   <button
-                    className={`accordion-button ${!isFirst ? "collapsed" : ""}`}
+                    className={`accordion-button ${!isFirst ? 'collapsed' : ''}`}
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target={`#${collapseId}`}
                     aria-expanded={isFirst}
-                    aria-controls={collapseId}>
-                    <i class="bi bi-caret-right-fill"></i>{announcement.header}
-                    <div className={buildClassNames('message_type',
-                      announcement.alertStatus===0 ? 'informational' : '',
-                      announcement.alertStatus===1 ? 'warning' : '',
-                      announcement.alertStatus===2 || announcement.alertStatus===3 ? 'extreme' : '',
-                    )}>
+                    aria-controls={collapseId}
+                  >
+                    <i className="bi bi-caret-right-fill me-2"></i>
+                    {announcement.header}
+                    <div
+                      className={buildClassNames(
+                        'message_type ms-2',
+                        announcement.alertStatus === 0 ? 'informational' : '',
+                        announcement.alertStatus === 1 ? 'warning' : '',
+                        announcement.alertStatus === 2 || announcement.alertStatus === 3 ? 'extreme' : ''
+                      )}
+                    >
                       {announcement.messageTypeString}
                     </div>
                   </button>
@@ -66,11 +73,11 @@ class BaseAccordion extends Component {
 
                 <div
                   id={collapseId}
-                  className={`accordion-collapse collapse ${isFirst ? "show" : ""}`}
-                  data-bs-parent="#accordionExample"
+                  className={`accordion-collapse collapse ${isFirst ? 'show' : ''}`}
+                  data-bs-parent={`#${accordionId}`} // all items share same parent
                 >
                   <div className="accordion-body white_line">
-                    {announcement.message || "No content available."}
+                    {announcement.message || 'No content available.'}
                   </div>
                 </div>
               </div>
@@ -85,7 +92,7 @@ class BaseAccordion extends Component {
     const { data } = this.props;
     return this.getAccordion(data);
   }
-};
+}
 
 BaseAccordion.contextType = StoreContext;
 

@@ -12,6 +12,9 @@ import NotificationLogsMainCtr from './containers/NotificationLogs/NotificationL
 import AddAnnouncementMainCtr from './containers/AddAnnouncement/AddAnnouncementMainCtr.jsx';
 import SearchAnnouncementMainCtr from './containers/SearchAnnouncement/SearchAnnouncementMainCtr.jsx';
 import MyProfileMainCtr from './containers/MyProfile/MyProfileMainCtr.jsx';
+import AnnouncementLogsMainCtr from './containers/AnnouncementLogs/AnnouncementLogsMainCtr.jsx';
+import DocumentRequestMainCtr from './containers/DocumentRequest/DocumentRequestMainCtr.jsx';
+import PendingUserRequestMainCtr from './containers/PendingUserRequest/PendingUserRequestMainCtr.jsx';
 
 
 const router = createBrowserRouter([
@@ -67,6 +70,18 @@ const router = createBrowserRouter([
         path: 'myProfile',
         element: <MyProfileMainCtr />,
       },
+      {
+        path: 'announcementLogs',
+        element: <AnnouncementLogsMainCtr />,
+      },
+      {
+              path: 'documentRequest',
+              element: <DocumentRequestMainCtr />,
+            },
+      {
+              path: 'pendingUserRequest',
+              element: <PendingUserRequestMainCtr />,
+            },
     ],
   }
 ]);

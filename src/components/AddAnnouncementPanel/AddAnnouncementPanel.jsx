@@ -26,11 +26,7 @@ class AddAnnouncementPanel extends Component {
     const { AnnouncementStore } = this.context.store;
 
     AnnouncementStore.getSmsTypeList().then((list) => {
-      const filteredList = list.smsTypeList.filter(
-        item => item.key !== 0 // remove user registration
-      );
-
-      this.setState({ smsTypeList: filteredList });
+      this.setState({ smsTypeList: list.smsTypeList });
     });
 
     AnnouncementStore.getAlertStatusList().then((list) => {

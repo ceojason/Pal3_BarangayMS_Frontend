@@ -199,6 +199,29 @@ class Navbar extends Component {
                         <i class="bi bi-stickies-fill"></i>Notification Logs
                       </Link>
                     </li>
+
+                    <li className="nav-item dropdown">
+                      <a
+                        className="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-file-earmark-post"></i>Manage User Request
+                      </a>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <Link className="dropdown-item" to="/pendingUserRequest" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Pending User Request
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" to="/announcementSearch" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Processed User Request
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
                     
                     <li className="nav-item">
                       <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
@@ -214,18 +237,6 @@ class Navbar extends Component {
                       </Link>
                     </li>
 
-                    {/* <li className="nav-item">
-                      <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-person-circle"></i>My Profile
-                      </Link>
-                    </li> */}
-
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/myaccount/announcementLogs" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-megaphone-fill"></i>Announcement History
-                      </Link>
-                    </li>
-
                     <li className="nav-item dropdown">
                       <a
                         className="nav-link dropdown-toggle"
@@ -237,16 +248,28 @@ class Navbar extends Component {
                       </a>
                       <ul className="dropdown-menu">
                         <li>
-                          <Link className="dropdown-item" to="/myaccount/documentRequest" onClick={this.closeOffcanvas}>
+                          <Link className="dropdown-item" to="/documentRequest" onClick={this.closeOffcanvas}>
                             <i class="bi bi-caret-right-fill"></i>Request Now
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/myaccount/documentHistory" onClick={this.closeOffcanvas}>
+                          <Link className="dropdown-item" to="/documentHistory" onClick={this.closeOffcanvas}>
                             <i class="bi bi-caret-right-fill"></i>Request History
                           </Link>
                         </li>
                       </ul>
+                    </li>
+
+                    {/* <li className="nav-item">
+                      <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-person-circle"></i>My Profile
+                      </Link>
+                    </li> */}
+
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/announcementLogs" onClick={this.closeOffcanvas}>
+                        <i className="bi bi-clock-history"></i>Announcement History
+                      </Link>
                     </li>
 
                     <li className="nav-item">

@@ -57,6 +57,7 @@ export const postRequest = async (endpoint, data, onSuccess, onError) => {
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json',
       },

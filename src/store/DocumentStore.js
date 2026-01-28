@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import api from '../api/api';
 import StepperContants from '../../contants/StepperContants';
 
-class AnnouncementStore {
+class DocumentStore {
   constructor() {
 
     this.reset();
@@ -10,14 +10,13 @@ class AnnouncementStore {
     makeAutoObservable(this);
   };
 
-   /* =====================
+
+  /* =====================
   OBSERVABLE STATES
   ===================== */
-
   errorList = [];
   inquiryData = [];
   viewData = null;
-  data = [];
 
   currentStep = StepperContants.MANUAL_ENROLL_CREATE;
   searchStep = StepperContants.INQUIRY_INITIAL;
@@ -28,6 +27,7 @@ class AnnouncementStore {
     ackMessage: null,
     refNo: null
   };
+  
 
   /* =====================
    RESET METHODS
@@ -40,7 +40,6 @@ class AnnouncementStore {
 
   resetInputs() {
     this.enrollmentRequest = this.initialEnrollmentRequest();
-
   };
 
   resetInquiry(retainTblData = false) {
@@ -50,19 +49,12 @@ class AnnouncementStore {
 
   getSearchFields() {
     return [
-      // {
-      //   index: 'lrn',
-      //   label: 'LRN',
-      //   value: null,
-      //   type: 'text',
-      //   props: { maxLength: 12, onlyNumber: true }
-      // },
       {
         index: 'refNo',
         label: 'Reference Number',
         value: null,
         type: 'text',
-        props: { maxLength: 50 }
+        props: { maxLength: 50}
       },
       {
         index: 'firstNm',
@@ -81,45 +73,27 @@ class AnnouncementStore {
     ];
   };
 
-
   /* =====================
   FACTORY METHODS
   ===================== */
 
+  async getDocumentTypeList() {
+    return await api.get.getDocumentTypeList();
+  };
+
   initialEnrollmentRequest() {
     return {
-      recipientKeys: [],
-      header: null,
-      isSmsEmail: null,
-      message: null,
-      type: null,
-      alertStatus: null,
+      userId: null,
+      documentType: null,
+      purpose: null,
+      dateRequested: null,
+      status: null,
     };
-  };
-
-  async getSmsTypeList() {
-    return await api.get.getSmsTypeList();
-  };
-
-  async getAlertStatusList() {
-    return await api.get.getAlertStatusList();
-  };
-  
-  async getChannelList() {
-    return await api.get.getChannelList();
-  };
-
-  async getAllResidentTypeList() {
-    return await api.get.getAllResidentTypeList();
-  };
-
-  async getAnnouncementListGrouped(roleKey) {
-    return await api.get.getAnnouncementListGrouped(roleKey);
   };
 
   validateRequest(requestObj, onSucc, onErr) {
     api.post.postRequest(
-      '/announcement/validateRequest',
+      '/document/validateRequest',
       requestObj,
       onSucc,
       onErr
@@ -128,21 +102,21 @@ class AnnouncementStore {
 
   saveRequest(requestObj, onSucc, onErr) {
     api.post.postRequest(
-      '/announcement/saveRequest',
+      '/document/saveRequest',
       requestObj,
       onSucc,
       onErr
     );
   };
 
-  async searchAnnouncement(requestObj) {
-    try {
-      return await api.get.searchAnnouncement(requestObj);
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
+  previewRequest(requestObj, onSucc, onErr) {
+    api.post.postRequest(
+      '/document/previewRequest',
+      requestObj,
+      onSucc,
+      onErr
+    );
   };
-}
+  }
 
-export default AnnouncementStore;
+export default DocumentStore;
