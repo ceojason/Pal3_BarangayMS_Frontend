@@ -106,6 +106,19 @@ class SettingsStore {
         };
         break;
 
+      case 'reject':
+        this.showConfirmModal = true;
+
+        this.customModal = {
+          type: 'reject',
+          headerTitle,
+          valueToDisplay,
+          additionalBtn,
+          data,
+          onClose
+        };
+        break;
+
       case 'update':
         this.showConfirmModal = true;
 

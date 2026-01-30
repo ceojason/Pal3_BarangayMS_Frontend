@@ -92,6 +92,16 @@ class BaseConfirmModal extends Component {
                   . Proceed with the transaction?
                 </div>
               )}
+
+              {type === 'reject' && (
+                <div className="confirmMsg_panel">
+                  You will be rejecting this
+                  <span className="confirmMsg_nm">
+                    {valueToDisplay}
+                  </span>
+                  . Proceed with the transaction?
+                </div>
+              )}
             </div>
 
             <div className="modal-footer">

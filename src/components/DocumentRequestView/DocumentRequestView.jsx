@@ -67,22 +67,6 @@ class DocumentRequestView extends Component {
             </Row>
           </BasePanel>
 
-          {/* {(isView || isAck) && (
-            <BasePanel>
-              <Row className="mt-3 file_preview">
-                <Col md={12}>
-                  <h5><i class="bi bi-search"></i>Document Preview</h5>
-                  {this.state.previewHtml ? (
-                    <div className='file_preview_body'
-                      dangerouslySetInnerHTML={{ __html: this.state.previewHtml }}
-                    />
-                  ) : (
-                    <div>Loading preview...</div>
-                  )}
-                </Col>
-              </Row>
-            </BasePanel>
-          )} */}
           {(isView || isAck) && (
             <DocumentPreviewPanel 
               header={'Sample Preview'}

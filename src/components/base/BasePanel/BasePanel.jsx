@@ -8,7 +8,7 @@ class BasePanel extends Component {
   }
 
   render() {
-    const { header, icon } = this.props;
+    const { header, icon, hideHeader } = this.props;
 
     return (
       <div className='main_panel_ctr'>
@@ -16,7 +16,7 @@ class BasePanel extends Component {
           <span className='string'>{icon}{header}</span>
         </div>
         {this.props.children}
-        <div className='form_divider'></div>
+        {!hideHeader && <div className='form_divider'></div>}
       </div>
     );
   }

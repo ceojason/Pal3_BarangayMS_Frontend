@@ -10,16 +10,16 @@ class DocumentPreviewPanel extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, hideHeader } = this.props;
 
     return (
-      <BasePanel header={'Sample Preview'} icon={<i className="bi bi-envelope-paper-fill"></i>}>
+      <BasePanel hideHeader={hideHeader} header={hideHeader ? '' : 'Sample Preview'} icon={hideHeader ? '' : <i className="bi bi-envelope-paper-fill"></i>}>
         <div className='file_preview_ctr'>
           <div className='file_header white_line'>
             {data.header}
+            <img src={paliparan_icon} alt='Logo' className='preview_img'/>
           </div>
           <div className='file_body white_line'>
-            <img src={paliparan_icon} alt='Logo' className='preview_img'/>
             {data.body.split("\n").map((line, idx) => (
               <div
                 key={idx}

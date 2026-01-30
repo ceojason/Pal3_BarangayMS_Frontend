@@ -1275,6 +1275,11 @@
   font-size: 25px !important;
 }
 
+.admin_preview .header {
+  font-size: 20px !important;
+  margin-bottom: 5px !important;
+}
+
 .inquirypanel_body {
   margin-top: 20px;
 }
@@ -1802,7 +1807,7 @@ select:active {
 
 .file_preview_ctr {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  padding: 80px;
+  padding: 20px 120px 120px 120px;
   text-align: justify;
 }
 
@@ -1815,26 +1820,26 @@ select:active {
 .file_header {
   font-weight: 700;
   font-size: 35px;
-  margin-bottom: 90px;
+  margin-bottom: 120px;
   display: flex;
-  justify-content: center;
-  text-decoration: underline;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.file_body {
-  font-size: 15px;
-}
-
-.file_body img {
+.file_header img {
   float: right;
   width: 160px;
   height: 160px;
-  margin-top: -190px;
   opacity: .7;
 }
 
+.file_body {
+  font-size: 20px;
+}
+
 .file_footer {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   margin-top: 200px;
+  margin-bottom: 200px;
 }

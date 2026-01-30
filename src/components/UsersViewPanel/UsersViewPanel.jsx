@@ -66,6 +66,12 @@ class UsersViewPanel extends Component {
                   modalDisplay={profileImage} 
                 />
               </Col>
+              <Col md={6}>
+                <ViewField
+                  label={'Enrolled Date'}
+                  value={data.dateEnrolledString}
+                />
+              </Col>
             </Row>
 
             <Row>

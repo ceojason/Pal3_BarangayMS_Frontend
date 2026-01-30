@@ -211,13 +211,13 @@ class Navbar extends Component {
                       </a>
                       <ul className="dropdown-menu">
                         <li>
-                          <Link className="dropdown-item" to="/pendingUserRequest" onClick={this.closeOffcanvas}>
-                            <i class="bi bi-caret-right-fill"></i>Pending User Request
+                          <Link className="dropdown-item" to="/viewDocumentRequests" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>View Document Requests
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/announcementSearch" onClick={this.closeOffcanvas}>
-                            <i class="bi bi-caret-right-fill"></i>Processed User Request
+                          <Link className="dropdown-item" to="/rejectedDocumentRequests" onClick={this.closeOffcanvas}>
+                            <i class="bi bi-caret-right-fill"></i>Rejected Document Requests
                           </Link>
                         </li>
                       </ul>

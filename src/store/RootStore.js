@@ -9,6 +9,8 @@ import UsersStore from './UsersStore';
 import NotificationLogsStore from './NotificationLogsStore';
 import AnnouncementStore from './AnnouncementStore';
 import DocumentStore from './DocumentStore';
+import UserRequestStore from './UserRequestStore';
+
 
 
 
@@ -19,6 +21,8 @@ import DocumentStore from './DocumentStore';
 
 class RootStore {
   constructor() {
+    this.UserRequestStore = new UserRequestStore();
+
     this.DocumentStore = new DocumentStore();
 
     this.AnnouncementStore = new AnnouncementStore();

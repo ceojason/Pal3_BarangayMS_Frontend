@@ -14,7 +14,8 @@ import SearchAnnouncementMainCtr from './containers/SearchAnnouncement/SearchAnn
 import MyProfileMainCtr from './containers/MyProfile/MyProfileMainCtr.jsx';
 import AnnouncementLogsMainCtr from './containers/AnnouncementLogs/AnnouncementLogsMainCtr.jsx';
 import DocumentRequestMainCtr from './containers/DocumentRequest/DocumentRequestMainCtr.jsx';
-import PendingUserRequestMainCtr from './containers/PendingUserRequest/PendingUserRequestMainCtr.jsx';
+import DocumentRequestsInquiryMainCtr from './containers/DocumentRequestsInquiry/DocumentRequestsInquiryMainCtr.jsx';
+import RejectDocumentRequestsInquiryMainCtr from './containers/RejectDocumentRequestsInquiry/RejectDocumentRequestsInquiryMainCtr.jsx';
 
 
 const router = createBrowserRouter([
@@ -75,13 +76,17 @@ const router = createBrowserRouter([
         element: <AnnouncementLogsMainCtr />,
       },
       {
-              path: 'documentRequest',
-              element: <DocumentRequestMainCtr />,
-            },
+        path: 'documentRequest',
+        element: <DocumentRequestMainCtr />,
+      },
       {
-              path: 'pendingUserRequest',
-              element: <PendingUserRequestMainCtr />,
-            },
+        path: 'viewDocumentRequests',
+        element: <DocumentRequestsInquiryMainCtr />,
+      },
+      {
+        path: 'rejectedDocumentRequests',
+        element: <RejectDocumentRequestsInquiryMainCtr />,
+      },
     ],
   }
 ]);

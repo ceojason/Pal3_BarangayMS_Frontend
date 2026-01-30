@@ -1,14 +1,14 @@
 import React from 'react';
 import MainContainer from '../../components/base/MainContainer/MainContainer';
-import UserRequestPanel from '../../components/UserRequestPanel/UserRequestPanel';
+import UserRequestStepper from '../../components/UserRequestStepper/UserRequestStepper';
 
-const PendingUserRequestCTR = () => {
+const DocumentRequestsInquiryCTR = () => {
   return (
     <MainContainer>
-      <div className="PendingUserRequestCTR">
-        <UserRequestPanel 
+      <div className="DocumentRequestsInquiryCTR">
+        <UserRequestStepper
           isPending={true} 
-          header={'Pending User Request'}
+          header={'Document Requests'}
           subHeader={'View and process pending requests from residents through this module.'}
         />
       </div>
@@ -16,4 +16,4 @@ const PendingUserRequestCTR = () => {
   );
 };
 
-export default PendingUserRequestCTR;
+export default DocumentRequestsInquiryCTR;

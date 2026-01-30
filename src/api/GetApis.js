@@ -95,6 +95,42 @@ export const getUsersListBySearch = async (searchRequest) => {
   return data.content.content;
 };
 
+export const getRequestListBySearch = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/document/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
+export const getRequestById = async (id) => {
+  const res = await fetch(`${BASE_URL}/document/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
 export const getNotifLogsBySearch = async (searchRequest) => {
   const res = await fetch(`${BASE_URL}/notifLogs/search`, {
     method: 'POST',

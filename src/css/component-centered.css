@@ -265,11 +265,55 @@
 }
 
 .enrollmentStep_btns .btn_ctr button { 
-    padding: 10px 30px;
+    padding: 8px 30px;
     border: none;
     font-weight: 600;
     background: none;
     width: 140px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_back {
+    margin-right: 5px;
+    color: var(--main-text-color);
+    background-color: #dee2e6;
+    opacity: .7;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.enrollmentStep_btns .btn_ctr .isAck_back {
+    margin-right: 5px;
+    color: var(--main-white);
+    background-color: var(--main-green);
+    opacity: .7;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_back:hover {
+    opacity: 1;
+    transition: .2s ease-in-out;
+}
+
+.enrollmentStep_btns .btn_ctr .isAck_back i {
+    color: var(--main-white);
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_back i {
+    margin-right: 10px;
+    font-size: 25px;
 }
 
 .enrollmentStep_btns .btn_ctr .onClick_reset {
@@ -279,6 +323,14 @@
     opacity: .8;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_reset i {
+    margin-right: 10px;
+    color: var(--main-white);
+    font-size: 25px;
 }
 
 .enrollmentStep_btns .btn_ctr .onClick_next {
@@ -287,10 +339,53 @@
     opacity: .8;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_next i {
+    color: var(--main-white);
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_reject {
+    margin-right: 10px;
+    color: var(--main-white);
+    background-color: crimson;
+    opacity: .8;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_reject i {
+    color: var(--main-white);
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_generate {
+    color: var(--main-white);
+    background-color: var(--main-blue);
+    opacity: .8;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.enrollmentStep_btns .btn_ctr .onClick_generate i {
+    color: var(--main-white);
+    margin-right: 10px;
+    font-size: 25px;
 }
 
 .enrollmentStep_btns .btn_ctr .onClick_reset:hover,
-.enrollmentStep_btns .btn_ctr .onClick_next:hover {
+.enrollmentStep_btns .btn_ctr .onClick_next:hover,
+.enrollmentStep_btns .btn_ctr .onClick_reject:hover,
+.enrollmentStep_btns .btn_ctr .onClick_generate:hover {
     opacity: 1;
     transition: .2s ease-in-out;
 }
@@ -472,6 +567,7 @@
 .message_modal_body p {
     font-size: 13px;
     padding-left: 15px;
+    padding-right: 15px;
 }
 
 .message_modal_body button {
@@ -502,6 +598,7 @@
 
 .white_line {
   white-space: pre-line;
+  text-align: justify;
 }
 
 .inquirytable_ctr {
@@ -517,4 +614,48 @@
 
 .g-3 {
     margin-bottom: 80px;
+}
+
+.status_column {
+    padding: 5px 10px;
+    max-width: 90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.success_status_col {
+    background-color: var(--main-green);
+    color: var(--main-white);
+    opacity: .7;
+    border-radius: 10px;
+}
+
+.success_status_col:hover {
+    opacity: 1;
+}
+
+.pending_status_col {
+    background-color: var(--main-orange);
+    color: var(--main-white);
+    opacity: .7;
+    border-radius: 10px;
+}
+
+.pending_status_col:hover {
+    opacity: 1;
+}
+
+.rejected_status_col {
+    background-color: crimson;
+    color: var(--main-white);
+    opacity: .7;
+    border-radius: 10px;
+}
+
+.rejected_status_col:hover {
+    opacity: 1;
 }
