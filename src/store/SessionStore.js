@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import api from '../api/api';
+import RolePermissions from '../constants/others/RolePermissions';
 
 class SessionStore {
   currentUser = null;
@@ -53,6 +54,15 @@ class SessionStore {
         this.loading = false;
       });
     }
+  };
+
+  get permissions() {
+    if (!this.currentUser) return [];
+    return RolePermissions[this.currentUser.roleKey] || [];
+  }
+
+  hasPermission = (permission) => {
+    return this.permissions.includes(permission);
   };
 }
 

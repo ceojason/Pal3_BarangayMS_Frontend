@@ -194,12 +194,6 @@ class Navbar extends Component {
                       </ul>
                     </li>
 
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-stickies-fill"></i>Notification Logs
-                      </Link>
-                    </li>
-
                     <li className="nav-item dropdown">
                       <a
                         className="nav-link dropdown-toggle"
@@ -221,6 +215,12 @@ class Navbar extends Component {
                           </Link>
                         </li>
                       </ul>
+                    </li>
+
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-stickies-fill"></i>Notification Logs
+                      </Link>
                     </li>
                     
                     <li className="nav-item">

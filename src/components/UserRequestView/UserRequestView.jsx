@@ -26,18 +26,19 @@ class UserRequestView extends Component {
   }
 
   componentDidMount() {
-    const { data } = this.props;
+    const { data, isUser } = this.props;
     this.setState({
       isProcessed: false,
 
-      showRejectBtn: data.status!=null && data.status===8,
-      showProcessBtn: data.status!=null && data.status===8,
-      showGenerateBtn: data.status!=null && data.status===9,
+      showRejectBtn: !isUser && data.status!=null && data.status===8,
+      showProcessBtn: !isUser && data.status!=null && data.status===8,
+      showGenerateBtn: !isUser && data.status!=null && data.status===9,
     });
   };
 
   getViewPanel = () => {
     const { data } = this.props;
+    const { showGenerateBtn } = this.state;
 
     return (
       <Fragment>
@@ -67,6 +68,14 @@ class UserRequestView extends Component {
                   value={data.documentTypeString}
                 />
               </Col>
+              {showGenerateBtn && (
+                <Col md={6}>
+                  <ViewField
+                    label={'Date Processed'}
+                    value={data.dateProcessedString}
+                  />
+                </Col>
+              )}
             </Row>
           </BasePanel>
 

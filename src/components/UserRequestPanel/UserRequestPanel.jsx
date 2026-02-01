@@ -23,8 +23,8 @@ class UserRequestPanel extends Component {
   };
 
   onSearch = () => {
-    const { UserRequestStore, SettingsStore } = this.context.store;
-    const { isPending } = this.props;
+    const { UserRequestStore, SettingsStore, SessionStore } = this.context.store;
+    const { isPending, isUser } = this.props;
     SettingsStore.isLoading=true;
 
     let searchFilter = SearchFilterUtils.getSearchFilterObject(
@@ -32,6 +32,8 @@ class UserRequestPanel extends Component {
     );
 
     searchFilter.isPending = isPending;
+    searchFilter.isUser = isUser;
+    searchFilter.userId = isUser ? SessionStore.currentUser.userId : null;
 
     let multiSort = {
       sortBy: 'date_requested',
@@ -64,50 +66,57 @@ class UserRequestPanel extends Component {
   };
 
   getDataCols = () => {
-    return [
-      {
-        name: 'REFERENCE NUMBER',
-        index: 'refNo',
-        cell: data => (
-          <BaseHyperlink value={data.refNo} onClick={() => this.onClickLink(data)} customClassName={'add_width'} />
-        )
-      },
-      {
-        name: 'DOCUMENT TYPE',
-        index: 'documentTypeString',
-        sortBy: 'documentTypeString'
-      },
-      {
+    const { isUser } = this.props;
+    let cols = [];
+
+    cols.push({
+      name: 'REFERENCE NUMBER',
+      index: 'refNo',
+      cell: data => (
+        <BaseHyperlink value={data.refNo} onClick={() => this.onClickLink(data)} customClassName={'add_width'} />
+      )
+    });
+
+    cols.push({
+      name: 'DOCUMENT TYPE',
+      index: 'documentTypeString',
+      sortBy: 'documentTypeString'
+    });
+
+    if (!isUser) {
+      cols.push({
         name: 'REQUESTOR',
         index: 'requestor',
         sortBy: 'requestor'
-      },
-      {
+      });
+
+      cols.push({
         name: 'DATE REQUESTED',
         index: 'dateRequestedString'
-      },
-      // {
-      //   name: 'PURPOSE',
-      //   index: 'purpose',
-      //   sortBy: 'purpose',
-      //   cell: data => (
-      //     <span
-      //       className='clickable_message_modal'
-      //       onClick={() => this.openModal(data.purpose)}>
-      //         {data.purpose.length > 20 ? data.purpose.substring(0, 25) + '...' : data.purpose}
-      //     </span>
-      //   )
-      // }
-      {
-        name: 'STATUS',
-        index: 'statusString',
-        cell: data => (
-          <span className={buildClassNames('status_column', data.status === 9 ? 'success_status_col' : data.status === 10 ? 'rejected_status_col' : 'pending_status_col')}>
-            {data.statusString}
-          </span>
-        )
-      }
-    ];
+      });
+    }else{
+      cols.push({
+        name: 'DATE REQUESTED',
+        index: 'dateRequestedString'
+      });
+
+      cols.push({
+        name: 'DATE PROCESSED',
+        index: 'dateProcessedString'
+      });
+    }
+
+    cols.push({
+      name: 'STATUS',
+      index: 'statusString',
+      cell: data => (
+        <span className={buildClassNames('status_column', data.status === 9 ? 'success_status_col' : data.status === 10 ? 'rejected_status_col' : 'pending_status_col')}>
+          {data.statusString}
+        </span>
+      )
+    });
+
+    return cols;
   };
 
    onReset = () => {

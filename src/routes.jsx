@@ -16,79 +16,126 @@ import AnnouncementLogsMainCtr from './containers/AnnouncementLogs/AnnouncementL
 import DocumentRequestMainCtr from './containers/DocumentRequest/DocumentRequestMainCtr.jsx';
 import DocumentRequestsInquiryMainCtr from './containers/DocumentRequestsInquiry/DocumentRequestsInquiryMainCtr.jsx';
 import RejectDocumentRequestsInquiryMainCtr from './containers/RejectDocumentRequestsInquiry/RejectDocumentRequestsInquiryMainCtr.jsx';
+import DocumentHistoryMainCtr from './containers/DocumentHistory/DocumentHistoryMainCtr.jsx';
+import PermissionRoute from './components/Routes/PermissionRoute.jsx';
+import Permissions from './constants/others/Permissions.js';
 
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Navigate to="/login" replace />,
-  },
-  {
-    path: '/login',
-    element: <LoginMainCtr />,
-  },
+  { path: '/', element: <Navigate to="/login" replace /> },
+  { path: '/login', element: <LoginMainCtr /> },
+
   {
     path: '/',
     element: <App />,
     children: [
-      {
-        path: 'studentAdd',
-        element: <AddStudentMainCtr />,
-      },
-      {
-        path: 'studentSearch',
-        element: <SearchStudentMainCtr />,
-      },
+      // 🔹 BOTH
       {
         path: 'dashboard',
-        element: <MyAdminDashboardMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.DASHBOARD}>
+            <MyAdminDashboardMainCtr />
+          </PermissionRoute>
+        ),
       },
-      {
-        path: 'adminAdd',
-        element: <AddAdminMainCtr />,
-      },
+
+      // 🔹 ADMIN
       {
         path: 'usersAdd',
-        element: <AddUsersMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.USERS_ADD}>
+            <AddUsersMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
         path: 'usersSearch',
-        element: <SearchUsersMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.USERS_VIEW}>
+            <SearchUsersMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
         path: 'notificationLogs',
-        element: <NotificationLogsMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.VIEW_NOTIFICATION_LOGS}>
+            <NotificationLogsMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
         path: 'announcementAdd',
-        element: <AddAnnouncementMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.ANNOUNCEMENT_ADD}>
+            <AddAnnouncementMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
         path: 'announcementSearch',
-        element: <SearchAnnouncementMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.ANNOUNCEMENT_VIEW}>
+            <SearchAnnouncementMainCtr />
+          </PermissionRoute>
+        ),
       },
+
+      // 🔹 BOTH
       {
         path: 'myProfile',
-        element: <MyProfileMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.MY_PROFILE}>
+            <MyProfileMainCtr />
+          </PermissionRoute>
+        ),
       },
+
+      // 🔹 RESIDENT
       {
         path: 'announcementLogs',
-        element: <AnnouncementLogsMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.ANNOUNCEMENT_HISTORY}>
+            <AnnouncementLogsMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
         path: 'documentRequest',
-        element: <DocumentRequestMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.REQUEST_DOCUMENT}>
+            <DocumentRequestMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
         path: 'viewDocumentRequests',
-        element: <DocumentRequestsInquiryMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.VIEW_DOCUMENT_REQUESTS}>
+            <DocumentRequestsInquiryMainCtr />
+          </PermissionRoute>
+        ),
       },
       {
+        path: 'documentHistory',
+        element: (
+          <PermissionRoute permission={Permissions.REQUEST_DOCUMENT_HISTORY}>
+            <DocumentHistoryMainCtr />
+          </PermissionRoute>
+        ),
+      },
+
+      // 🔹 BOTH (if intentional)
+      {
         path: 'rejectedDocumentRequests',
-        element: <RejectDocumentRequestsInquiryMainCtr />,
+        element: (
+          <PermissionRoute permission={Permissions.VIEW_DOCUMENT_REQUESTS}>
+            <RejectDocumentRequestsInquiryMainCtr />
+          </PermissionRoute>
+        ),
       },
     ],
-  }
+  },
 ]);
 
 export default router;

@@ -2,18 +2,18 @@ import React from 'react';
 import MainContainer from '../../components/base/MainContainer/MainContainer';
 import UserRequestStepper from '../../components/UserRequestStepper/UserRequestStepper';
 
-const ProcessedUserRequestCTR = () => {
+const DocumentHistoryCTR = () => {
   return (
     <MainContainer>
-      <div className="ProcessedUserRequestCTR">
+      <div className="DocumentHistoryCTR">
         <UserRequestStepper
-          isPending={false} 
-          header={'Processed User Request'}
-          subHeader={'View processed requests from residents through this module.'}
+          isUser={true} 
+          header={'Document Request History'}
+          subHeader={'View your request history through this module.'}
         />
       </div>
     </MainContainer>
   );
 };
 
-export default ProcessedUserRequestCTR;
+export default DocumentHistoryCTR;

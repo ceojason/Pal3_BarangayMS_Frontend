@@ -20,7 +20,7 @@ class BaseAckPagePanel extends Component {
   };
 
   render() {
-    const { ackMessage, refNo, isUser, data, isAnnouncement, icon, isDocumentRequest } = this.props;
+    const { ackMessage, refNo, isUser, data, isAnnouncement, icon, isDocumentRequest, showRefNo } = this.props;
     const { showDetails } = this.state;
 
     return (
@@ -36,7 +36,7 @@ class BaseAckPagePanel extends Component {
                 {ackMessage ? ackMessage : ''}
               </div>
               <div className="alert-details">
-                Reference Number <span>{refNo}</span>
+                Ref No. <span>{refNo}</span>
                 <button className='ack_pg_show_hide_btn' onClick={() => this.onClickShow()}>
                   {showDetails ? 'Hide Transaction Details' : 'Show Transaction Details'}
                   {showDetails ? <i class="bi bi-caret-up-fill"></i> : <i class="bi bi-caret-down-fill"></i>}

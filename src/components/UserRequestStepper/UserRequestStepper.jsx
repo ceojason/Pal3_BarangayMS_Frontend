@@ -19,7 +19,7 @@ class UserRequestStepper extends Component {
   };
 
   render() {
-    const { header, subHeader, isPending } = this.props;
+    const { header, subHeader, isPending, isUser } = this.props;
     const { UserRequestStore } = this.context.store;
 
     const data = [
@@ -30,6 +30,7 @@ class UserRequestStepper extends Component {
             header={header}
             subHeader={subHeader}
             isPending={isPending}
+            isUser={isUser}
           />
         )
       },
@@ -44,9 +45,7 @@ class UserRequestStepper extends Component {
             onClickBack={() => this.onClickBack()}
             currentStep={1}
             totalSteps={1}
-            ref={viewRef => {
-              if (viewRef==null) this.viewRef = viewRef;
-            }}
+            isUser={isUser}
           />
         )
       }

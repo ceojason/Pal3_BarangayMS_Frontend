@@ -13,6 +13,8 @@ class NoAccessCtr extends Component {
   };
 
   render() {
+    const { showRedirectToLogin } = this.props;
+
     return (
       <div className='no_access_ctr' style={{ textAlign: 'center', marginTop: '50px' }}>
         <span>
@@ -20,14 +22,20 @@ class NoAccessCtr extends Component {
           Sorry, you have no access to this page.
         </span>
 
-        <button 
-          className='btn' 
-          onClick={this.redirectToLogin}>
-            Click here to redirect in the login page.
-        </button>
+        {showRedirectToLogin && (
+          <button 
+            className='btn' 
+            onClick={this.redirectToLogin}>
+              Click here to redirect in the login page.
+          </button>
+        )}
       </div>
     );
   }
+};
+
+NoAccessCtr.defaultProps = {
+  showRedirectToLogin: true,
 };
 
 NoAccessCtr.contextType = StoreContext;

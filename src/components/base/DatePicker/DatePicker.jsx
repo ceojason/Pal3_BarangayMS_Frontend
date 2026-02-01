@@ -24,7 +24,7 @@ class CustomDatePicker extends Component {
     const { dateFormat } = this.props;
 
     return (
-      <div style={{ margin: '20px' }}>
+      <div style={{ marginBottom: '20px' }}>
         <label style={{ display: 'block', marginBottom: '8px' }}>
           Select Date:
         </label>

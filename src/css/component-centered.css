@@ -46,6 +46,7 @@
 
 .body_container .dashboard_hdr {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     background: linear-gradient(40deg, var(--main-green), #079D68);
@@ -115,11 +116,13 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     border-radius: 12px !important;
+    margin-bottom: 20px;
 }
 
-.dashboard_card:hover, .dashboard_card:focus{
-  transform: scale(1.05);
-  transition: .3s ease;
+.dashboard_card:hover,
+.dashboard_card:focus {
+    transform: scale(1.02);
+    transition: .3s ease;
 }
 
 .card .card-header {
@@ -189,14 +192,12 @@
     margin-bottom: 20px;
 }
 
-.cards_ctr {
-    
-}
+.cards_ctr {}
 
 .grid_ctr {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
 }
 
 .nav-tabs {
@@ -264,7 +265,7 @@
     align-items: center;
 }
 
-.enrollmentStep_btns .btn_ctr button { 
+.enrollmentStep_btns .btn_ctr button {
     padding: 8px 30px;
     border: none;
     font-weight: 600;
@@ -422,30 +423,30 @@
 }
 
 .back_btn {
-  margin-top: 25px;
-  /* margin-bottom: 10px; */
+    margin-top: 25px;
+    /* margin-bottom: 10px; */
 }
 
 .back_btn button {
-  border: none;
-  font-size: 13px;
-  padding: 5px 0;
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  text-decoration: underline;
+    border: none;
+    font-size: 13px;
+    padding: 5px 0;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    text-decoration: underline;
 }
 
 .back_btn button i {
-  margin-right: 2px;
+    margin-right: 2px;
 }
 
 .back_btn button:hover {
-  padding-left: 5px;
-  transition: .2s ease-in-out;
-  text-decoration: underline;
+    padding-left: 5px;
+    transition: .2s ease-in-out;
+    text-decoration: underline;
 }
 
 .bi-shield-fill-exclamation {
@@ -473,17 +474,19 @@
 }
 
 .groupcheckboxes_body {
-  display: flex;
-  flex-wrap: wrap;   /* moves to next line if too many */
-  gap: 8px;          /* space between boxes */
+    display: flex;
+    flex-wrap: wrap;
+    /* moves to next line if too many */
+    gap: 8px;
+    /* space between boxes */
 }
 
 .checkboxes_displayinrow {
-  display: flex;
-  align-items: center;
-  margin-right: 12px;
-  width: auto;
-  width: 500px;
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+    width: auto;
+    width: 500px;
 }
 
 .with_highlight .viewField_val span:hover {
@@ -533,7 +536,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -597,8 +600,8 @@
 }
 
 .white_line {
-  white-space: pre-line;
-  text-align: justify;
+    white-space: pre-line;
+    text-align: justify;
 }
 
 .inquirytable_ctr {
@@ -658,4 +661,166 @@
 
 .rejected_status_col:hover {
     opacity: 1;
+}
+
+.dashboard_quick_actions {
+    margin-top: 20px;
+}
+
+.quick_actions_ctr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quick_actions_ctr .quick_actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.quick_actions_ctr .quick_actions button {
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    padding: 10px;
+    margin-right: 10px;
+    color: var(--main-green);
+}
+
+.quick_actions_ctr .quick_actions button i {
+    margin-right: 5px;
+    color: var(--main-green);
+}
+
+.quick_actions_ctr .quick_actions button:hover {
+    font-weight: 700;
+    transition: .1s ease-in-out;
+}
+
+.dashboard_calendar {
+    text-align: center;
+    width: 100%;
+    border: none;
+}
+
+.react-calendar {
+    border: none !important;
+    border-radius: 10px;
+    width: 100% !important;
+    padding: 10px;
+    font-size: 13px;
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+}
+
+.react-calendar__navigation__label__labelText {
+    font-weight: 700;
+}
+
+.react-calendar__tile--active {
+    background: var(--main-orange) !important;
+    border-radius: 8px;
+}
+
+.dashboard_img_calendar_ctr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.img_calendar_hdr {
+    margin-bottom: 30px;
+}
+
+.img_calendar_hdr:hover {
+    text-decoration: underline;
+    color: var(--main-green);
+}
+
+.img_calendar_hdr i {
+    color: var(--main-green);
+    font-size: 35px;
+    margin-right: 10px;
+}
+
+.img_calendar_hdr span {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--main-green);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    text-decoration: underline;
+}
+
+.img_calendar_body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.about_dasma_ctr {
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.about_dasma_hdr {
+    margin-bottom: 20px;
+}
+
+.about_dasma_hdr span {
+    font-weight: 700;
+    color: var(--main-green);
+    display: flex;
+    align-items: center;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.about_dasma_hdr span i {
+    color: var(--main-green);
+    font-size: 35px;
+    margin-right: 10px;
+}
+
+.about_dasma_body span {
+    font-size: 14px;
+    text-align: justify;
+    display: block;
+    text-indent: 50px;
+    padding: 0px 20px 20px 20px;
+}
+
+.show_more_btn {
+    float: right;
+}
+
+.show_more_label {
+    border: none;
+    background-color: var(--main-green);
+    text-indent: 0 !important;
+    padding: 7px 10px !important;
+    margin-bottom: 20px;
+    opacity: .8;
+    border-radius: 5px;
+}
+
+.show_more_label:hover {
+    opacity: 1;
+    transition: .3s ease-in-out;
+}
+
+.show_more_label a {
+    color: var(--main-white);
+    font-weight: 500;
+    padding: 5px;
+    text-decoration: none !important;
 }

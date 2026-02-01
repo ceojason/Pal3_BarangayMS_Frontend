@@ -45,7 +45,8 @@ class SelectField extends Component {
       options,
       customClassName,
       value,
-      disabled
+      disabled,
+      inst
     } = this.props;
 
     return (
@@ -74,6 +75,7 @@ class SelectField extends Component {
           ) : (
             <div className="no_options">No options available for {label}</div>
           )}
+          {inst && <div className='input_inst'><small>{inst}</small></div>}
         </div>
       </div>
     );

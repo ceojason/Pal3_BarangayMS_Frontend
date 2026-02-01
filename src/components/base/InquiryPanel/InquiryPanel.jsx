@@ -161,7 +161,7 @@ class InquiryPanel extends Component {
     } = this.props;
 
     return (
-      <div className={buildClassNames('inquirypanel_ctr', customClassName)}>
+      <div className={buildClassNames('inquirypanel_ctr', customClassName)} style={{ overflowX: 'auto', width: '100%' }}>
         <div className='inquirypanel_hdr'>
           {header!=null && <span className='main_hdr'>{icon}{header}</span>}
           {subHeader!=null && <span className='subheader'>{subHeader}</span>}

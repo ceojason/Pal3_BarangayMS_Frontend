@@ -98,6 +98,7 @@ export const getUsersListBySearch = async (searchRequest) => {
 export const getRequestListBySearch = async (searchRequest) => {
   const res = await fetch(`${BASE_URL}/document/search`, {
     method: 'POST',
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json'
     },

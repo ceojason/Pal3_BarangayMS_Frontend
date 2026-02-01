@@ -33,6 +33,7 @@ class InquiryTable extends Component {
     return (
       <div className='inquirytable_ctr'>
         <DataTable
+          responsive={true}
           columns={mappedColumns}
           data={data}
           pagination={pagination}

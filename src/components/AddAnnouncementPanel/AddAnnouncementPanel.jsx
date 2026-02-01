@@ -10,6 +10,7 @@ import SelectField from '../base/SelectField/SelectField';
 import BaseTextArea from '../base/BaseTextArea/BaseTextArea';
 import GroupCheckboxesField from '../base/GroupCheckboxesField/GroupCheckboxesField';
 import StepperContants from '../../../contants/StepperContants';
+import DatePicker from '../../components/base/DatePicker/DatePicker';
 
 class AddAnnouncementPanel extends Component {
   constructor(props) {

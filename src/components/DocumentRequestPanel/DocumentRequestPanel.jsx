@@ -62,6 +62,7 @@ class DocumentRequestPanel extends Component {
                   options={documentTypeList}
                   value={DocumentStore.enrollmentRequest.documentType}
                   onChange={e => this.onChangeSelect('documentType', e.target.value)}
+                  inst={'Please be advised that a fee is required for the issuance of an official document from the barangay.'}
                 />
               </Col>
             </Row>

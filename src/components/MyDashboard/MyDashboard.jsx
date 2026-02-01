@@ -3,6 +3,7 @@ import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import BaseImageSlider from '../base/BaseImageSlider/BaseImageSlider';
 import BaseAccordion from '../base/BaseAccordion/BaseAccordion';
+import QuickActions from '../QuickActions/QuickActions';
 
 class MyDashboard extends Component {
   constructor(props) {
@@ -52,6 +53,9 @@ class MyDashboard extends Component {
               </div>
             </div>
           </div>
+          <div className='dashboard_quick_actions'>
+            <QuickActions />
+          </div>
         </div>
     );
   };
@@ -61,19 +65,11 @@ class MyDashboard extends Component {
 
     return (
       <div className="dashboard container-fluid">
-        <div className="row g-3">
-          <div className="col-12 col-md-6">
-            <BaseImageSlider />
-          </div>
-
-          <div className="col-12 col-md-6">
-            <BaseAccordion
-              data={data}
-              header={"Today's Announcement Bulletin"}
-              noContentMsg={'No announcement found.'}
-            />
-          </div>
-        </div>
+        <BaseAccordion
+          data={data}
+          header={"Today's Announcement Bulletin"}
+          noContentMsg={'No announcement found.'}
+        />
       </div>
     );
   };
