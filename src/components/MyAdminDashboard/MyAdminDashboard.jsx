@@ -70,13 +70,13 @@ class MyAdminDashboard extends Component {
             </div>
           </div>
 
-          <div className='dashboard_img_calendar_ctr'>
-            <div className='img_calendar_hdr'>
+          <div className='dashboard_img_aboutcity_ctr'>
+            <div className='dashboard_img_aboutcity_hdr'>
               <span>
                 <i class="bi bi-camera-fill"></i>Things About Our City
               </span>
             </div>
-            <div className='img_calendar_body'>
+            <div className='dashboard_img_aboutcity_body'>
               <div className='grid_ctr'>
                 <div className='col_one'>
                   {/* <DashboardCalendar /> */}

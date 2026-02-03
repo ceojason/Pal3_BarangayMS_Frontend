@@ -126,7 +126,8 @@
         margin-bottom: 0;
     }
 
-    .accordion_ctr {
+    .accordion_ctr,
+    .dashboard_img_aboutcity_ctr  {
         margin-left: 10px;
         margin-right: 10px;
     }

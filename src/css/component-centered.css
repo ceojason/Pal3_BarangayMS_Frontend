@@ -724,7 +724,7 @@
     border-radius: 8px;
 }
 
-.dashboard_img_calendar_ctr {
+.dashboard_img_aboutcity_ctr {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -732,22 +732,22 @@
     margin-bottom: 50px;
 }
 
-.img_calendar_hdr {
+.dashboard_img_aboutcity_hdr {
     margin-bottom: 30px;
 }
 
-.img_calendar_hdr:hover {
+.dashboard_img_aboutcity_hdr:hover {
     text-decoration: underline;
     color: var(--main-green);
 }
 
-.img_calendar_hdr i {
+.dashboard_img_aboutcity_hdr i {
     color: var(--main-green);
     font-size: 35px;
     margin-right: 10px;
 }
 
-.img_calendar_hdr span {
+.dashboard_img_aboutcity_hdr span {
     font-weight: 700;
     font-size: 18px;
     color: var(--main-green);
@@ -823,4 +823,8 @@
     font-weight: 500;
     padding: 5px;
     text-decoration: none !important;
+}
+
+.res_dashboard {
+    margin-top: 100px;
 }
