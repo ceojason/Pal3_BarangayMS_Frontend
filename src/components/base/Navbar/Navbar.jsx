@@ -99,13 +99,15 @@ class Navbar extends Component {
                         const { SessionStore } = this.context.store;
 
                         try {
-                          await fetch("http://localhost:8080/auth/login/logout", {
-                            method: "POST",
-                            credentials: "include"
-                          });
+                          // await fetch("http://localhost:8080/auth/login/logout", {
+                          //   method: "POST",
+                          //   credentials: "include"
+                          // });
 
-                          // Clear frontend session
+                          // Clear frontend session and JWT
                           SessionStore.setUser(null);
+                          localStorage.removeItem("token");
+                          sessionStorage.removeItem("token");
 
                           // Redirect to login page
                           window.location.href = "/";

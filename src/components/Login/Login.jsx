@@ -34,6 +34,9 @@ class Login extends Component {
       err => {
         SettingsStore.isLoading=false;
         SettingsStore.showError(err);
+        setTimeout(() => {
+          LoginStore.error = null;
+        }, 5000);
       }
     );
   };

@@ -4,10 +4,32 @@
         margin-top: 120px !important;
         padding: 0 10px;
     }
-    .navbar .navbar-brand .nav_hdr_logo, 
+    /* .navbar .navbar-brand .nav_hdr_logo,  */
     .user_badge, .right_panel,
     .user_info .user_nm_dt {
         display: none;
+    }
+
+    .navbar-toggler {
+        margin-right: -15px;
+    }
+
+    .navbar-toggler i {
+        font-size: 25px;
+    }
+    
+    .navbar .navbar-brand img {
+        height: 40px;
+        width: 40px;
+    }
+
+    .navbar .navbar-brand .nav_hdr_logo .hdr_one {
+        font-size: 15px;
+    }
+
+    .navbar .navbar-brand .nav_hdr_logo .hdr_two {
+        font-size: 9px;
+        margin-right: 35px;
     }
 
     .dashboard_display_system .left_main_message,

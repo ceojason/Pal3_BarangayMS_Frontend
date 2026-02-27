@@ -54,11 +54,17 @@ export const uploadProfileImage = async (userId, file, onSuccess, onError) => {
 
 // POST APIs
 export const postRequest = async (endpoint, data, onSuccess, onError) => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error("No token found. Please login.");
+  }
+
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
-      credentials: "include",
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),

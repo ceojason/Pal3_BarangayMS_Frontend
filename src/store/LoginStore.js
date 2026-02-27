@@ -8,6 +8,7 @@ class LoginStore {
 
   user = null;
   error = null;
+  token = null;
   userList = [];
   loginRequest = this.initialLoginRequest();
 
@@ -25,33 +26,44 @@ class LoginStore {
     try {
       const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
-        body: JSON.stringify(credentials),
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
 
-      if (data.errorList?.length) {
-        throw new Error(data.errorList.join(', '));
+      if (!response.ok) {
+        throw new Error(data.errorList || 'Login failed');
       }
 
       runInAction(() => {
-        this.user = (data.user || data.content);
+        this.user = {
+          userCd: data.userCd,
+          role: data.role,
+        };
+        this.token = data.token;
         this.error = null;
       });
 
+      localStorage.setItem('token', data.content.token);
       onSuccess?.(data);
 
     } catch (err) {
       runInAction(() => {
         this.loginRequest.password = null;
-        this.error = err.message;
+        this.error = err.message || 'Login failed';
       });
+
+      // Clear error after 3 seconds
+      setTimeout(() => {
+        runInAction(() => {
+          this.error = null;
+        });
+      }, 5000);
 
       onError?.(err.message);
     }
-  }
+  };
 
   async fetchSystemUserList() {
     try {

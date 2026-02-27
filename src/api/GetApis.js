@@ -16,13 +16,23 @@ export const getDummyUser = async () => {
    ===================== */
 
 export const getSessionUser = async () => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error("No token found. Please login.");
+  }
+
   const response = await fetch(`${BASE_URL}/auth/login/session-user`, {
     method: "GET",
-    credentials: "include", // important: sends session cookie
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
   });
 
   if (!response.ok) {
-    throw new Error("No active session");
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.message || "Unauthorized: invalid or expired token");
   }
 
   const data = await response.json();
@@ -48,10 +58,15 @@ export const getUsersList = async (searchRequest) => {
 };
 
 export const getDashboardData = async (roleKey) => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error("No token found. Please login.");
+  }
   const response = await fetch(`${BASE_URL}/dashboard/${roleKey}`, {
     method: "GET",
-    credentials: "include",
     headers: {
+      'Authorization': `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
@@ -229,10 +244,15 @@ export const getAllResidentTypeList = async () => {
 };
 
 export const getAnnouncementListGrouped = async (roleKey) => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error("No token found. Please login.");
+  }
   const response = await fetch(`${BASE_URL}/announcement/getAnnouncementListGrouped/${roleKey}`, {
     method: "GET",
-    credentials: "include",
     headers: {
+      'Authorization': `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });

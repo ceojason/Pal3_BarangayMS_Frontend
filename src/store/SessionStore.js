@@ -23,15 +23,16 @@ class SessionStore {
     this.error = null;
 
     try {
-      const data = await api.get.getSessionUser();
+      const data = await api.get.getSessionUser(); // now JWT-based
       runInAction(() => {
-        this.setUser(data);
+        this.setUser(data); // { userCd, role, ... }
         this.loading = false;
       });
     } catch (err) {
       runInAction(() => {
         this.error = err.message;
         this.loading = false;
+        this.setUser(null); // user not logged in
       });
     }
   };
