@@ -31,6 +31,7 @@ class BaseTemplate extends Component {
       onClickProcess
     } = this.props;
     let isInitial = currentStep!=null && currentStep===1;
+    const { SettingsStore } = this.context.store;
 
     return (
       <div className={buildClassNames('base_template_ctr', isInitial ? 'base_initial_ctr' : '', !isAck ? 'is_ack_base_ctr' : '')}>
@@ -49,62 +50,64 @@ class BaseTemplate extends Component {
             </div>
           )}
           
-          <div className='main_btns'>
-            {onClickBack!=null && (
-              <BaseButton
-                customClassName={classNames('onClick_back', isAck ? 'isAck_back' : '')}
-                onClick={onClickBack}
-                label={isAck ? 'Done' : 'Back'}
-                hasIcon={true}
-                icon={!isAck ? <i class="bi bi-arrow-left-circle-fill"></i> : <i class="bi bi-check-circle-fill"></i>}
-              />
-            )}
-            {onReset!=null && (
-              <BaseButton
-                customClassName={'onClick_reset'}
-                onClick={onReset}
-                label={'Clear'}
-                hasIcon={true}
-                icon={<i class="bi bi-arrow-counterclockwise"></i>}
-              />
-            )}
-            {onClickNext!=null && (
-              <BaseButton
-                customClassName={'onClick_next'}
-                onClick={onClickNext}
-                label={isConfirm ? 'Save' : 'Next'}
-                hasIcon={true}
-                icon={isConfirm ? <i class="bi bi-floppy-fill"></i> : <i class="bi bi-arrow-right-circle-fill"></i>}
-              />
-            )}
-            {onClickReject!=null && (
-              <BaseButton
-                customClassName={'onClick_reject'}
-                onClick={onClickReject}
-                label={'Reject'}
-                hasIcon={true}
-                icon={<i class="bi bi-x-circle-fill"></i>}
-              />
-            )}
-            {onClickGenerate!=null && (
-              <BaseButton
-                customClassName={'onClick_generate'}
-                onClick={onClickGenerate}
-                label={'Generate'}
-                hasIcon={true}
-                icon={<i class="bi bi-download"></i>}
-              />
-            )}
-            {onClickProcess!=null && (
-              <BaseButton
-                customClassName={'onClick_generate'}
-                onClick={onClickProcess}
-                label={'Process'}
-                hasIcon={true}
-                icon={<i class="bi bi-file-earmark-check-fill"></i>}
-              />
-            )}
-          </div>
+          {!SettingsStore.isProcessing ? (
+            <div className='main_btns'>
+              {onClickBack!=null && (
+                <BaseButton
+                  customClassName={classNames('onClick_back', isAck ? 'isAck_back' : '')}
+                  onClick={onClickBack}
+                  label={isAck ? 'Done' : 'Back'}
+                  hasIcon={true}
+                  icon={!isAck ? <i class="bi bi-arrow-left-circle-fill"></i> : <i class="bi bi-check-circle-fill"></i>}
+                />
+              )}
+              {onReset!=null && (
+                <BaseButton
+                  customClassName={'onClick_reset'}
+                  onClick={onReset}
+                  label={'Clear'}
+                  hasIcon={true}
+                  icon={<i class="bi bi-arrow-counterclockwise"></i>}
+                />
+              )}
+              {onClickNext!=null && (
+                <BaseButton
+                  customClassName={'onClick_next'}
+                  onClick={onClickNext}
+                  label={isConfirm ? 'Save' : 'Next'}
+                  hasIcon={true}
+                  icon={isConfirm ? <i class="bi bi-floppy-fill"></i> : <i class="bi bi-arrow-right-circle-fill"></i>}
+                />
+              )}
+              {onClickReject!=null && (
+                <BaseButton
+                  customClassName={'onClick_reject'}
+                  onClick={onClickReject}
+                  label={'Reject'}
+                  hasIcon={true}
+                  icon={<i class="bi bi-x-circle-fill"></i>}
+                />
+              )}
+              {onClickGenerate!=null && (
+                <BaseButton
+                  customClassName={'onClick_generate'}
+                  onClick={onClickGenerate}
+                  label={'Generate'}
+                  hasIcon={true}
+                  icon={<i class="bi bi-download"></i>}
+                />
+              )}
+              {onClickProcess!=null && (
+                <BaseButton
+                  customClassName={'onClick_generate'}
+                  onClick={onClickProcess}
+                  label={'Process'}
+                  hasIcon={true}
+                  icon={<i class="bi bi-file-earmark-check-fill"></i>}
+                />
+              )}
+            </div>
+          ) : null}
         </div>
       </div>
     );

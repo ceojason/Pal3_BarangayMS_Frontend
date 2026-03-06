@@ -1171,6 +1171,25 @@
   animation: slideDownFade 0.45s ease forwards;
 }
 
+.alert-success-box-processing {
+  display: flex;
+  align-items: center;
+  background: #ffe5bf;
+  border-left: 6px solid var(--main-orange);
+  border-radius: 12px;
+  padding: 30px 35px;
+  width: 100%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: slideDownFade 0.45s ease forwards;
+}
+
+.alert-success-box-processing .alert-title {
+  color: #a36508;
+  font-size: 1.2rem;
+}
+
 /* Animation */
 @keyframes slideDownFade {
   0% {
@@ -1695,6 +1714,27 @@ select:active {
   position: relative;
   max-width: 400px;
   width: 90%;
+}
+
+.modal_content h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-decoration: underline;
+} 
+
+.modal_list_content p i {
+  color: var(--main-green);
+}
+
+.modal_list_content p {
+  font-size: .8rem;
+  font-weight: 500;
+}
+
+.modal_list_content p:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .modal_img {

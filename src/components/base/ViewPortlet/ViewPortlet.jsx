@@ -25,7 +25,7 @@ class ViewPortlet extends Component {
     } = this.props;
     const { SettingsStore } = this.context.store;
 
-    if (isAck) return <BaseAckPagePanel {...this.props} />;
+    if (isAck && !SettingsStore.isProcessing) return <BaseAckPagePanel {...this.props} />;
 
     return (
       <div className={buildClassNames('viewportlet_ctr', customClassName, isView ? 'isview' : '')}>
@@ -37,25 +37,30 @@ class ViewPortlet extends Component {
             </Fragment>
           )}
 
-          {(isAck && hasHeader) && (
-            <Fragment>
-              {/* <div className='ackmessage_ctr'>
-                <span className='msg'>
-                  <i class="bi bi-check-circle-fill"></i>{ackMessage!=null ? ackMessage : ''}
-                </span>
-                <span className='refno'>
-                  Your Reference Number is {refNo!=null ? refNo : ''}.
-                </span>
-              </div> */}
-              <div class="alert-success-box">
-                <div class="alert-icon"><i class="bi bi-check-circle-fill"></i></div>
+          {!SettingsStore.isProcessing ? (
+            (isAck && hasHeader) && (
+              <Fragment>
+                <div class="alert-success-box">
+                  <div class="alert-icon"><i class="bi bi-check-circle-fill"></i></div>
+                  <div class="alert-content">
+                    <div class="alert-title">{ackMessage!=null ? ackMessage : ''}</div>
+                    <div class="alert-details">Reference Number <span>{refNo}</span></div>
+                  </div>
+                </div>
+                {<div className='form_divider'></div>}
+              </Fragment>
+            )
+          ) : (
+            isAck ? (
+              <Fragment>
+              <div class="alert-success-box-processing">
                 <div class="alert-content">
-                  <div class="alert-title">{ackMessage!=null ? ackMessage : ''}</div>
-                  <div class="alert-details">Reference Number <span>{refNo}</span></div>
+                  <div class="alert-title">{'Your transaction is now processing...'}</div>
                 </div>
               </div>
               {<div className='form_divider'></div>}
             </Fragment>
+            ) : null
           )}
         </div>
 
@@ -100,7 +105,10 @@ class ViewFieldComponent extends Component {
       valueIfNull,
       icon,
       isMessage,
-      modalDisplay
+      modalContent,
+      isImage,
+      isObjectList,
+      title
     } = this.props;
 
     const { showModal } = this.state;
@@ -109,8 +117,8 @@ class ViewFieldComponent extends Component {
       <>
         <div 
           className={buildClassNames('viewField_ctr', customClassName)} 
-          style={{ cursor: modalDisplay ? 'pointer' : 'default' }}
-          onClick={modalDisplay ? this.openModal : undefined}
+          style={{ cursor: modalContent ? 'pointer' : 'default' }}
+          onClick={modalContent ? this.openModal : undefined}
         >
           <div className='viewField_hdr'>
             <span>{label || ''}</span>
@@ -120,15 +128,28 @@ class ViewFieldComponent extends Component {
             <span className={isMessage ? 'white_line' : ''}>
               {icon || null}
               {value != null ? value : valueIfNull || ''}
-              {modalDisplay!=null && <i class="bi bi-camera-fill"></i>}
+              {modalContent!=null && isImage && <i class="bi bi-camera-fill"></i>}
             </span>
           </div>
         </div>
 
-        {showModal && modalDisplay && (
+        {showModal && modalContent && (
           <div className="modal_overlay" onClick={this.closeModal}>
             <div className="modal_content" onClick={e => e.stopPropagation()}>
-              <img src={modalDisplay} alt="Profile" className="modal_img" />
+              {title && <h2>{title}</h2>}
+              {isImage ? (
+                <img src={modalContent} alt="Profile" className="modal_img" />
+              ) : (
+                isObjectList ? (
+                  modalContent.map((u, index) => {
+                    return (
+                      <span className='modal_list_content' key={index}>
+                        <p><i class="bi bi-caret-right-fill"></i>{u}</p>
+                      </span>
+                    );
+                  })
+                  ) : modalContent
+              )}
               <button className="modal_close_btn" onClick={this.closeModal}>×</button>
             </div>
           </div>

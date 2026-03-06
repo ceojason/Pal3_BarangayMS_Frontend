@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 class MessageModal extends Component {
   render() {
-    const { show, content, onClose, hasIcon } = this.props;
+    const { show, content, onClose, hasIcon, title } = this.props;
 
     if (!show) return null;
 
@@ -13,7 +13,7 @@ class MessageModal extends Component {
         <div className="message_modal_body">
           <h3>
             <i className="bi bi-envelope-check-fill"></i>
-            Message Details
+            {title ? title : 'Message Details'}
           </h3>
 
           <p className='white_line'>

@@ -12,6 +12,7 @@ class SettingsStore {
       successMsg: observable,
       customModal: observable,
       isInitialSearch: observable,
+      isProcessing: observable,
 
       showModal: action,
       hideCustomModal: action,
@@ -47,6 +48,7 @@ class SettingsStore {
   };
 
   isInitialSearch = true;
+  isProcessing = false;
 
   // ===============================
   // SHOW MODAL

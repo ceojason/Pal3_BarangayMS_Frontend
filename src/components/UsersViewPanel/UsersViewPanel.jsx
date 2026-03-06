@@ -32,6 +32,7 @@ class UsersViewPanel extends Component {
   submitForm = () => {
     const { UsersStore, SettingsStore } = this.context.store;
     SettingsStore.isLoading=true;
+    SettingsStore.isProcessing = true;
 
     UsersStore.saveEnrollment(UsersStore.validatedData, res => {
       SettingsStore.isLoading=false;
@@ -39,10 +40,12 @@ class UsersViewPanel extends Component {
       UsersStore.ackHeader.ackMessage=res.ackMessage;
       UsersStore.ackHeader.refNo=res.refNo;
       UsersStore.savedData=res;
+      SettingsStore.isProcessing = false;
       UsersStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
       SettingsStore.showSuccessPanel=true;
     }, err => {
         SettingsStore.isLoading=false;
+        SettingsStore.isProcessing = false;
         SettingsStore.showModal({ type: 'error', errorList: err });
       }
     );
@@ -63,7 +66,8 @@ class UsersViewPanel extends Component {
                   value={data.fullNm}
                   customClassName={'with_highlight'}
                   icon={<i class="bi bi-person-check-fill"></i>}
-                  modalDisplay={profileImage} 
+                  modalContent={profileImage}
+                  isImage={true}
                 />
               </Col>
               <Col md={6}>

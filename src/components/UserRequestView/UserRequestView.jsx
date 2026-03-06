@@ -18,6 +18,7 @@ class UserRequestView extends Component {
       hasClickedGenerate: false,
 
       isProcessed: false,
+      dateProcessedString: null,
 
       showProcessBtn: false,
       showRejectBtn: false
@@ -38,7 +39,7 @@ class UserRequestView extends Component {
 
   getViewPanel = () => {
     const { data } = this.props;
-    const { showGenerateBtn } = this.state;
+    const { showGenerateBtn, dateProcessedString } = this.state;
 
     return (
       <Fragment>
@@ -72,7 +73,7 @@ class UserRequestView extends Component {
                 <Col md={6}>
                   <ViewField
                     label={'Date Processed'}
-                    value={data.dateProcessedString}
+                    value={dateProcessedString}
                   />
                 </Col>
               )}
@@ -165,7 +166,8 @@ class UserRequestView extends Component {
         isProcessed: true,
         showProcessBtn: false,
         showGenerateBtn: true,
-        showRejectBtn: false
+        showRejectBtn: false,
+        dateProcessedString: res.dateProcessedString
       });
     });
     setTimeout(() => this.setState({ isProcessed: false }), 5000);

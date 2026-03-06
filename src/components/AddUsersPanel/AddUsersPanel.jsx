@@ -277,12 +277,15 @@ class AddUsersPanel extends Component {
   onClickNext = () => {
     const { UsersStore, SettingsStore } = this.context.store;
     SettingsStore.isLoading=true;
+    SettingsStore.isProcessing = true;
     UsersStore.validateEnrollment(
       UsersStore.enrollmentRequest, res => {
         SettingsStore.isLoading=false;
         UsersStore.validatedData = res;
+        SettingsStore.isProcessing = false;
         UsersStore.currentStep = StepperContants.MANUAL_ENROLL__CONFIRM;
       }, err => {
+        SettingsStore.isProcessing = false;
         SettingsStore.isLoading=false;
         SettingsStore.showModal({
           type: 'error',

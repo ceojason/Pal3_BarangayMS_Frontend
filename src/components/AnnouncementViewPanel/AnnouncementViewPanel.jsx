@@ -15,6 +15,9 @@ class AnnouncementViewPanel extends Component {
   submitForm = () => {
     const { AnnouncementStore, SettingsStore } = this.context.store;
     SettingsStore.isLoading=true;
+    SettingsStore.isProcessing = true;
+    AnnouncementStore.savedData=AnnouncementStore.validatedData;
+    AnnouncementStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
 
     AnnouncementStore.saveRequest(AnnouncementStore.validatedData, res => {
       SettingsStore.isLoading=false;
@@ -22,16 +25,20 @@ class AnnouncementViewPanel extends Component {
       AnnouncementStore.ackHeader.ackMessage=res.ackMessage;
       AnnouncementStore.ackHeader.refNo=res.refNo;
       AnnouncementStore.savedData=res;
-      AnnouncementStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
       SettingsStore.showSuccessPanel=true;
+      SettingsStore.isProcessing = false;
     }, err => {
       SettingsStore.isLoading=false;
+      SettingsStore.isProcessing = false;
       SettingsStore.showModal({ type: 'error', errorList: err });
     });
   };
 
   getViewPanel = () => {
     const { data } = this.props;
+    let recipients = data && data.recipientList.length > 3
+      ? data.recipientListString.substring(0, 50) + '...'
+      : data.recipientListString;
 
     return (
       <Fragment>
@@ -41,9 +48,12 @@ class AnnouncementViewPanel extends Component {
               <Col md={12}>
                 <ViewField
                   label={'Recipients'}
-                  value={data.recipientListString}
+                  value={recipients}
                   customClassName={'with_highlight'}
                   icon={<i class="bi bi-person-check-fill"></i>}
+                  title={'Recipients'}
+                  modalContent={data.recipientList}
+                  isObjectList={true}
                 />
               </Col>
             </Row>

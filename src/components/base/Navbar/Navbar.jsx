@@ -56,9 +56,9 @@ class Navbar extends Component {
                   <span className='hdr_one'>
                     eBarangayConnect
                   </span>
-                  <span className='hdr_two'>
+                  {/* <span className='hdr_two'>
                     Your Community, Your Voice.
-                  </span>
+                  </span> */}
                 </div>
               </Link>
             </div>
