@@ -280,6 +280,7 @@ class MyAdminProfile extends Component {
                     label={'Email Address'}
                     placeholder={'resident.user@example.com'}
                     maxLength={255}
+                    isRequired={true}
                     type={'email'}
                     value={AdminEnrollmentStore.enrollmentRequest.emailAddress}
                     onChange={e => this.onChangeInputs('emailAddress', e.target.value)}
