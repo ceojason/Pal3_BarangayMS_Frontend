@@ -191,7 +191,7 @@
 
 .login_footer button {
   height: calc(2rem + calc(var(--bs-border-width) * 2));
-  min-height: calc(2rem + calc(var(--bs-border-width) * 2));
+  min-height: calc(2.5rem + calc(var(--bs-border-width) * 2));
   line-height: 1.25;
   width: 100%;
   border: none;
@@ -210,9 +210,31 @@
 }
 
 .login_footer span {
-  padding-top: 20px;
+  border-top: 1px solid var(--main-green) ;
+  border-bottom: 1px solid var(--main-green);
+  padding: 10px 0;
+}
+
+.login_footer span, .login_footer span i {
+  margin-top: 35px;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 12px;
+  color: var(--main-green);
+}
+
+.login_footer span i {
+  margin-right: 7px;
+  font-size: 15px !important;
+}
+
+.login_footer span .forgot_btn {
+  font-weight: 700;
+  color: var(--main-green);
+}
+
+.login_footer span .forgot_btn:hover {
+  opacity: .8;
+  transition: .3s ease-in-out;
 }
 
 .login_btm_links {

@@ -132,7 +132,7 @@ class AddUsersPanel extends Component {
                 onChange={e => this.onChangeInputs('birthDt', e.target.value)}
               />
             </Col>
-            <Col md={5}>
+            <Col md={6}>
               <InputField
                 label={'Birth Place'}
                 maxLength={255}
@@ -143,7 +143,7 @@ class AddUsersPanel extends Component {
                 inst={'City/Municipality, Province, Country'}
               />
             </Col>
-            <Col md={2}>
+            <Col md={3}>
               <SelectField
                 label={'Gender'}
                 isRequired={true}
@@ -152,7 +152,10 @@ class AddUsersPanel extends Component {
                 onChange={e => this.onChangeSelect('gender', e.target.value)}
               />
             </Col>
-            <Col md={2}>
+          </Row>
+
+          <Row>
+            <Col md={3}>
               <SelectField
                 label={'Civil Status'}
                 isRequired={true}

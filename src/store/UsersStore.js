@@ -187,6 +187,15 @@ class UsersStore {
     );
   };
 
+  resetUserNoSession(data, onSuccess, onError) {
+    api.post.postRequest(
+      '/users/resetNoSession',
+      data,
+      onSuccess,
+      onError
+    );
+  };
+
   uploadImageToServer = async (file, userId, onSuccess, onError) => {
     await api.post.uploadProfileImage(userId, file, onSuccess, onError);
   };

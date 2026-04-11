@@ -276,7 +276,7 @@ class MyProfilePanel extends Component {
                     value={UsersStore.enrollmentRequest.birthDtString}
                   />
                 </Col>
-                <Col md={5}>
+                <Col md={6}>
                   <InputField
                     label={'Birth Place'}
                     maxLength={255}
@@ -288,7 +288,7 @@ class MyProfilePanel extends Component {
                     disabled={true}
                   />
                 </Col>
-                <Col md={2}>
+                <Col md={3}>
                   <SelectField
                     label={'Gender'}
                     isRequired={true}
@@ -298,7 +298,10 @@ class MyProfilePanel extends Component {
                     disabled={true}
                   />
                 </Col>
-                <Col md={2}>
+              </Row>
+
+              <Row>
+                <Col md={3}>
                   <SelectField
                     label={'Civil Status'}
                     isRequired={true}

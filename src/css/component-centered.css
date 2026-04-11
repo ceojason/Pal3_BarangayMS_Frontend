@@ -828,3 +828,24 @@
 .res_dashboard {
     margin-top: 100px;
 }
+
+.reset_user_form {
+  padding: 50px 50px;
+  margin: 0 30%;
+}
+
+.reset_user_form .header {
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reset_user_form .header img {
+    height: 100px;
+    width: auto;
+}
+
+.reset_user_form .profile_btns {
+    margin-top: 30px;
+}

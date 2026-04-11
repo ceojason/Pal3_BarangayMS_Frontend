@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Navigate } from 'react-router-dom'; // <-- for redirect
+import { Link, Navigate } from 'react-router-dom'; // <-- for redirect
 import logo from '../../assets/images/logo.png';
 import StoreContext from '../../store/StoreContext';
 import InputField from '../base/InputField/InputField';
@@ -108,7 +108,8 @@ class Login extends Component {
                   label='Log In'
                 />
                 <span>
-                  Forgot password? Click <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">here.</a>
+                  <i class="bi bi-question-circle-fill"></i>
+                  Forgot your User ID or Password? Click <Link to="/resetUser" className='forgot_btn'>here.</Link>
                 </span>
               </div>
             </div>

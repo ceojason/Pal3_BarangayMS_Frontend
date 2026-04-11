@@ -3,9 +3,6 @@ import App from './App.jsx';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import LoginMainCtr from './containers/Login/LoginMainCtr.jsx';
 import MyAdminDashboardMainCtr from './containers/MyAdminDashboard/MyAdminDashboardMainCtr.jsx';
-import SearchStudentMainCtr from './containers/SearchStudent/SearchStudentMainCtr.jsx';
-import AddStudentMainCtr from './containers/AddStudent/AddStudentMainCtr.jsx';
-import AddAdminMainCtr from './containers/AddAdmin/AddAdminMainCtr.jsx';
 import AddUsersMainCtr from './containers/AddUsers/AddUsersMainCtr.jsx';
 import SearchUsersMainCtr from './containers/SearchUsers/SearchUsersMainCtr.jsx';
 import NotificationLogsMainCtr from './containers/NotificationLogs/NotificationLogsMainCtr.jsx';
@@ -19,11 +16,13 @@ import RejectDocumentRequestsInquiryMainCtr from './containers/RejectDocumentReq
 import DocumentHistoryMainCtr from './containers/DocumentHistory/DocumentHistoryMainCtr.jsx';
 import PermissionRoute from './components/Routes/PermissionRoute.jsx';
 import Permissions from './constants/others/Permissions.js';
+import ResetUserMainCtr from './containers/ResetUser/ResetUserMainCtr.jsx';
 
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
   { path: '/login', element: <LoginMainCtr /> },
+  { path: '/resetUser', element: <ResetUserMainCtr /> },
 
   {
     path: '/',
