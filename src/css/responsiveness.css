@@ -169,4 +169,22 @@
     .navbar {
         padding: 0 2rem;
     }
+    .reset_user_form {
+        padding: 50px 50px;
+        margin: 0 30%;
+    }
+}
+
+@media (max-width: 968px) {
+    .reset_user_form {
+        padding: 50px 50px;
+        margin: 0 22%;
+    }
+}
+
+@media (min-width: 768) {
+    .reset_user_form {
+        padding: 50px 50px;
+        margin: 0 15%;
+    }
 }
