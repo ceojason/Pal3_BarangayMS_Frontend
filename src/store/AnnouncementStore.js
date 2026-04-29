@@ -94,6 +94,9 @@ class AnnouncementStore {
       message: null,
       type: null,
       alertStatus: null,
+      location: null,
+      date: null,
+      time: null
     };
   };
 

@@ -80,6 +80,27 @@ class AnnouncementViewPanel extends Component {
             </Row>
 
             <Row>
+              <Col md={4}>
+                <ViewField
+                  label={'Location'}
+                  value={data.location}
+                />
+              </Col>
+              <Col md={4}>
+                <ViewField
+                  label={'Date'}
+                  value={data.dateString}
+                />
+              </Col>
+              <Col md={4}>
+                <ViewField
+                  label={'Time'}
+                  value={data.time}
+                />
+              </Col>
+            </Row>
+
+            <Row>
               <Col md={12}>
                 <ViewField
                   label={'Header'}

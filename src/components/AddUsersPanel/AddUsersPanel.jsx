@@ -217,12 +217,21 @@ class AddUsersPanel extends Component {
               />
             </Col>
             <Col md={4}>
-              <SelectField
+              {/* <SelectField
                 label={'Household'}
                 // isRequired={true}
                 options={null}
                 value={UsersStore.enrollmentRequest.householdKey}
                 onChange={e => this.onChangeSelect('householdKey', e.target.value)}
+              /> */}
+              <InputField
+                label={'Household'}
+                maxLength={32}
+                isRequired={true}
+                type={'text'}
+                value={UsersStore.enrollmentRequest.householdKey}
+                onChange={e => this.onChangeInputs('householdKey', e.target.value)}
+                inst={'eg. Block AB12 Lot 21'}
               />
             </Col>
           </Row>

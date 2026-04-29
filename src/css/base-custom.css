@@ -1127,8 +1127,8 @@
 }
 
 .base_template_ctr .header i {
-  margin-right: 10px;
-  color: var(--main-green);
+  margin-right: 15px;
+  /* color: var(--main-green); */
 }
 
 .base_initial_ctr {
@@ -1308,12 +1308,14 @@
 
 .main_panel_ctr .header .string {
   color: var(--main-green);
-  font-size: 20px !important;
+  font-size: 16px !important;
+  display: flex;
+  align-items: center;
 }
 
 .main_panel_ctr .header .string i {
   color: var(--main-green);
-  font-size: 25px !important;
+  font-size: 20px !important;
 }
 
 .admin_preview .header {

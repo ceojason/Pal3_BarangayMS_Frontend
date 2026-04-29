@@ -55,8 +55,9 @@ export const uploadProfileImage = async (userId, file, onSuccess, onError) => {
 // POST APIs
 export const postRequest = async (endpoint, data, onSuccess, onError) => {
   const token = localStorage.getItem('token');
+  const hasNoSession = data.hasNoSession;
 
-  if (!token) {
+  if (!token && !hasNoSession) {
     throw new Error("No token found. Please login.");
   }
 

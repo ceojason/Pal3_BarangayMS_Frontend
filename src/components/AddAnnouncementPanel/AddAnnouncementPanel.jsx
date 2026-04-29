@@ -114,6 +114,38 @@ class AddAnnouncementPanel extends Component {
           </Row>
 
           <Row>
+            <Col md={8}>
+              <InputField
+                label={'Location'}
+                maxLength={255}
+                type={'text'}
+                value={AnnouncementStore.enrollmentRequest.location}
+                onChange={e => this.onChangeInputs('location', e.target.value)}
+                inst={'Set the location if applicable'}
+              />
+            </Col>
+            <Col md={2}>
+              <InputField
+                label={'Date'}
+                maxLength={255}
+                type={'date'}
+                value={AnnouncementStore.enrollmentRequest.date}
+                onChange={e => this.onChangeInputs('date', e.target.value)}
+              />
+            </Col>
+            <Col md={2}>
+              <InputField
+                label={'Time'}
+                maxLength={20}
+                type={'text'}
+                value={AnnouncementStore.enrollmentRequest.time}
+                onChange={e => this.onChangeInputs('time', e.target.value)}
+                inst={'eg. 9:00AM - 10:00AM'}
+              />
+            </Col>
+          </Row>
+
+          <Row>
             <Col md={12}>
               <BaseTextArea
                 label={'Message'}

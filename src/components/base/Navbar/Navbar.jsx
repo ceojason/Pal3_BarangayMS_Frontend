@@ -180,7 +180,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-megaphone-fill"></i>Announcement Management
+                        <i class="bi bi-send-arrow-up-fill"></i>Announcement Management
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -203,7 +203,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-file-earmark-post"></i>Manage User Request
+                        <i class="bi bi-file-earmark-pdf-fill"></i>Manage User Request
                       </a>
                       <ul className="dropdown-menu">
                         <li>

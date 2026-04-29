@@ -17,6 +17,7 @@ import DocumentHistoryMainCtr from './containers/DocumentHistory/DocumentHistory
 import PermissionRoute from './components/Routes/PermissionRoute.jsx';
 import Permissions from './constants/others/Permissions.js';
 import ResetUserMainCtr from './containers/ResetUser/ResetUserMainCtr.jsx';
+import SystemConfigMainCtr from './containers/SystemConfig/SystemConfigMainCtr.jsx';
 
 
 const router = createBrowserRouter([
@@ -133,6 +134,10 @@ const router = createBrowserRouter([
           </PermissionRoute>
         ),
       },
+      {
+              path: 'systemSettings',
+              element: <SystemConfigMainCtr />,
+            },
     ],
   },
 ]);

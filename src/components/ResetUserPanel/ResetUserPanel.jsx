@@ -135,6 +135,7 @@ class ResetUserPanel extends Component {
     const { SettingsStore, UsersStore } = this.context.store;
     
     window.scrollTo(0, 0);
+    data.hasNoSession = true;
     UsersStore.resetUserNoSession(data, res => {
       UsersStore.reset();
       SettingsStore.showSuccessPanel = true;

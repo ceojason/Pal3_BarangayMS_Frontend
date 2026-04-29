@@ -1,7 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import { withRouter } from '../../utils/RouterUtils';
+
 const ADMIN_ACTIONS = [
   {
     label: 'Add New Resident',
@@ -11,13 +12,13 @@ const ADMIN_ACTIONS = [
   },
   {
     label: 'Create New Announcement',
-    icon: 'bi-megaphone-fill',
+    icon: 'bi-send-arrow-up-fill',
     url: '/announcementAdd',
     className: 'green'
   },
   {
     label: 'View Document Requests',
-    icon: 'bi-file-earmark-text-fill',
+    icon: 'bi-file-earmark-pdf-fill',
     url: '/viewDocumentRequests',
     className: 'blue'
   },
@@ -38,18 +39,17 @@ const RESIDENT_ACTIONS = [
   },
   {
     label: 'Document Requests History',
-    icon: 'bi-envelope-paper-fill',
+    icon: 'bi-clock-history',
     url: '/documentHistory',
     className: 'orange'
   },
   {
     label: 'View Announcement History',
-    icon: 'bi-clock-history',
+    icon: 'bi-megaphone-fill',
     url: '/announcementLogs',
     className: 'blue'
   }
 ];
-
 
 class QuickActions extends Component {
 
@@ -62,25 +62,30 @@ class QuickActions extends Component {
     const actionList = isAdmin ? ADMIN_ACTIONS : RESIDENT_ACTIONS;
 
     return (
-      <Fragment>
-        <div className='quick_actions_ctr'>
-          <div className="quick_actions">
-            {actionList.map(action => (
-              <button
-                key={action.url}
-                className={`qa_btn ${action.className}`}
-                onClick={() => this.goTo(action.url)}
-              >
-                <i className={`bi ${action.icon}`} /> {action.label}
-              </button>
-            ))}
+      <div className="quick_actions_ctr">
+        <div className="quick_actions">
 
-          </div>
+          <span className="qa_label">
+            <i className="bi bi-lightning-charge-fill"></i>
+            Quick Actions
+          </span>
+
+          {actionList.map(action => (
+            <button
+              key={action.url}
+              className={`qa_btn ${action.className}`}
+              onClick={() => this.goTo(action.url)}
+            >
+              <i className={`bi ${action.icon}`} />
+              <span>{action.label}</span>
+            </button>
+          ))}
+
         </div>
-      </Fragment>
+      </div>
     );
   }
-};
+}
 
 QuickActions.contextType = StoreContext;
 
