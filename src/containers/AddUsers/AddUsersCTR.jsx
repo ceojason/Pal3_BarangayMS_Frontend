@@ -7,8 +7,8 @@ const AddUsersCTR = () => {
     <MainContainer>
       <div className="AddUsersCTR">
         <AddUsersStepper
-          icon={<i class="bi bi-people-fill"></i>}
-          header={'Add User'}
+          // icon={<i class="bi bi-people-fill"></i>}
+          header={'Register New Resident'}
           subHeader={'Please make sure all the details are correct before proceeding with the registration.'}
         />
       </div>

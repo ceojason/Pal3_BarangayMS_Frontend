@@ -9,6 +9,9 @@ import DocumentPreviewPanel from '../DocumentPreviewPanel/DocumentPreviewPanel';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import BaseButton from '../base/BaseButton/BaseButton';
+import IdCardPreviewPanel from '../IdCardPreviewPanel/IdCardPreviewPanel';
+import StatusColumn from '../StatusColumn/StatusColumn';
+import ProcessFeeCard from '../ProcessFeeCard/ProcessFeeCard';
 
 class UserRequestView extends Component {
   constructor(props) {
@@ -21,7 +24,9 @@ class UserRequestView extends Component {
       dateProcessedString: null,
 
       showProcessBtn: false,
-      showRejectBtn: false
+      showRejectBtn: false,
+
+      isGeneratingPdf: false,
     }
     this.previewRef = React.createRef(); 
   }
@@ -65,29 +70,90 @@ class UserRequestView extends Component {
             <Row>
               <Col md={6}>
                 <ViewField
-                  label={'Document Type'}
-                  value={data.documentTypeString}
+                  label={'Document Category & Type'}
+                  value={data.docuCategoryKeyString + ' - ' + data.docuSubCategoryKeyString}
                 />
               </Col>
-              {showGenerateBtn && (
+              <Col md={6}>
+                <ViewField
+                  label={'Purpose'}
+                  value={data.purposeKey!=null && data.purposeKey!=5 ? data.purposeKeyString : data.othPurpose}
+                />
+              </Col>
+            </Row>
+
+            
+            <Row>
+              {showGenerateBtn ? (
+                  <Col md={6}>
+                    <ViewField
+                      label={'Date Processed'}
+                      value={data.dateProcessedString}
+                    />
+                  </Col>
+              ) : (
                 <Col md={6}>
-                  <ViewField
-                    label={'Date Processed'}
-                    value={dateProcessedString}
-                  />
+                  <ProcessFeeCard data={data.processFee} />
                 </Col>
               )}
+              <Col md={6}>
+                <ViewField
+                  label={'Status'}
+                  value={<StatusColumn
+                    statusKey={data.status}
+                  />}
+                />
+              </Col>
             </Row>
-          </BasePanel>
 
-          <div className='main_panel_ctr admin_preview'>
-            <span className='header'><i className="bi bi-envelope-paper-fill"></i>{'Sample Preview'}</span>
-          </div>
-          <div ref={this.previewRef}>
-            <DocumentPreviewPanel
-              hideHeader={true}
-              data={data}
-            />
+            {showGenerateBtn && (
+              <Row>
+                <Col md={6}>
+                  <ProcessFeeCard data={data.processFee} />
+                </Col>
+              </Row>
+            )}
+          </BasePanel>
+          
+          <div ref={this.previewRef} className={this.state.isGeneratingPdf ? 'pdf_export_mode' : ''}>
+            {(data.purposeKey!=null ||
+              data.purpose!=null) && 
+              data.docuSubCategoryKey!=26 &&
+              (
+              <DocumentPreviewPanel
+                hideHeader={this.state.hideHeader}
+                isGeneratingPdf={this.state.isGeneratingPdf}
+                docSubCategoryString={
+                  data.docuSubCategoryKeyString
+                }
+                docCategoryString={
+                  data.docuCategoryKeyString
+                }
+                fullName={data.requestor}
+                address={data.homeAddress}
+                purpose={
+                  (data.purposeKey != null &&
+                  data.purposeKey != 5)
+                    ? data.purposeKeyString
+                    : data.othPurpose
+                }
+              />
+            )}
+
+            {(data.purposeKey!=null ||
+              data.purpose!=null) && 
+              data.docuSubCategoryKey==26 &&
+              (
+              <IdCardPreviewPanel 
+                fullName={data.requestor}
+                address={data.homeAddress}
+                birthDate={data.birthDtString}
+                sex={data.genderString}
+                civilStatus={data.civilStatusString}
+                contactNo={data.mobileNo}
+                hideHeader={this.state.hideHeader}
+              />
+            )}
           </div>
         </ViewPortlet>
       </Fragment>
@@ -141,21 +207,59 @@ class UserRequestView extends Component {
   onClickGenerate = () => {
     const { data } = this.props;
     const element = this.previewRef.current;
+
     if (!element) return;
 
-    this.setState({ hideHeader: true, hasClickedGenerate: true }, () => {
-      html2canvas(element, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    this.setState({
+      hideHeader: true,
+      isGeneratingPdf: true
+    }, async () => {
 
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(data.fileNm + '.pdf');
+      // wait for DOM repaint (VERY IMPORTANT)
+      await new Promise(r => setTimeout(r, 500));
+
+      const canvas = await html2canvas(element, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       });
-    }, () => {
-      this.setState({ hideHeader: false });
-    })
+
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+
+      // FIXED FIT (no stretching distortion)
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+      heightLeft -= pageHeight;
+
+      // handle multi-page (IMPORTANT improvement)
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(data.fileNm + '.pdf');
+
+      this.setState({
+        hideHeader: false,
+        isGeneratingPdf: false
+      });
+
+    });
   };
 
   onClickProcess = data => {

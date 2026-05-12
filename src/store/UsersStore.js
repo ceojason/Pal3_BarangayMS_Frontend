@@ -90,8 +90,16 @@ class UsersStore {
       mobileNo: null,
       emailAddress: null,
       phaseKey: null,
-      homeAddress: null,
+      // homeAddress: null,
+      block: null,
+      lot: null,
+      street: null,
+      isHouseholdHead: null,
+      tempHouseholdForSave: null,
       householdKey: null,
+      householdKeyDscp: null,
+      isBrgyOfficial: null,
+      brgyPositionKey: null,
       occupation: null,
       religion: null,
       isRegisteredVoter: null,
@@ -107,6 +115,14 @@ class UsersStore {
 
   async getGenderList() {
     return await api.get.getGenderListStr();
+  };
+
+  async getHouseholdList(block, lot, purok) {
+    return await api.get.getHouseholdList(block, lot, purok);
+  };
+
+  async getBrgyPositionList() {
+    return await api.get.getBrgyPositionList();
   };
 
   async getCivilStatusList() {
@@ -145,6 +161,15 @@ class UsersStore {
   validateEnrollment(requestObj, onSucc, onErr) {
     api.post.postRequest(
       '/users/validateEnrollment',
+      requestObj,
+      onSucc,
+      onErr
+    );
+  };
+
+  createHouseholdForRegistration(requestObj, onSucc, onErr) {
+    api.post.postRequest(
+      '/users/createHouseholdForRegistration',
       requestObj,
       onSucc,
       onErr

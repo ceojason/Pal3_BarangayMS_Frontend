@@ -271,6 +271,22 @@ export const getGenderListStr = async () => {
   return data.content;
 };
 
+export const getHouseholdList = async (block, lot, purok) => {
+  const response = await fetch(`${BASE_URL}/household/findActiveHousehold/${block}/${lot}/${purok}`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getBrgyPositionList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getBrgyPositionList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getCivilStatusList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getCivilStatusList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
@@ -305,6 +321,38 @@ export const getResidentTypeList = async () => {
 
 export const getDocumentTypeList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getDocumentList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getPurposeKeyList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getPurposeKeyList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getDocuCategoryList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getDocuCategoryList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getDocuSubCatListByKey = async (key) => {
+  const response = await fetch(`${BASE_URL}/enumApi/getDocuSubCatListByKey/${key}`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getProcessFeeByKey = async (key) => {
+  const response = await fetch(`${BASE_URL}/document/getProcessFeeByKey/${key}`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();

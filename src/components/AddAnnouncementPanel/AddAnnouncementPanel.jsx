@@ -69,7 +69,7 @@ class AddAnnouncementPanel extends Component {
 
     return (
       <MainForm>
-        <BasePanel header={'Announcement Information'}>
+        <BasePanel header={'Announcement Information'} icon={<i class="bi bi-send-arrow-up-fill"></i>}>
           <Row>
             <Col md={12}>
               <InputField

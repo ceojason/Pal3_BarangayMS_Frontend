@@ -27,7 +27,7 @@ const App = observer(() => {
   return (
     <Fragment>
       <Navbar />
-      <main className="container mt-3">
+      <main className="container_bms mt-3">
         <Outlet />
       </main>
     </Fragment>

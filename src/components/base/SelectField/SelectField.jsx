@@ -6,35 +6,81 @@ import { buildClassNames } from '../../../utils/ClassUtils';
 class SelectField extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      error: '',
+      isFocused: false
+    };
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value && !this.props.value) {
+      this.setState({ error: '' });
+    }
+  }
+
+  validateInput = (value) => {
+    const { isRequired } = this.props;
+
+    if (
+      isRequired &&
+      (value === null ||
+        value === undefined ||
+        value === '')
+    ) {
+      return 'This field is required';
+    }
+
+    return '';
+  };
 
   handleChange = (e) => {
     const { options, onChange } = this.props;
+
     const selectedValue = e.target.value;
 
+    // Empty value
     if (selectedValue === '') {
+      const error = this.validateInput(null);
+
+      this.setState({ error });
+
       if (onChange) {
-        onChange({ target: { value: null } });
+        onChange({
+          target: {
+            value: null
+          }
+        });
       }
+
       return;
     }
 
-    // Infer type from the first option's key
+    // Infer type from option key
     const sampleKey = options?.[0]?.key;
 
     let parsedValue;
+
     if (typeof sampleKey === 'number') {
       parsedValue = Number(selectedValue);
-    } else if (typeof sampleKey === 'string') {
-      parsedValue = selectedValue;
     } else {
-      parsedValue = selectedValue; // fallback
+      parsedValue = selectedValue;
     }
 
-    const selectedOption = options.find(option => option.key === parsedValue);
+    const selectedOption = options.find(
+      (option) => option.key === parsedValue
+    );
+
+    const error = this.validateInput(selectedOption);
+
+    this.setState({ error });
 
     if (onChange) {
-      onChange({ target: { value: selectedOption } });
+      onChange({
+        target: {
+          value: selectedOption
+        }
+      });
     }
   };
 
@@ -46,41 +92,105 @@ class SelectField extends Component {
       customClassName,
       value,
       disabled,
-      inst
+      inst,
+      icon,
+      name
     } = this.props;
 
+    const { error, isFocused } = this.state;
+
     return (
-      <div className={buildClassNames('selectField_ctr', customClassName)}>
-        <div className='selectField_hdr'>
-          <span>{label != null ? label : ''}</span>
-          {isRequired && <span className='isRequired_ast'>*</span>}
+      <div
+        className={buildClassNames(
+          'selectField_ctr',
+          customClassName
+        )}
+      >
+        {/* LABEL */}
+        {label && (
+          <label className="selectField_hdr">
+            <span>{label}</span>
+
+            {isRequired && (
+              <span className="isRequired_ast">*</span>
+            )}
+          </label>
+        )}
+
+        {/* SELECT WRAPPER */}
+        <div
+          className={buildClassNames(
+            'select_wrapper',
+            error && 'select_error',
+            isFocused && 'select_focus',
+            disabled && 'select_disabled'
+          )}
+        >
+          {/* LEFT ICON */}
+          {icon && (
+            <div className="select_icon">
+              {icon}
+            </div>
+          )}
+
+          {options && options.length > 0 ? (
+            <>
+              <select
+                name={name || label || 'selectGroup'}
+                value={value != null ? value : ''}
+                onChange={this.handleChange}
+                disabled={disabled}
+                className="select_dropdown"
+                onFocus={() =>
+                  this.setState({ isFocused: true })
+                }
+                onBlur={() =>
+                  this.setState({ isFocused: false })
+                }
+              >
+                <option value="" hidden>
+                  Choose {label || 'option'}
+                </option>
+
+                {options.map((item, index) => (
+                  <option
+                    key={index}
+                    value={item.key}
+                  >
+                    {item.value}
+                  </option>
+                ))}
+              </select>
+
+              {/* CUSTOM DROPDOWN ICON */}
+              <div className="select_arrow">
+                <i className="bi bi-chevron-down"></i>
+              </div>
+            </>
+          ) : (
+            <div className="no_options">
+              No options available for {label}
+            </div>
+          )}
         </div>
 
-        <div className='selectField_opt'>
-          {options && options.length > 0 ? (
-            <select
-              name={label || 'selectGroup'}
-              value={value!=null ? value : ''}
-              onChange={this.handleChange}
-              className='select-dropdown'
-              disabled={disabled}
-            > 
-              <option hidden>Choose {label} here.</option>
-              {options.map((item, index) => (
-                <option key={index} value={item.key}>
-                  {item.value}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <div className="no_options">No options available for {label}</div>
-          )}
-          {inst && <div className='input_inst'><small>{inst}</small></div>}
-        </div>
+        {/* INSTRUCTION */}
+        {inst && (
+          <div className="input_inst">
+            <small>{inst}</small>
+          </div>
+        )}
+
+        {/* ERROR */}
+        {error && (
+          <div className="inputField_error">
+            <small>{error}</small>
+          </div>
+        )}
       </div>
     );
-  };
-};
+  }
+}
 
 SelectField.contextType = StoreContext;
 

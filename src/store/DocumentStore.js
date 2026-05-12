@@ -81,12 +81,38 @@ class DocumentStore {
     return await api.get.getDocumentTypeList();
   };
 
+  async getPurposeKeyList() {
+    return await api.get.getPurposeKeyList();
+  };
+
+  async getDocuCategoryList() {
+    return await api.get.getDocuCategoryList();
+  };
+
+  async getDocuSubCatListByKey(key) {
+    return await api.get.getDocuSubCatListByKey(key);
+  };
+
+  async getProcessFeeByKey(key) {
+    return await api.get.getProcessFeeByKey(key);
+  };
+
   initialEnrollmentRequest() {
     return {
+      fullName: null,
+      homeAddress: null,
+
       userId: null,
-      documentType: null,
-      purpose: null,
+      docuCategoryKey: null,
+      docuSubCategoryKey: null,
+      docuCategoryKeyString: null,
+      docuSubCategoryKeyString: null,
+      othPurpose: null,
+      purposeKey: null,
+      purposeKeyString: null,
       dateRequested: null,
+      processFee: null,
+      processFeeString: null,
       status: null,
     };
   };

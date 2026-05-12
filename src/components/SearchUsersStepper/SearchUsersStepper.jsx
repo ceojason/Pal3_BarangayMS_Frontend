@@ -31,7 +31,7 @@ class SearchUsersStepper extends Component {
         content: (
           <UsersViewPanel 
             data={UsersStore.viewData} 
-            header={'User Information'}
+            header={'Resident Information'}
             subHeader={'The information below is the updated information of the user.'}
             onClickBack={() => this.onClickBack()}
             isView={true}

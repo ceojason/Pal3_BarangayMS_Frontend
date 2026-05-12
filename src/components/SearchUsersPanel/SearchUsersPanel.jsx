@@ -34,7 +34,7 @@ class SearchUsersPanel extends Component {
   getDataCols = () => {
     return [
       {
-        name: 'USER ID',
+        name: 'REFERENCE NUMBER',
         index: 'refNo',
         cell: data => (
           <BaseHyperlink value={data.refNo} onClick={() => this.onClickLink(data)} customClassName={'add_width'} />
@@ -235,18 +235,18 @@ class SearchUsersPanel extends Component {
         )}
 
         <InquiryPanel
-          header={'Search Users'}
-          subHeader={'Manager, update, and track users information here.'}
+          header={'Search Residents'}
+          subHeader={'Manager, update, and track residents information here.'}
           hasSearchFilter={true}
           columns={this.getDataCols()}
-          fileTitle="Users Report"
-          fileName="Users_Report.pdf"
+          fileTitle="Residents Report"
+          fileName="Residents_Report.pdf"
           data={UsersStore.inquiryData}
           onSearch={() => this.onSearch()}
           onReset={() => this.onReset()}
           hasDivider={true}
           filterList={UsersStore.searchFields}
-          icon={<i className="bi bi-search"></i>}
+          // icon={<i className="bi bi-search"></i>}
           hasDownload={true}>
           <InquiryTable
             data={UsersStore.inquiryData}

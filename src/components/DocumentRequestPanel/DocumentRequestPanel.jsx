@@ -8,21 +8,47 @@ import { Col, Row } from 'react-bootstrap';
 import SelectField from '../base/SelectField/SelectField';
 import BaseTextArea from '../base/BaseTextArea/BaseTextArea';
 import StepperContants from '../../../contants/StepperContants';
+import ProcessFeeCard from '../ProcessFeeCard/ProcessFeeCard';
+import DocumentPreviewPanel from '../DocumentPreviewPanel/DocumentPreviewPanel';
+import IdCardPreviewPanel from '../IdCardPreviewPanel/IdCardPreviewPanel';
 
 class DocumentRequestPanel extends Component {
   constructor(props) {
     super(props);
     this.state={
-      documentTypeList: []
+      documentTypeList: [],
+
+      purposeKeyList: [],
+      docuCategoryList: [],
+      docuSubCategoryList: []
     };
   }
 
   componentDidMount() {
-    const { DocumentStore } = this.context.store;
+    const { DocumentStore, SessionStore } = this.context.store;
+    DocumentStore.enrollmentRequest.fullName = SessionStore.currentUser.userFullNm;
+    DocumentStore.enrollmentRequest.homeAddress = SessionStore.currentUser.homeAddress;
+    DocumentStore.enrollmentRequest.birthDtString = SessionStore.currentUser.birthDtString;
+    DocumentStore.enrollmentRequest.genderString = SessionStore.currentUser.genderString;
+    DocumentStore.enrollmentRequest.civilStatusString = SessionStore.currentUser.civilStatusString;
+    DocumentStore.enrollmentRequest.mobileNo = SessionStore.currentUser.mobileNo;
 
-    DocumentStore.getDocumentTypeList().then((list) => {
-      this.setState({ documentTypeList: list.documentTypeList });
+    // DocumentStore.getDocumentTypeList().then((list) => {
+    //   this.setState({ documentTypeList: list.documentTypeList });
+    // });
+
+    if (DocumentStore.enrollmentRequest.docuCategoryKey!=null) {
+      this.getDocuSubCategoryList(DocumentStore.enrollmentRequest.docuCategoryKey);
+    }
+
+    DocumentStore.getPurposeKeyList().then((list) => {
+      this.setState({ purposeKeyList: list.purposeKeyList });
     });
+
+    DocumentStore.getDocuCategoryList().then((list) => {
+      this.setState({ docuCategoryList: list.docuCategoryList });
+    });
+    
   };
 
   onChangeSelect = (fieldId, val) => {
@@ -33,6 +59,40 @@ class DocumentRequestPanel extends Component {
     }else{
       DocumentStore.enrollmentRequest[fieldId]=null;
     }
+
+    if (fieldId=='docuCategoryKey' && val!=null) {
+      DocumentStore.enrollmentRequest.docuCategoryKeyString = val.value;
+      DocumentStore.enrollmentRequest.docuSubCategoryKey = null;
+      this.getDocuSubCategoryList(val.key);
+    }
+
+    if (fieldId=='docuSubCategoryKey' && val!=null) {
+      DocumentStore.enrollmentRequest.docuSubCategoryKeyString = val.value;
+      this.getProcessFee(val.key);
+    }
+
+    if (fieldId=='purposeKey' && val!=null) {
+      DocumentStore.enrollmentRequest.purposeKeyString = val.value;
+      if (val.key!=null && val.key!=5) {
+        DocumentStore.enrollmentRequest.othPurpose = null;
+      }
+    }
+  };
+
+  getProcessFee = key => {
+    const { DocumentStore } = this.context.store;
+
+    DocumentStore.getProcessFeeByKey(key).then((fee) => {
+      DocumentStore.enrollmentRequest.processFee = fee.processFee;
+      DocumentStore.enrollmentRequest.processFeeString = fee.processFeeString;
+    });
+  };
+
+  getDocuSubCategoryList = key => {
+    const { DocumentStore } = this.context.store;
+    DocumentStore.getDocuSubCatListByKey(key).then((list) => {
+      this.setState({ docuSubCategoryList: list.docuSubCategoryList });
+    });
   };
 
   onChangeInputs = (fieldId, val) => {
@@ -47,7 +107,11 @@ class DocumentRequestPanel extends Component {
 
   form = () => {
     const { DocumentStore } = this.context.store;
-    const { documentTypeList } = this.state;
+    const { documentTypeList, 
+      purposeKeyList, 
+      docuCategoryList,
+      docuSubCategoryList
+     } = this.state;
 
     return (
       <MainForm>
@@ -55,30 +119,95 @@ class DocumentRequestPanel extends Component {
           icon={<i class="bi bi-envelope-paper-fill"></i>}
           header={'Document Information'}>
             <Row>
-              <Col md={12}>
+              <Col md={6}>
                 <SelectField
-                  label={'Document Type'}
+                  label={'Document Category'}
                   isRequired={true}
-                  options={documentTypeList}
-                  value={DocumentStore.enrollmentRequest.documentType}
-                  onChange={e => this.onChangeSelect('documentType', e.target.value)}
-                  inst={'Please be advised that a fee is required for the issuance of an official document from the barangay.'}
+                  options={docuCategoryList}
+                  value={DocumentStore.enrollmentRequest.docuCategoryKey}
+                  onChange={e => this.onChangeSelect('docuCategoryKey', e.target.value)}
                 />
               </Col>
+              {DocumentStore.enrollmentRequest.docuCategoryKey!=null && (
+                <Col md={6}>
+                  <SelectField
+                    label={'Document Type'}
+                    isRequired={true}
+                    options={docuSubCategoryList}
+                    value={DocumentStore.enrollmentRequest.docuSubCategoryKey}
+                    onChange={e => this.onChangeSelect('docuSubCategoryKey', e.target.value)}
+                  />
+                </Col>
+              )}
+              
             </Row>
 
-            <Row>
-              <Col md={12}>
-                <BaseTextArea
-                  label={'Purpose'}
-                  rows={10}
-                  onChange={e => this.onChangeInputs('purpose', e.target.value)}
-                  value={DocumentStore.enrollmentRequest.purpose}
-                  isRequired={true}
-                />
-              </Col>
-            </Row>
+            {DocumentStore.enrollmentRequest.processFee != null && (
+              <Row>
+                {DocumentStore.enrollmentRequest.processFee != null && (
+                  <Col md={6}>
+                    <ProcessFeeCard data={DocumentStore.enrollmentRequest.processFee} />
+                  </Col>
+                )}
+                <Col md={6}>
+                  <SelectField
+                    label={'Purpose'}
+                    isRequired={true}
+                    options={purposeKeyList}
+                    value={DocumentStore.enrollmentRequest.purposeKey}
+                    onChange={e => this.onChangeSelect('purposeKey', e.target.value)}
+                  />
+                </Col>
+              </Row>
+            )}
+
+            {DocumentStore.enrollmentRequest.purposeKey!=null &&
+             DocumentStore.enrollmentRequest.purposeKey==5 && (
+              <BaseTextArea
+                label={'Purpose'}
+                rows={3}
+                onChange={e => this.onChangeInputs('othPurpose', e.target.value)}
+                value={DocumentStore.enrollmentRequest.othPurpose}
+                isRequired={true}
+              />
+            )}
         </BasePanel>
+        
+        {(DocumentStore.enrollmentRequest.purposeKey!=null ||
+          DocumentStore.enrollmentRequest.purpose!=null) && 
+          DocumentStore.enrollmentRequest.docuSubCategoryKey!=26 &&
+          (
+          <DocumentPreviewPanel 
+            docSubCategoryString={
+              DocumentStore.enrollmentRequest.docuSubCategoryKeyString
+            } 
+            docCategoryString={
+              DocumentStore.enrollmentRequest.docuCategoryKeyString
+            }
+            fullName={DocumentStore.enrollmentRequest.fullName}
+            address={DocumentStore.enrollmentRequest.homeAddress}
+            purpose={
+              (DocumentStore.enrollmentRequest.purposeKey != null &&
+              DocumentStore.enrollmentRequest.purposeKey != 5)
+                ? DocumentStore.enrollmentRequest.purposeKeyString
+                : DocumentStore.enrollmentRequest.othPurpose
+            }
+          />
+        )}
+
+        {(DocumentStore.enrollmentRequest.purposeKey!=null ||
+          DocumentStore.enrollmentRequest.purpose!=null) && 
+          DocumentStore.enrollmentRequest.docuSubCategoryKey==26 &&
+          (
+          <IdCardPreviewPanel 
+            fullName={DocumentStore.enrollmentRequest.fullName}
+            address={DocumentStore.enrollmentRequest.homeAddress}
+            birthDate={DocumentStore.enrollmentRequest.birthDtString}
+            sex={DocumentStore.enrollmentRequest.genderString}
+            civilStatus={DocumentStore.enrollmentRequest.civilStatusString}
+            contactNo={DocumentStore.enrollmentRequest.mobileNo}
+          />
+        )}
       </MainForm>
     );
   };

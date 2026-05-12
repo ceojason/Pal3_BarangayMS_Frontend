@@ -112,7 +112,7 @@ class NotificationLogsPanel extends Component {
       <Fragment>
         <InquiryPanel
           header={'Notification Logs'}
-          subHeader={'View, resend, and manage sent user notification through this module.'}
+          subHeader={'View and manage sent user notification through this module.'}
           hasSearchFilter={true}
           columns={this.getDataCols()}
           fileTitle="Notification Logs Report"
@@ -121,7 +121,7 @@ class NotificationLogsPanel extends Component {
           onSearch={() => this.onSearch()}
           onReset={() => this.onReset()}
           hasDivider={true}
-          icon={<i class="bi bi-stickies-fill"></i>}
+          // icon={<i class="bi bi-stickies-fill"></i>}
           filterList={NotificationLogsStore.searchFields}
           hasDownload={true}>
             <InquiryTable

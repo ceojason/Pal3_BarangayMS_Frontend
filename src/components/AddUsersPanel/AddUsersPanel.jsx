@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import BaseTemplate from '../base/BaseTemplate/BaseTemplate';
@@ -10,6 +10,7 @@ import SelectField from '../base/SelectField/SelectField';
 import BasePanel from '../base/BasePanel/BasePanel';
 import GroupCheckboxesField from '../base/GroupCheckboxesField/GroupCheckboxesField';
 import StepperContants from '../../../contants/StepperContants';
+import { ViewField } from '../base/ViewPortlet/ViewPortlet';
 
 class AddUsersPanel extends Component {
   constructor(props) {
@@ -19,9 +20,26 @@ class AddUsersPanel extends Component {
       civilStatusList: [],
       phaseList: [],
       yesNoList: [],
-      residentTypeList: []
+      residentTypeList: [],
+      brgyPositionList: [],
+      householdList: []
     };
   }
+
+  componentDidUpdate() {
+    const { UsersStore } = this.context.store;
+    
+    let request = UsersStore.enrollmentRequest;
+    if ((request.block==null || request.block=='') || (request.lot==null || request.lot=='')) {
+      request.isHouseholdHead = null;
+      request.tempHouseholdForSave = null;
+      request.householdKey = null;
+    }else{
+      if ( this.state.householdList.length==0) {
+        this.getHouseholdListWithHead();
+      }
+    }
+  };
 
   componentDidMount() {
     const { UsersStore } = this.context.store;
@@ -45,6 +63,10 @@ class AddUsersPanel extends Component {
     UsersStore.getResidentTypeList().then((list) => {
       this.setState({ residentTypeList: list.residentTypeList });
     });
+
+    UsersStore.getBrgyPositionList().then((list) => {
+      this.setState({ brgyPositionList: list.brgyPositionList });
+    });
   };
 
   onChangeInputs = (fieldId, val) => {
@@ -54,6 +76,10 @@ class AddUsersPanel extends Component {
       UsersStore.enrollmentRequest[fieldId]=val;
     }else{
       UsersStore.enrollmentRequest[fieldId]=null;
+    }
+
+    if (fieldId=='block' || fieldId=='lot') {
+      this.getHouseholdListWithHead();
     }
   };
 
@@ -65,11 +91,62 @@ class AddUsersPanel extends Component {
     }else{
       UsersStore.enrollmentRequest[fieldId]=null;
     }
+
+    if (fieldId=='isHouseholdHead' && val.key===0) {
+      this.getTempHouseholdStringForSave();
+      UsersStore.enrollmentRequest.householdKey = null;
+    }
+    else if (fieldId=='isHouseholdHead' && val.key===1) {
+      this.getHouseholdListWithHead();
+      UsersStore.enrollmentRequest.tempHouseholdForSave = null;
+    }
+    else if (fieldId=='phaseKey' && val!=null) {
+      this.getHouseholdListWithHead();
+      UsersStore.enrollmentRequest.tempHouseholdForSave = null;
+    }
+  };
+
+  getHouseholdListWithHead = async () => {
+    const { UsersStore, SettingsStore } = this.context.store;
+
+    if (UsersStore.enrollmentRequest.block!=null && UsersStore.enrollmentRequest.lot!=null &&
+      UsersStore.enrollmentRequest.block!='' && UsersStore.enrollmentRequest.lot!='' &&
+      UsersStore.enrollmentRequest.phaseKey!=null
+    ) {
+      try {
+        const res = await UsersStore.getHouseholdList(UsersStore.enrollmentRequest.block, UsersStore.enrollmentRequest.lot, UsersStore.enrollmentRequest.phaseKey);
+        this.setState({
+          householdList: res
+        });
+
+      } catch (err) {
+        SettingsStore.showModal({
+          type: 'error',
+          errorList: err
+        });
+      }
+    }
+  };
+
+  getTempHouseholdStringForSave = () => {
+    const { UsersStore, SettingsStore } = this.context.store;
+    UsersStore.createHouseholdForRegistration(
+      UsersStore.enrollmentRequest, res => {
+        UsersStore.enrollmentRequest.tempHouseholdForSave = res;
+      }, err => {
+        SettingsStore.showModal({
+          type: 'error',
+          errorList: err
+        });
+      }
+    );
   };
 
   form = () => {
     const { UsersStore } = this.context.store;
-    const { genderList, civilStatusList, phaseList, yesNoList, residentTypeList } = this.state;
+    const { genderList, civilStatusList, phaseList, yesNoList, residentTypeList,
+      brgyPositionList, householdList
+     } = this.state;
 
     return (
       <MainForm>
@@ -117,7 +194,7 @@ class AddUsersPanel extends Component {
                 value={UsersStore.enrollmentRequest.suffix}
                 onChange={e => this.onChangeInputs('suffix', e.target.value)}
                 onlyLetterSp={true}
-                inst={'Leave blank if not applicable'}
+                // inst={'Leave blank if not applicable'}
               />
             </Col>
           </Row>
@@ -132,6 +209,15 @@ class AddUsersPanel extends Component {
                 onChange={e => this.onChangeInputs('birthDt', e.target.value)}
               />
             </Col>
+            <Col md={3}>
+              <SelectField
+                label={'Gender'}
+                isRequired={true}
+                options={genderList}
+                value={UsersStore.enrollmentRequest.gender}
+                onChange={e => this.onChangeSelect('gender', e.target.value)}
+              />
+            </Col>
             <Col md={6}>
               <InputField
                 label={'Birth Place'}
@@ -141,15 +227,6 @@ class AddUsersPanel extends Component {
                 value={UsersStore.enrollmentRequest.birthPlace}
                 onChange={e => this.onChangeInputs('birthPlace', e.target.value)}
                 inst={'City/Municipality, Province, Country'}
-              />
-            </Col>
-            <Col md={3}>
-              <SelectField
-                label={'Gender'}
-                isRequired={true}
-                options={genderList}
-                value={UsersStore.enrollmentRequest.gender}
-                onChange={e => this.onChangeSelect('gender', e.target.value)}
               />
             </Col>
           </Row>
@@ -164,12 +241,156 @@ class AddUsersPanel extends Component {
                 onChange={e => this.onChangeSelect('civilStatusKey', e.target.value)}
               />
             </Col>
+            <Col md={3}>
+              <InputField
+                label={'Occupation'}
+                placeholder={'Enter Occupation'}
+                maxLength={100}
+                value={UsersStore.enrollmentRequest.occupation}
+                onChange={e => this.onChangeInputs('occupation', e.target.value)}
+                // inst={'Leave blank if not applicable'}
+              />
+            </Col>
+            <Col md={3}>
+              <InputField
+                label={'Religion'}
+                maxLength={50}
+                isRequired={true}
+                type={'text'}
+                value={UsersStore.enrollmentRequest.religion}
+                onChange={e => this.onChangeInputs('religion', e.target.value)}
+              />
+            </Col>
+            <Col md={3}>
+              <SelectField
+                label={'Is a Registered Voter?'}
+                isRequired={true}
+                options={yesNoList}
+                value={UsersStore.enrollmentRequest.isRegisteredVoter}
+                onChange={e => this.onChangeSelect('isRegisteredVoter', e.target.value)}
+              />
+            </Col>
+          </Row>
+            
+          <Row>
+            <Col md={3}>
+              <SelectField
+                label={'Is a Barangay Official?'}
+                isRequired={true}
+                options={yesNoList}
+                value={UsersStore.enrollmentRequest.isBrgyOfficial}
+                onChange={e => this.onChangeSelect('isBrgyOfficial', e.target.value)}
+              />
+            </Col>
+            {UsersStore.enrollmentRequest.isBrgyOfficial!=null &&
+              UsersStore.enrollmentRequest.isBrgyOfficial==0 && (
+              <Col md={3}>
+                <SelectField
+                  label={'Barangay Position'}
+                  isRequired={true}
+                  options={brgyPositionList}
+                  value={UsersStore.enrollmentRequest.brgyPositionKey}
+                  onChange={e => this.onChangeSelect('brgyPositionKey', e.target.value)}
+                />
+              </Col>
+              )
+            }
           </Row>
         </BasePanel>
 
-        <BasePanel header={'Contact Information'} icon={<i class="bi bi-telephone-forward-fill"></i>}>
+        <BasePanel header={'Home Address & Contact Information'} icon={<i class="bi bi-telephone-forward-fill"></i>}>
           <Row>
-            <Col md={4}>
+            <Col md={3}>
+              <InputField
+                label={'Block/House No.'}
+                maxLength={255}
+                isRequired={true}
+                type={'text'}
+                value={UsersStore.enrollmentRequest.block}
+                onChange={e => this.onChangeInputs('block', e.target.value)}
+                // inst={'eg. Block IB26'}
+              />
+            </Col>
+            <Col md={3}>
+              <InputField
+                label={'Lot No.'}
+                maxLength={255}
+                isRequired={true}
+                type={'text'}
+                value={UsersStore.enrollmentRequest.lot}
+                onChange={e => this.onChangeInputs('lot', e.target.value)}
+                // inst={'eg. Lot 10'}
+              />
+            </Col>
+            <Col md={3}>
+              <InputField
+                label={'Street'}
+                maxLength={255}
+                type={'text'}
+                value={UsersStore.enrollmentRequest.street}
+                onChange={e => this.onChangeInputs('street', e.target.value)}
+                // inst={'eg. Mabini Street'}
+              />
+            </Col>
+            <Col md={3}>
+              <SelectField
+                label={'Purok'}
+                isRequired={true}
+                options={phaseList}
+                value={UsersStore.enrollmentRequest.phaseKey}
+                onChange={e => this.onChangeSelect('phaseKey', e.target.value)}
+              />
+            </Col>
+          </Row>
+
+          {(
+            UsersStore.enrollmentRequest.block!=null &&
+            UsersStore.enrollmentRequest.lot!=null &&
+            UsersStore.enrollmentRequest.block!='' &&
+            UsersStore.enrollmentRequest.lot!='' &&
+            UsersStore.enrollmentRequest.phaseKey!=null 
+          ) && (
+            <Row>
+              <Col md={3}>
+                <SelectField
+                  label={'Household Head?'}
+                  isRequired={true}
+                  options={yesNoList}
+                  value={UsersStore.enrollmentRequest.isHouseholdHead}
+                  onChange={e => this.onChangeSelect('isHouseholdHead', e.target.value)}
+                  inst={'If Yes, the system will automatically add a new household'}
+                />
+              </Col>
+
+              {UsersStore.enrollmentRequest.isHouseholdHead!=null &&
+               UsersStore.enrollmentRequest.isHouseholdHead==0 &&
+               UsersStore.enrollmentRequest.tempHouseholdForSave!=null && (
+                <Col md={6}>
+                  <ViewField
+                    label={'Household Description'}
+                    value={UsersStore.enrollmentRequest.tempHouseholdForSave}
+                    customClassName={'custom_viewfield'}
+                  />
+                </Col>
+              )}
+
+              {UsersStore.enrollmentRequest.isHouseholdHead!=null &&
+               UsersStore.enrollmentRequest.isHouseholdHead==1 && (
+                <Col md={9}>
+                  <SelectField
+                    label={'Household'}
+                    isRequired={true}
+                    options={householdList}
+                    value={UsersStore.enrollmentRequest.householdKey}
+                    onChange={e => this.onChangeSelect('householdKey', e.target.value)}
+                  />
+                </Col>
+              )}
+            </Row>
+          )}
+
+          <Row>
+            <Col md={6}>
               <InputField
                 label={'Contact Number'}
                 placeholder={'09XXXXXXXXX'}
@@ -181,7 +402,7 @@ class AddUsersPanel extends Component {
                 isMobileNumber={true}
               />
             </Col>
-            <Col md={4}>
+            <Col md={6}>
               <InputField
                 label={'Email Address'}
                 placeholder={'resident.user@example.com'}
@@ -191,83 +412,10 @@ class AddUsersPanel extends Component {
                 onChange={e => this.onChangeInputs('emailAddress', e.target.value)}
               />
             </Col>
-            <Col md={4}>
-              <SelectField
-                label={'Purok'}
-                isRequired={true}
-                options={phaseList}
-                value={UsersStore.enrollmentRequest.phaseKey}
-                onChange={e => this.onChangeSelect('phaseKey', e.target.value)}
-              />
-            </Col>
           </Row>
         </BasePanel>
 
-        <BasePanel header={'Address, Household, and Other Information'} icon={<i class="bi bi-geo-fill"></i>}>
-          <Row>
-            <Col md={8}>
-              <InputField
-                label={'Home Address'}
-                maxLength={255}
-                isRequired={true}
-                type={'text'}
-                value={UsersStore.enrollmentRequest.homeAddress}
-                onChange={e => this.onChangeInputs('homeAddress', e.target.value)}
-                inst={'House Number, Lot, Street, Barangay, City/Municipality, Province'}
-              />
-            </Col>
-            <Col md={4}>
-              {/* <SelectField
-                label={'Household'}
-                // isRequired={true}
-                options={null}
-                value={UsersStore.enrollmentRequest.householdKey}
-                onChange={e => this.onChangeSelect('householdKey', e.target.value)}
-              /> */}
-              <InputField
-                label={'Household'}
-                maxLength={32}
-                isRequired={true}
-                type={'text'}
-                value={UsersStore.enrollmentRequest.householdKey}
-                onChange={e => this.onChangeInputs('householdKey', e.target.value)}
-                inst={'eg. Block AB12 Lot 21'}
-              />
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={4}>
-              <InputField
-                label={'Occupation'}
-                placeholder={'Enter Occupation'}
-                maxLength={100}
-                value={UsersStore.enrollmentRequest.occupation}
-                onChange={e => this.onChangeInputs('occupation', e.target.value)}
-                inst={'Leave blank if not applicable'}
-              />
-            </Col>
-            <Col md={4}>
-              <InputField
-                label={'Religion'}
-                maxLength={50}
-                isRequired={true}
-                type={'text'}
-                value={UsersStore.enrollmentRequest.religion}
-                onChange={e => this.onChangeInputs('religion', e.target.value)}
-              />
-            </Col>
-            <Col md={4}>
-              <SelectField
-                label={'Is a Registered Voter?'}
-                isRequired={true}
-                options={yesNoList}
-                value={UsersStore.enrollmentRequest.isRegisteredVoter}
-                onChange={e => this.onChangeSelect('isRegisteredVoter', e.target.value)}
-              />
-            </Col>
-          </Row>
-
+        <BasePanel>
           <Row>
             <GroupCheckboxesField
               values={residentTypeList}
@@ -278,7 +426,7 @@ class AddUsersPanel extends Component {
               itemLabel={'value'}
               customClassName={'checkboxes_displayinrow'}
               required={true}
-              inst={'Select all applicable'}
+              inst={'Select all applicable; will be used for sending alerts and announcement'}
             />
           </Row>
         </BasePanel>

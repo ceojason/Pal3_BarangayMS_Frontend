@@ -8,6 +8,9 @@ import { Col, Row } from 'react-bootstrap';
 import StepperContants from '../../../contants/StepperContants';
 import paliparan_icon from '../../assets/images/paliparan_icon.jpg';
 import DocumentPreviewPanel from '../DocumentPreviewPanel/DocumentPreviewPanel';
+import ProcessFeeCard from '../ProcessFeeCard/ProcessFeeCard';
+import IdCardPreviewPanel from '../IdCardPreviewPanel/IdCardPreviewPanel';
+import StatusColumn from '../StatusColumn/StatusColumn';
 
 class DocumentRequestView extends Component {
   constructor(props) {
@@ -36,41 +39,77 @@ class DocumentRequestView extends Component {
         <ViewPortlet {...this.props}>
           <BasePanel header={'Document Information'} icon={<i class="bi bi-envelope-paper-fill"></i>}>
             <Row>
-              <Col md={4}>
+              <Col md={6}>
+                <ViewField
+                  label={'Document Category'}
+                  value={data.docuCategoryKeyString}
+                />
+              </Col>
+              <Col md={6}>
                 <ViewField
                   label={'Document Type'}
-                  value={data.documentTypeString}
-                />
-              </Col>
-              <Col md={4}>
-                <ViewField
-                  label={'Date Requested'}
-                  value={data.dateRequestedString}
-                />
-              </Col>
-              <Col md={4}>
-                <ViewField
-                  label={'Status'}
-                  value={data.statusString}
+                  value={data.docuSubCategoryKeyString}
                 />
               </Col>
             </Row>
 
             <Row>
-              <Col md={12}>
+              <Col md={6}>
                 <ViewField
                   label={'Purpose'}
-                  value={data.purpose}
-                  isMessage={true}
+                  value={data.purposeKey!=null && data.purposeKey!=5 ? data.purposeKeyString : data.othPurpose}
                 />
+              </Col>
+              <Col md={6}>
+                <ViewField
+                  label={'Status'}
+                  value={<StatusColumn
+                    statusKey={data.status}
+                  />}
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <ProcessFeeCard data={data.processFee} />
               </Col>
             </Row>
           </BasePanel>
 
-          {(isView || isAck) && (
+          {(data.purposeKey!=null ||
+            data.purpose!=null) && 
+            data.docuSubCategoryKey!=26 &&
+            (
             <DocumentPreviewPanel 
-              header={'Sample Preview'}
-              data={data}
+              docSubCategoryString={
+                data.docuSubCategoryKeyString
+              } 
+              docCategoryString={
+                data.docuCategoryKeyString
+              }
+              fullName={data.fullName}
+              address={data.homeAddress}
+              purpose={
+                (data.purposeKey != null &&
+                data.purposeKey != 5)
+                  ? data.purposeKeyString
+                  : data.othPurpose
+              }
+            />
+          )}
+
+          {(data.purposeKey!=null ||
+            data.purpose!=null) && 
+            data.docuSubCategoryKey==26 &&
+            (
+            <IdCardPreviewPanel 
+              fullName={data.fullName}
+              address={data.homeAddress}
+              birthDate={data.birthDtString}
+              sex={data.genderString}
+              civilStatus={data.civilStatusString}
+              contactNo={data.mobileNo}
             />
           )}
         </ViewPortlet>

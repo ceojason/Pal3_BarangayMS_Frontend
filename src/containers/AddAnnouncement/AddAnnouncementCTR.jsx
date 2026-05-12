@@ -7,9 +7,8 @@ const AddAnnouncementCTR = () => {
     <MainContainer>
       <div className="AddAnnouncementCTR">
         <AddAnnouncementStepper
-          header={'Add Announcement'}
+          header={'Create and Send Announcement'}
           subHeader={'Please make sure all the details are correct before generating and sending an announcement.'}
-          icon={<i class="bi bi-send-arrow-up-fill"></i>}
         />
       </div>
     </MainContainer>

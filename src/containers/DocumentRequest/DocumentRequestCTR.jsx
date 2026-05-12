@@ -7,7 +7,7 @@ const DocumentRequestCTR = () => {
     <MainContainer>
       <div className="DocumentRequestCTR">
         <DocumentRequestStepper
-          icon={<i class="bi bi-printer-fill"></i>}
+          // icon={<i class="bi bi-printer-fill"></i>}
           header={'Request a Document'}
           subHeader={'Please make sure all the details are correct before proceeding with the document request.'}
         />

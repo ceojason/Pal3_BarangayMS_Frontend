@@ -4,22 +4,23 @@ import { buildClassNames } from '../../../utils/ClassUtils';
 class InputField extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      error: null,
-      showPassword: false, // for password toggle
+      error: '',
+      showPassword: false,
+      isFocused: false
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.value !== this.props.value && !this.props.value) {
-      this.setState({ error: null });
+      this.setState({ error: '' });
     }
   }
 
-  handleChange = (e) => {
+  validateInput = (value) => {
     const {
       type,
-      onChange,
       isMobileNumber,
       onlyNumber,
       onlyLetterNumber,
@@ -28,41 +29,70 @@ class InputField extends Component {
       isRequired
     } = this.props;
 
-    let inputVal = e.target.value;
-    let error = null;
+    if (!value || value.trim() === '') {
+      return isRequired ? 'This field is required' : '';
+    }
 
-    if (inputVal.trim() === '') {
-      if (isRequired) error = 'This field is required';
-      inputVal = null;
-    } else {
-      if (type === 'number' || onlyNumber || isMobileNumber) {
-        if (!/^\d*$/.test(inputVal)) error = 'Only numbers are allowed';
-      } else if (onlyLetterNumber) {
-        if (!/^[a-zA-Z0-9]*$/.test(inputVal)) error = 'Only letters and numbers are allowed';
-      } else if (onlyLetterNumberSp) {
-        if (!/^[a-zA-Z0-9 ]*$/.test(inputVal)) error = 'Only letters, numbers, and spaces are allowed';
-      } else if (onlyLetterSp) {
-        if (!/^[a-zA-Z\s]*$/.test(inputVal)) error = 'Only letters and spaces are allowed';
-      } else if (type === 'email') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(inputVal)) error = 'Invalid email format';
+    if (type === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(value)) {
+        return 'Invalid email format';
       }
     }
+
+    if (type === 'number' || onlyNumber || isMobileNumber) {
+      if (!/^\d+$/.test(value)) {
+        return 'Only numbers are allowed';
+      }
+    }
+
+    if (onlyLetterNumber) {
+      if (!/^[a-zA-Z0-9]+$/.test(value)) {
+        return 'Only letters and numbers are allowed';
+      }
+    }
+
+    if (onlyLetterNumberSp) {
+      if (!/^[a-zA-Z0-9 ]+$/.test(value)) {
+        return 'Only letters, numbers, and spaces are allowed';
+      }
+    }
+
+    if (onlyLetterSp) {
+      if (!/^[a-zA-Z\s]+$/.test(value)) {
+        return 'Only letters and spaces are allowed';
+      }
+    }
+
+    return '';
+  };
+
+  handleChange = (e) => {
+    const { onChange } = this.props;
+
+    let value = e.target.value;
+
+    const error = this.validateInput(value);
 
     this.setState({ error });
 
     if (onChange) {
-      const syntheticEvent = {
+      onChange({
         ...e,
-        target: { ...e.target, value: inputVal }
-      };
-      onChange(syntheticEvent);
+        target: {
+          ...e.target,
+          value
+        }
+      });
     }
-  }
+  };
 
   togglePassword = () => {
-    this.setState((prev) => ({ showPassword: !prev.showPassword }));
-  }
+    this.setState((prev) => ({
+      showPassword: !prev.showPassword
+    }));
+  };
 
   render() {
     const {
@@ -76,61 +106,93 @@ class InputField extends Component {
       value,
       name,
       inst,
-      disabled
+      disabled,
+      icon
     } = this.props;
 
-    const { error, showPassword } = this.state;
+    const { error, showPassword, isFocused } = this.state;
 
-    // Use 'text' if showing password
-    const inputType = type === 'password' && showPassword ? 'text' : type || 'text';
+    const inputType =
+      type === 'password'
+        ? showPassword
+          ? 'text'
+          : 'password'
+        : type || 'text';
 
     return (
       <div className={buildClassNames('inputField_ctr', customClassName)}>
-        <div className="inputField_hdr">
-          <span>{label || ''}</span>
-          {isRequired && <span className="isRequired_ast">*</span>}
-        </div>
+        {/* LABEL */}
+        {label && (
+          <label className="inputField_hdr">
+            <span>{label}</span>
 
-        <div className="input_wrapper" style={{ position: 'relative' }}>
+            {isRequired && (
+              <span className="isRequired_ast">*</span>
+            )}
+          </label>
+        )}
+
+        {/* INPUT WRAPPER */}
+        <div
+          className={buildClassNames(
+            'input_wrapper',
+            error && 'input_error',
+            isFocused && 'input_focus',
+            disabled && 'input_disabled'
+          )}
+        >
+          {/* LEFT ICON */}
+          {icon && (
+            <div className="input_icon">
+              {icon}
+            </div>
+          )}
+
           <input
             type={inputType}
             name={name}
             value={value || ''}
             onChange={this.handleChange}
-            placeholder={placeholder || `Enter ${label}`}
-            maxLength={maxLength || null}
-            required={isRequired || false}
+            placeholder={placeholder || `Enter ${label || ''}`}
+            maxLength={maxLength}
+            disabled={disabled}
             inputMode={isMobileNumber ? 'numeric' : undefined}
             pattern={isMobileNumber ? '[0-9]*' : undefined}
-            disabled={disabled}
+            autoComplete="off"
+            onFocus={() => this.setState({ isFocused: true })}
+            onBlur={() => this.setState({ isFocused: false })}
           />
 
-          {/* Show/hide button for password */}
+          {/* PASSWORD TOGGLE */}
           {type === 'password' && (
             <button
               type="button"
+              className="password_toggle_btn"
               onClick={this.togglePassword}
-              style={{
-                position: 'absolute',
-                right: '20px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                fontSize: '20px',
-                color: '#05714B',
-                fontWeight: 600
-              }}
+              tabIndex="-1"
             >
-              {showPassword ? <i class="bi bi-eye-slash-fill"></i> : <i class="bi bi-eye-fill"></i>}
+              {showPassword ? (
+                <i className="bi bi-eye-slash-fill"></i>
+              ) : (
+                <i className="bi bi-eye-fill"></i>
+              )}
             </button>
           )}
         </div>
 
-        {inst && <div className='input_inst'><small>{inst}</small></div>}
-        {error && <div className="inputField_error"><small>{error}</small></div>}
+        {/* INSTRUCTION */}
+        {inst && (
+          <div className="input_inst">
+            <small>{inst}</small>
+          </div>
+        )}
+
+        {/* ERROR */}
+        {error && (
+          <div className="inputField_error">
+            <small>{error}</small>
+          </div>
+        )}
       </div>
     );
   }

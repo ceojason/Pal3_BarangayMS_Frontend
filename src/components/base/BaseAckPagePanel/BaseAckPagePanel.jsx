@@ -49,8 +49,8 @@ class BaseAckPagePanel extends Component {
         {(isUser && showDetails) && (
           <UsersViewPanel 
             data={data}
-            header={'User Information'}
-            subHeader={'The user information below was successfully saved in the system.'}
+            // header={'Transaction was successful!'}
+            // subHeader={'The user information below was successfully saved in the system.'}
             icon={icon}
           />
         )}
@@ -58,8 +58,8 @@ class BaseAckPagePanel extends Component {
         {(isAnnouncement && showDetails) && (
           <AnnouncementViewPanel
             data={data}
-            header={'Announcement Information'}
-            subHeader={'This announcement was saved and been delivered to corresponding recipients.'}
+            // header={'Announcement Information'}
+            // subHeader={'This announcement was saved and been delivered to corresponding recipients.'}
             icon={icon}
           />
         )}
@@ -67,8 +67,8 @@ class BaseAckPagePanel extends Component {
         {(isDocumentRequest && showDetails) && (
           <DocumentRequestView
             data={data}
-            header={'Document Request'}
-            subHeader={'This document request was successfully submitted.'}
+            // header={'Document Request'}
+            // subHeader={'This document request was successfully submitted.'}
             icon={icon}
             isView={true}
           />

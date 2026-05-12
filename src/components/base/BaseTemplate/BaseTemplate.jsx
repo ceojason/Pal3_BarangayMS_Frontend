@@ -35,10 +35,24 @@ class BaseTemplate extends Component {
 
     return (
       <div className={buildClassNames('base_template_ctr', isInitial ? 'base_initial_ctr' : '', !isAck ? 'is_ack_base_ctr' : '')}>
-        <span className='header'>
-          {!isAck && icon ? icon : null}
-          {header}
-        </span>
+        <div className='header_container'>
+          <span className='header'>
+            {!isAck && icon ? icon : null}
+            {header}
+          </span>
+
+          {currentStep!=null &&
+           currentStep==1 && (
+            <button
+              className='header_back_btn'
+              onClick={() => window.location.href = '/dashboard'}
+            >
+              <i class="bi bi-arrow-left"></i>
+              Back to Dashboard
+            </button>
+           )
+          }
+        </div>
         <span className='sub_header'>{subHeader}</span>
         {!isAck && <div className='form_divider'></div>}
         {this.props.children}

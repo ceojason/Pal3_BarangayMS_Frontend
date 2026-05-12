@@ -56,9 +56,9 @@ class Navbar extends Component {
                   <span className='hdr_one'>
                     eBarangayConnect
                   </span>
-                  {/* <span className='hdr_two'>
-                    Your Community, Your Voice.
-                  </span> */}
+                  <span className='hdr_two'>
+                    Paliparan III Alert & Notification System
+                  </span>
                 </div>
               </Link>
             </div>
@@ -157,17 +157,17 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-people-fill"/>Users Management
+                        <i class="bi bi-people-fill"/>Resident Management
                       </a>
                       <ul className="dropdown-menu">
                         <li>
                           <Link className="dropdown-item" to="/usersAdd" onClick={this.closeOffcanvas}>
-                            <i class="bi bi-caret-right-fill"></i>Add New User
+                            <i class="bi bi-caret-right-fill"></i>Add Resident
                           </Link>
                         </li>
                         <li>
                           <Link className="dropdown-item" to="/usersSearch" onClick={this.closeOffcanvas}>
-                            <i class="bi bi-caret-right-fill"></i>Search User
+                            <i class="bi bi-caret-right-fill"></i>Search Resident
                           </Link>
                         </li>
                       </ul>

@@ -79,10 +79,16 @@ class UsersViewPanel extends Component {
             </Row>
 
             <Row>
-              <Col md={6}>
+              <Col md={3}>
                 <ViewField
                   label={'Birth Date'}
                   value={data.birthDtString}
+                />
+              </Col>
+              <Col md={3}>
+                <ViewField
+                  label={'Gender'}
+                  value={data.genderDscp}
                 />
               </Col>
               <Col md={6}>
@@ -94,22 +100,77 @@ class UsersViewPanel extends Component {
             </Row>
 
             <Row>
-              <Col md={6}>
-                <ViewField
-                  label={'Gender'}
-                  value={data.genderDscp}
-                />
-              </Col>
-              <Col md={6}>
+              <Col md={3}>
                 <ViewField
                   label={'Civil Status'}
                   value={data.civilStatusString}
                 />
               </Col>
+              <Col md={3}>
+                <ViewField
+                  label={'Occupation'}
+                  value={data.occupation}
+                />
+              </Col>
+              <Col md={3}>
+                <ViewField
+                  label={'Religion'}
+                  value={data.religion}
+                />
+              </Col>
             </Row>
+
+            <Row>
+              <Col md={3}>
+                <ViewField
+                  label={'Is a Registered Voter?'}
+                  value={data.isRegisteredVoterString}
+                />
+              </Col>
+              {data!=null && data.brgyPositionKey!=null && (
+                <Col md={3}>
+                  <ViewField
+                    label={'Barangay Position'}
+                    value={data.brgyPositionKeyString}
+                  />
+                </Col>
+              )}
+            </Row>
+
           </BasePanel>
 
-          <BasePanel header={'Contact Information'} icon={<i class="bi bi-telephone-forward-fill"></i>}>
+          <BasePanel header={'Home Address & Contact Information'} icon={<i class="bi bi-telephone-forward-fill"></i>}>
+            <Row>
+              <Col md={9}>
+                <ViewField
+                  label={'Home Address'}
+                  value={data.homeAddress}
+                />
+              </Col>
+              <Col md={3}>
+                <ViewField
+                  label={'Purok'}
+                  value={data.phaseString}
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={4}>
+                <ViewField
+                  label={'Household Head?'}
+                  value={data.isHouseholdHeadString}
+                />
+              </Col>
+              <Col md={6}>
+                <ViewField
+                  label={'Household Description'}
+                  value={data.tempHouseholdForSave}
+                  customClassName={'custom_viewfield'}
+                />
+              </Col>
+            </Row>
+
             <Row>
               <Col md={4}>
                 <ViewField
@@ -123,53 +184,11 @@ class UsersViewPanel extends Component {
                   value={data.emailAddress}
                 />
               </Col>
-              <Col md={4}>
-                <ViewField
-                  label={'Purok'}
-                  value={data.phaseString}
-                />
-              </Col>
             </Row>
           </BasePanel>
 
-          <BasePanel header={'Address, Household, and Other Information'} icon={<i class="bi bi-geo-fill"></i>}>
+          <BasePanel>
             <Row>
-              <Col md={6}>
-                <ViewField
-                  label={'Home Address'}
-                  value={data.homeAddress}
-                />
-              </Col>
-              <Col md={6}>
-                <ViewField
-                  label={'Household'}
-                  value={null}
-                />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={6}>
-                <ViewField
-                  label={'Occupation'}
-                  value={data.occupation}
-                />
-              </Col>
-              <Col md={6}>
-                <ViewField
-                  label={'Religion'}
-                  value={data.religion}
-                />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={6}>
-                <ViewField
-                  label={'Is a Registered Voter?'}
-                  value={data.isRegisteredVoterString}
-                />
-              </Col>
               <Col md={6}>
                 <ViewField
                   label={'Resident Classification'}

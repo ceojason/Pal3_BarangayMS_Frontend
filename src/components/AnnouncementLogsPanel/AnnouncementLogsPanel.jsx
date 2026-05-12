@@ -52,7 +52,7 @@ class AnnouncementLogsPanel extends Component {
       <Fragment>
         <div className='announcement_logs_ctr'>
           <div className='announcement_logs_header'>
-            <span className='main_header'><i className="bi bi-clock-history"></i>Announcement History</span>
+            <span className='main_header'>Announcement History</span>
             <span className='sub_header'>View announcement history and logs here.</span>
           </div>
 

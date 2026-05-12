@@ -1,99 +1,180 @@
 import React, { Component } from 'react';
-import StoreContext from '../../../store/StoreContext';
 import { observer } from 'mobx-react';
 import { buildClassNames } from '../../../utils/ClassUtils';
 
 class BaseAccordion extends Component {
+
   constructor(props) {
     super(props);
+
+    this.state = {
+      openIndex: null,
+      animated: true
+    };
   }
 
-  getAccordion = () => {
-    const { header, data, noContentMsg, showFirst } = this.props;
+  toggleCard = (index) => {
+    this.setState({
+      openIndex: this.state.openIndex === index ? null : index
+    });
+  };
 
-    if (!data || data.length === 0) {
-      return (
-        <div className="accordion_ctr accordion_no_content">
-          <div className="accordion_hdr">
-            <span className="header">
-              <i className="bi bi-megaphone-fill"></i>{header}
-            </span>
-          </div>
-          <div className="no_item">
-            <p>
-              <i className="bi bi-database-fill-x"></i>
-              {noContentMsg != null ? noContentMsg : 'No content available.'}
-            </p>
-          </div>
-        </div>
-      );
-    }
-
-    const accordionId = `accordion-${header.replace(/[^a-zA-Z0-9]/g, "-")}`;
+  renderEmpty = () => {
+    const { header, noContentMsg } = this.props;
 
     return (
-      <div className="accordion_ctr">
-        <div className="accordion_hdr">
-          <span className="header">
-            <i className="bi bi-megaphone-fill"></i>{header}
-          </span>
-          <span className="data_count">{data.length}</span>
+      <div className="announcement_group animate_group">
+
+        {/* DATE HEADER */}
+        <div className="announcement_date empty_state_header">
+          <i className="bi bi-calendar3"></i>
+          {header}
+          <span className="count">0</span>
         </div>
 
-        <div className="accordion" id={accordionId}>
-          {data.map((announcement, index) => {
-            const collapseId = `collapse-${index}-${accordionId}`;
-            const isFirst = index === 0 && showFirst;
+        {/* EMPTY STATE */}
+        <div className="announcement_empty_card">
 
-            return (
-              <div className="accordion-item" key={index}>
-                <h2 className="accordion-header">
-                  <button
-                    className={`accordion-button ${!isFirst ? 'collapsed' : ''}`}
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={`#${collapseId}`}
-                    aria-expanded={isFirst}
-                    aria-controls={collapseId}
-                  >
-                    <i className="bi bi-caret-right-fill me-2"></i>
-                    {announcement.header}
-                    <div
-                      className={buildClassNames(
-                        'message_type ms-2',
-                        announcement.alertStatus === 0 ? 'informational' : '',
-                        announcement.alertStatus === 1 ? 'warning' : '',
-                        announcement.alertStatus === 2 || announcement.alertStatus === 3 ? 'extreme' : ''
-                      )}
-                    >
-                      {announcement.messageTypeString}
-                    </div>
-                  </button>
-                </h2>
+          <div className="empty_icon_wrapper">
+            <i className="bi bi-inbox"></i>
+          </div>
 
-                <div
-                  id={collapseId}
-                  className={`accordion-collapse collapse ${isFirst ? 'show' : ''}`}
-                  data-bs-parent={`#${accordionId}`} // all items share same parent
-                >
-                  <div className="accordion-body white_line">
-                    {announcement.message || 'No content available.'}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          <div className="empty_text">
+            <h4>No Announcements Yet</h4>
+            <p>
+              {noContentMsg ||
+                "There are no announcements for this date. Check back later for updates."}
+            </p>
+          </div>
+
         </div>
+
       </div>
     );
   };
 
   render() {
-    const { data } = this.props;
-    return this.getAccordion(data);
+    const { header, data } = this.props;
+    const { openIndex } = this.state;
+
+    const safeData = Array.isArray(data) ? data : [];
+
+    if (safeData.length === 0) {
+      return this.renderEmpty();
+    }
+
+    return (
+      <div className="announcement_group animate_group">
+
+        {/* DATE HEADER */}
+        <div className="announcement_date">
+          <i className="bi bi-calendar3"></i>
+          {header}
+          <span className="count">{safeData.length}</span>
+        </div>
+
+        {/* ITEMS */}
+        <div className="announcement_list">
+
+          {safeData.map((item, index) => {
+
+            const isOpen = openIndex === index;
+
+            return (
+              <div
+                className={buildClassNames(
+                  'announcement_card',
+                  isOpen ? 'expanded' : ''
+                )}
+                key={index}
+              >
+
+                {/* HEADER (CLICKABLE) */}
+                <div
+                  className="announcement_card_header clickable"
+                  onClick={() => this.toggleCard(index)}
+                >
+
+                  <div className="title">
+                    <i className="bi bi-megaphone-fill"></i>
+                    {item.header}
+                  </div>
+
+                  <div className={buildClassNames(
+                    'badge_type',
+                    item.alertStatus === 0 ? 'info' : '',
+                    item.alertStatus === 1 ? 'warning' : '',
+                    item.alertStatus >= 2 ? 'danger' : ''
+                  )}>
+                    {item.alertStatusString || item.messageTypeString}
+                  </div>
+
+                </div>
+
+                {/* BODY (COLLAPSIBLE) */}
+                <div className={buildClassNames(
+                  'announcement_content',
+                  isOpen ? 'open' : ''
+                )}>
+
+                  {/* MESSAGE */}
+                  <div className="announcement_body">
+                    {item.message}
+                  </div>
+
+                  {/* META */}
+                  <div className="announcement_meta">
+
+                    <div className="meta_row">
+                      <span className="meta_label">Ref No:</span>
+                      <span className="meta_value">{item.refNo || '-'}</span>
+                    </div>
+
+                    <div className="meta_row">
+                      <span className="meta_label">Sent:</span>
+                      <span className="meta_value">
+                        {item.createdDtString}
+                      </span>
+                    </div>
+
+                    <div className="meta_row">
+                      <span className="meta_label">Location:</span>
+                      <span className="meta_value">{item.location || 'Barangay Paliparan III'}</span>
+                    </div>
+
+                    <div className="meta_row">
+                      <span className="meta_label">Channel:</span>
+                      <span className="meta_value">{item.isSmsEmailString || 'System'}</span>
+                    </div>
+
+                  </div>
+
+                  {/* FOOTER */}
+                  <div className="announcement_footer">
+
+                    <div>
+                      <span className="small_label">Posted by:</span>
+                      <span>{item.fullNm || 'System'}</span>
+                    </div>
+
+                    {/* <div>
+                      <span className="small_label">Recipients:</span>
+                      <span>{item.recipientListString || 'All residents'}</span>
+                    </div> */}
+
+                  </div>
+
+                </div>
+
+              </div>
+            );
+          })}
+
+        </div>
+
+      </div>
+    );
   }
 }
-
-BaseAccordion.contextType = StoreContext;
 
 export default observer(BaseAccordion);

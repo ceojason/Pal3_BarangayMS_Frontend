@@ -119,7 +119,7 @@ class SearchAnnouncementPanel extends Component {
           onSearch={() => this.onSearch()}
           onReset={() => this.onReset()}
           hasDivider={true}
-          icon={<i className="bi bi-search"></i>}
+          // icon={<i className="bi bi-search"></i>}
           filterList={AnnouncementStore.searchFields}
           hasDownload={true}>
             <InquiryTable

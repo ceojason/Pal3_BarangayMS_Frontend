@@ -8,6 +8,7 @@ import BaseHyperlink from '../base/BaseHyperlink/BaseHyperlink';
 import MessageModal from '../base/MessageModal/MessageModal';
 import StepperContants from '../../../contants/StepperContants';
 import { buildClassNames } from '../../utils/ClassUtils';
+import StatusColumn from '../StatusColumn/StatusColumn';
 
 class UserRequestPanel extends Component {
   constructor(props) {
@@ -79,8 +80,8 @@ class UserRequestPanel extends Component {
 
     cols.push({
       name: 'DOCUMENT TYPE',
-      index: 'documentTypeString',
-      sortBy: 'documentTypeString'
+      index: 'docuSubCategoryKeyString',
+      sortBy: 'docuSubCategoryKeyString'
     });
 
     if (!isUser) {
@@ -110,9 +111,10 @@ class UserRequestPanel extends Component {
       name: 'STATUS',
       index: 'statusString',
       cell: data => (
-        <span className={buildClassNames('status_column', data.status === 9 ? 'success_status_col' : data.status === 10 ? 'rejected_status_col' : 'pending_status_col')}>
-          {data.statusString}
-        </span>
+        // <span className={buildClassNames('status_column', data.status === 9 ? 'success_status_col' : data.status === 10 ? 'rejected_status_col' : 'pending_status_col')}>
+        //   {data.statusString}
+        // </span>
+        <StatusColumn statusKey={data.status} />
       )
     });
 
@@ -149,7 +151,7 @@ class UserRequestPanel extends Component {
           onSearch={() => this.onSearch()}
           onReset={() => this.onReset()}
           hasDivider={true}
-          icon={<i class="bi bi-file-earmark-post"></i>}
+          // icon={<i class="bi bi-file-earmark-post"></i>}
           filterList={UserRequestStore.searchFields}
           hasDownload={true}>
             <InquiryTable
