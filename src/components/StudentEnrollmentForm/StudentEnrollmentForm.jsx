@@ -64,7 +64,7 @@ class StudentEnrollmentForm extends Component {
 
   onChangeInputs = (fieldId, val) => {
     const { StudentEnrollmentStore } = this.context.store;
-    if (val!=null) {
+    if (val!=null&& val.trim() !== '') {
       StudentEnrollmentStore.enrollmentRequest[fieldId]=val;
     }else{
       StudentEnrollmentStore.enrollmentRequest[fieldId]=null;

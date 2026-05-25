@@ -109,7 +109,7 @@ class Login extends Component {
                 />
                 <span>
                   <i class="bi bi-question-circle-fill"></i>
-                  Forgot your User ID or Password? Click <Link to="/resetUser" className='forgot_btn'>here.</Link>
+                  <Link to="/resetUser" className='forgot_btn'>Forgot your User ID or Password?</Link>
                 </span>
               </div>
             </div>

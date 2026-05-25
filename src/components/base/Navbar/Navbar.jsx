@@ -47,7 +47,7 @@ class Navbar extends Component {
           <div className='navbar_items_ctr'>
             <div className='header_icon'>
               <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
+                <i class="bi bi-list-ul"></i>
               </button>
 
               <Link className="navbar-brand" to="/dashboard">
@@ -57,7 +57,7 @@ class Navbar extends Component {
                     eBarangayConnect
                   </span>
                   <span className='hdr_two'>
-                    Paliparan III Alert & Notification System
+                    Alert & Notification System
                   </span>
                 </div>
               </Link>
@@ -157,7 +157,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-people-fill"/>Resident Management
+                        <i class="bi bi-people-fill"/>Residents
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -173,6 +173,12 @@ class Navbar extends Component {
                       </ul>
                     </li>
 
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/household" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-house-lock-fill"></i>Household
+                      </Link>
+                    </li>
+
                     <li className="nav-item dropdown">
                       <a
                         className="nav-link dropdown-toggle"
@@ -180,7 +186,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-send-arrow-up-fill"></i>Announcement Management
+                        <i class="bi bi-send-arrow-up-fill"></i>Announcement
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -203,7 +209,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>Manage User Request
+                        <i class="bi bi-file-earmark-pdf-fill"></i>User Request
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -220,6 +226,12 @@ class Navbar extends Component {
                     </li>
 
                     <li className="nav-item">
+                      <Link className="nav-link" to="/searchCommunityReports" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-folder2-open"></i>Community Reports
+                      </Link>
+                    </li>
+
+                    <li className="nav-item">
                       <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
                         <i class="bi bi-stickies-fill"></i>Notification Logs
                       </Link>
@@ -227,7 +239,7 @@ class Navbar extends Component {
                     
                     <li className="nav-item">
                       <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-gear-fill"></i>System Configuration
+                        <i class="bi bi-sliders"></i>System Configuration
                       </Link>
                     </li>
                   </ul>
@@ -246,17 +258,17 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-file-earmark-post"></i>Request Document/s
+                        <i class="bi bi-file-earmark-pdf-fill"></i>Request Document/s
                       </a>
                       <ul className="dropdown-menu">
                         <li>
                           <Link className="dropdown-item" to="/documentRequest" onClick={this.closeOffcanvas}>
-                            <i class="bi bi-caret-right-fill"></i>Request Now
+                            <i class="bi bi-caret-right-fill"></i>Request a New Document
                           </Link>
                         </li>
                         <li>
                           <Link className="dropdown-item" to="/documentHistory" onClick={this.closeOffcanvas}>
-                            <i class="bi bi-caret-right-fill"></i>Request History
+                            <i class="bi bi-caret-right-fill"></i>Document Request History
                           </Link>
                         </li>
                       </ul>
@@ -267,18 +279,19 @@ class Navbar extends Component {
                         <i class="bi bi-person-circle"></i>My Profile
                       </Link>
                     </li> */}
+                    
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/communityReport" onClick={this.closeOffcanvas}>
+                        <i class="bi bi-folder2-open"></i>File a Community Report
+                      </Link>
+                    </li>
 
                     <li className="nav-item">
                       <Link className="nav-link" to="/announcementLogs" onClick={this.closeOffcanvas}>
-                        <i className="bi bi-clock-history"></i>Announcement History
+                        <i class="bi bi-send-arrow-up-fill"></i>Announcement History
                       </Link>
                     </li>
 
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/aboutPaliparan" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-houses-fill"></i>About Paliparan III
-                      </Link>
-                    </li>
                   </ul>
                 )}
               </div>

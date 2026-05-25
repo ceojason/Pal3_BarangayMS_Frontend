@@ -126,7 +126,7 @@ class MyAdminProfile extends Component {
   onChangeInputs = (fieldId, val) => {
     const { AdminEnrollmentStore } = this.context.store;
 
-    if (val!=null) {
+    if (val!=null&& val.trim() !== '') {
       AdminEnrollmentStore.enrollmentRequest[fieldId]=val;
     }else{
       AdminEnrollmentStore.enrollmentRequest[fieldId]=null;

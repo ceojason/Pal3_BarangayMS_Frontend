@@ -64,7 +64,19 @@ const SystemStatusEnum = {
     key: 10,
     dscp: 'Rejected',
     className: 'status_rejected'
-  }
+  },
+
+  IN_PROGRESS: {
+    key: 11,
+    dscp: 'In Progress',
+    className: 'status_processed'
+  },
+
+  CLOSED: {
+    key: 12,
+    dscp: 'Closed',
+    className: 'status_sent'
+  },
 
 };
 

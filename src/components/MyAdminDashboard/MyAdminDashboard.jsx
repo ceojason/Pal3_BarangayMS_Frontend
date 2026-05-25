@@ -14,7 +14,8 @@ class MyAdminDashboard extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     const { DashboardStore, SessionStore } = this.context.store;
     SessionStore.isLoading = true;
@@ -75,11 +76,11 @@ class MyAdminDashboard extends Component {
             <div>
               <div className='col_four'>
                 <DashboardCard
-                  header={'Incident Reports'}
-                  icon={<i class="bi bi-calendar2-x-fill"></i>}
+                  header={'Community Reports'}
+                  icon={<i class="bi bi-folder2-open"></i>}
                   className={'gradient_red'}
-                  data={DashboardStore.data.paramCount3}
-                  label={DashboardStore.data.paramLabel3}
+                  data={DashboardStore.data.paramCount4}
+                  label={DashboardStore.data.paramLabel4}
                 />
               </div>
             </div>

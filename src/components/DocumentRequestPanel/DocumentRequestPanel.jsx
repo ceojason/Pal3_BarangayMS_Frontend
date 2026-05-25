@@ -98,7 +98,7 @@ class DocumentRequestPanel extends Component {
   onChangeInputs = (fieldId, val) => {
     const { DocumentStore } = this.context.store;
 
-    if (val!=null) {
+    if (val!=null&& val.trim() !== '') {
       DocumentStore.enrollmentRequest[fieldId]=val;
     }else{
       DocumentStore.enrollmentRequest[fieldId]=null;
@@ -116,7 +116,7 @@ class DocumentRequestPanel extends Component {
     return (
       <MainForm>
         <BasePanel
-          icon={<i class="bi bi-envelope-paper-fill"></i>}
+          icon={<i class="bi bi-file-earmark-pdf-fill"></i>}
           header={'Document Information'}>
             <Row>
               <Col md={6}>

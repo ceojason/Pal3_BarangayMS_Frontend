@@ -146,7 +146,7 @@ class MyProfilePanel extends Component {
   onChangeInputs = (fieldId, val) => {
     const { UsersStore } = this.context.store;
 
-    if (val!=null) {
+    if (val!=null&& val.trim() !== '') {
       UsersStore.enrollmentRequest[fieldId]=val;
     }else{
       UsersStore.enrollmentRequest[fieldId]=null;

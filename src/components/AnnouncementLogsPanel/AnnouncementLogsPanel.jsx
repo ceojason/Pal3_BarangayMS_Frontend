@@ -53,7 +53,7 @@ class AnnouncementLogsPanel extends Component {
         <div className='announcement_logs_ctr'>
           <div className='announcement_logs_header'>
             <span className='main_header'>Announcement History</span>
-            <span className='sub_header'>View announcement history and logs here.</span>
+            <span className='sub_header'>View announcement history and logs here for the last three (3) days.</span>
           </div>
 
           <div className='announcement_body'>

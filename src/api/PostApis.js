@@ -95,3 +95,49 @@ export const postRequest = async (endpoint, data, onSuccess, onError) => {
     }
   };
 };
+
+export const postMultipartRequest = async (
+  endpoint,
+  formData,
+  onSuccess,
+  onError
+) => {
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+        // ❌ DO NOT set Content-Type here
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      let errorBody;
+      try {
+        errorBody = await response.json();
+      } catch (_) {
+        throw new Error('Submission failed.');
+      }
+      throw errorBody;
+    }
+
+    const json = await response.json();
+
+    if (onSuccess) {
+      onSuccess(json.content);
+    }
+
+    return json;
+  } catch (error) {
+    const errorList =
+      (error && error.errorList) ||
+      [error.message || 'Something went wrong'];
+
+    if (onError) {
+      onError(errorList);
+    }
+  }
+};

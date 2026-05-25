@@ -10,6 +10,10 @@ import NotificationLogsStore from './NotificationLogsStore';
 import AnnouncementStore from './AnnouncementStore';
 import DocumentStore from './DocumentStore';
 import UserRequestStore from './UserRequestStore';
+import CommunityReportStore from './CommunityReportStore';
+import HouseholdStore from './HouseholdStore';
+
+
 
 
 
@@ -21,6 +25,10 @@ import UserRequestStore from './UserRequestStore';
 
 class RootStore {
   constructor() {
+    this.HouseholdStore = new HouseholdStore();
+
+    this.CommunityReportStore = new CommunityReportStore();
+
     this.UserRequestStore = new UserRequestStore();
 
     this.DocumentStore = new DocumentStore();

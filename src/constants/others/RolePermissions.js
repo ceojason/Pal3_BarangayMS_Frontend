@@ -19,6 +19,7 @@ const RolePermissions = {
     Permissions.REQUEST_DOCUMENT_HISTORY,
     Permissions.ANNOUNCEMENT_HISTORY,
     Permissions.DASHBOARD,
+    Permissions.COMMUNITY_REPORT
   ],
 };
 

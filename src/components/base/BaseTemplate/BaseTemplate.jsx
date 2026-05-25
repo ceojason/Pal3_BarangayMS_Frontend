@@ -28,7 +28,8 @@ class BaseTemplate extends Component {
       icon,
       onClickGenerate,
       onClickReject,
-      onClickProcess
+      onClickProcess,
+      onClickUpdate
     } = this.props;
     let isInitial = currentStep!=null && currentStep===1;
     const { SettingsStore } = this.context.store;
@@ -72,7 +73,7 @@ class BaseTemplate extends Component {
                   onClick={onClickBack}
                   label={isAck ? 'Done' : 'Back'}
                   hasIcon={true}
-                  icon={!isAck ? <i class="bi bi-arrow-left-circle-fill"></i> : <i class="bi bi-check-circle-fill"></i>}
+                  icon={!isAck ? <i class="bi bi-arrow-left"></i> : <i class="bi bi-check-circle-fill"></i>}
                 />
               )}
               {onReset!=null && (
@@ -90,7 +91,7 @@ class BaseTemplate extends Component {
                   onClick={onClickNext}
                   label={isConfirm ? 'Save' : 'Next'}
                   hasIcon={true}
-                  icon={isConfirm ? <i class="bi bi-floppy-fill"></i> : <i class="bi bi-arrow-right-circle-fill"></i>}
+                  icon={isConfirm ? <i class="bi bi-download"></i> : <i class="bi bi-arrow-right-circle-fill"></i>}
                 />
               )}
               {onClickReject!=null && (
@@ -116,6 +117,15 @@ class BaseTemplate extends Component {
                   customClassName={'onClick_generate'}
                   onClick={onClickProcess}
                   label={'Process'}
+                  hasIcon={true}
+                  icon={<i class="bi bi-file-earmark-check-fill"></i>}
+                />
+              )}
+              {onClickUpdate!=null && (
+                <BaseButton
+                  customClassName={'onClick_generate'}
+                  onClick={onClickUpdate}
+                  label={'Update'}
                   hasIcon={true}
                   icon={<i class="bi bi-file-earmark-check-fill"></i>}
                 />

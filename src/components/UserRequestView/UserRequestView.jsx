@@ -49,7 +49,7 @@ class UserRequestView extends Component {
     return (
       <Fragment>
         <ViewPortlet {...this.props}>
-          <BasePanel header={'Request Information'} icon={<i class="bi bi-file-earmark-post"></i>}>
+          <BasePanel header={'Request Information'} icon={<i class="bi bi-file-earmark-pdf-fill"></i>}>
             <Row>
               <Col md={6}>
                 <ViewField

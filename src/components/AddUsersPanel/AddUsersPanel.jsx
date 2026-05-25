@@ -22,24 +22,11 @@ class AddUsersPanel extends Component {
       yesNoList: [],
       residentTypeList: [],
       brgyPositionList: [],
-      householdList: []
+      householdList: [],
+      getHouseholdListApi: true
     };
   }
 
-  componentDidUpdate() {
-    const { UsersStore } = this.context.store;
-    
-    let request = UsersStore.enrollmentRequest;
-    if ((request.block==null || request.block=='') || (request.lot==null || request.lot=='')) {
-      request.isHouseholdHead = null;
-      request.tempHouseholdForSave = null;
-      request.householdKey = null;
-    }else{
-      if ( this.state.householdList.length==0) {
-        this.getHouseholdListWithHead();
-      }
-    }
-  };
 
   componentDidMount() {
     const { UsersStore } = this.context.store;
@@ -67,12 +54,17 @@ class AddUsersPanel extends Component {
     UsersStore.getBrgyPositionList().then((list) => {
       this.setState({ brgyPositionList: list.brgyPositionList });
     });
+
+    if (this.state.getHouseholdListApi) {
+      this.getHouseholdListWithHead();
+      this.setState({ getHouseholdListApi: false });
+    }
   };
 
   onChangeInputs = (fieldId, val) => {
     const { UsersStore } = this.context.store;
 
-    if (val!=null) {
+    if (val!=null&& val.trim() !== '') {
       UsersStore.enrollmentRequest[fieldId]=val;
     }else{
       UsersStore.enrollmentRequest[fieldId]=null;
@@ -80,6 +72,7 @@ class AddUsersPanel extends Component {
 
     if (fieldId=='block' || fieldId=='lot') {
       this.getHouseholdListWithHead();
+      this.getTempHouseholdStringForSave();
     }
   };
 
@@ -103,6 +96,7 @@ class AddUsersPanel extends Component {
     else if (fieldId=='phaseKey' && val!=null) {
       this.getHouseholdListWithHead();
       UsersStore.enrollmentRequest.tempHouseholdForSave = null;
+      this.getTempHouseholdStringForSave();
     }
   };
 

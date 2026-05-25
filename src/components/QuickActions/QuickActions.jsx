@@ -11,7 +11,13 @@ const ADMIN_ACTIONS = [
     className: 'orange'
   },
   {
-    label: 'Create New Announcement',
+    label: 'Manage Household',
+    icon: 'bi-house-lock-fill',
+    url: '/household',
+    className: 'green'
+  },
+  {
+    label: 'Create and Send New Announcement',
     icon: 'bi-send-arrow-up-fill',
     url: '/announcementAdd',
     className: 'green'
@@ -23,32 +29,44 @@ const ADMIN_ACTIONS = [
     className: 'blue'
   },
   {
-    label: 'View Logs',
+    label: 'View Community Reports',
+    icon: 'bi-folder2-open',
+    url: '/searchCommunityReports',
+    className: 'blue'
+  },
+  {
+    label: 'View Notification Logs',
     icon: 'bi-bar-chart-fill',
     url: '/notificationLogs',
-    className: 'dark'
+    className: 'orange'
   }
 ];
 
 const RESIDENT_ACTIONS = [
   {
     label: 'Request a Document',
-    icon: 'bi-envelope-paper-fill',
+    icon: 'bi-file-earmark-pdf-fill',
     url: '/documentRequest',
     className: 'orange'
   },
   {
     label: 'Document Requests History',
-    icon: 'bi-clock-history',
+    icon: 'bi-hourglass-split',
     url: '/documentHistory',
     className: 'orange'
+  },
+  {
+    label: 'File a Community Report',
+    icon: 'bi-folder2-open',
+    url: '/communityReport',
+    className: 'blue'
   },
   {
     label: 'View Announcement History',
     icon: 'bi-megaphone-fill',
     url: '/announcementLogs',
     className: 'blue'
-  }
+  },
 ];
 
 class QuickActions extends Component {

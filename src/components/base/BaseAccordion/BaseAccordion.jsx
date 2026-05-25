@@ -106,7 +106,7 @@ class BaseAccordion extends Component {
                     item.alertStatus === 1 ? 'warning' : '',
                     item.alertStatus >= 2 ? 'danger' : ''
                   )}>
-                    {item.alertStatusString || item.messageTypeString}
+                    {item.messageTypeString}
                   </div>
 
                 </div>

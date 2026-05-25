@@ -18,6 +18,9 @@ import PermissionRoute from './components/Routes/PermissionRoute.jsx';
 import Permissions from './constants/others/Permissions.js';
 import ResetUserMainCtr from './containers/ResetUser/ResetUserMainCtr.jsx';
 import SystemConfigMainCtr from './containers/SystemConfig/SystemConfigMainCtr.jsx';
+import CommunityReportMainCtr from './containers/CommunityReport/CommunityReportMainCtr.jsx';
+import SearchCommunityReportsMainCtr from './containers/SearchCommunityReports/SearchCommunityReportsMainCtr.jsx';
+import HouseholdMainCtr from './containers/Household/HouseholdMainCtr.jsx';
 
 
 const router = createBrowserRouter([
@@ -137,6 +140,18 @@ const router = createBrowserRouter([
       {
               path: 'systemSettings',
               element: <SystemConfigMainCtr />,
+            },
+      {
+              path: 'communityReport',
+              element: <CommunityReportMainCtr />,
+            },
+      {
+              path: 'searchCommunityReports',
+              element: <SearchCommunityReportsMainCtr />,
+            },
+      {
+              path: 'household',
+              element: <HouseholdMainCtr />,
             },
     ],
   },

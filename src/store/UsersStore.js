@@ -121,6 +121,10 @@ class UsersStore {
     return await api.get.getHouseholdList(block, lot, purok);
   };
 
+  async findMembersById(id) {
+    return await api.get.findMembersById(id);
+  };
+
   async getBrgyPositionList() {
     return await api.get.getBrgyPositionList();
   };

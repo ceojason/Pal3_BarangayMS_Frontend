@@ -46,7 +46,7 @@ class AddAnnouncementPanel extends Component {
   onChangeInputs = (fieldId, val) => {
     const { AnnouncementStore } = this.context.store;
 
-    if (val!=null) {
+    if (val!=null&& val.trim() !== '') {
       AnnouncementStore.enrollmentRequest[fieldId]=val;
     }else{
       AnnouncementStore.enrollmentRequest[fieldId]=null;

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import UsersViewPanel from '../../UsersViewPanel/UsersViewPanel';
 import AnnouncementViewPanel from '../../AnnouncementViewPanel/AnnouncementViewPanel';
 import DocumentRequestView from '../../DocumentRequestView/DocumentRequestView';
+import CommunityReportViewPanel from '../../CommunityReportViewPanel/CommunityReportViewPanel';
 
 class BaseAckPagePanel extends Component {
   constructor(props) {
@@ -20,7 +21,16 @@ class BaseAckPagePanel extends Component {
   };
 
   render() {
-    const { ackMessage, refNo, isUser, data, isAnnouncement, icon, isDocumentRequest, showRefNo } = this.props;
+    const { ackMessage, 
+      refNo, 
+      isUser, 
+      data, 
+      isAnnouncement, 
+      icon, 
+      isDocumentRequest, 
+      showRefNo, 
+      isCommunityReport 
+    } = this.props;
     const { showDetails } = this.state;
 
     return (
@@ -69,6 +79,14 @@ class BaseAckPagePanel extends Component {
             data={data}
             // header={'Document Request'}
             // subHeader={'This document request was successfully submitted.'}
+            icon={icon}
+            isView={true}
+          />
+        )}
+
+        {(isCommunityReport && showDetails) && (
+          <CommunityReportViewPanel
+            data={data}
             icon={icon}
             isView={true}
           />

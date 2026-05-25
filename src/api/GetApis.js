@@ -110,8 +110,45 @@ export const getUsersListBySearch = async (searchRequest) => {
   return data.content.content;
 };
 
+export const searchHousehold = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/household/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
 export const getRequestListBySearch = async (searchRequest) => {
   const res = await fetch(`${BASE_URL}/document/search`, {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(searchRequest)
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Server error ${res.status}: ${text}`);
+  }
+
+  const data = await res.json();
+  return data.content.content;
+};
+
+export const getCommReportList = async (searchRequest) => {
+  const res = await fetch(`${BASE_URL}/commReport/search`, {
     method: 'POST',
     credentials: "include",
     headers: {
@@ -271,6 +308,22 @@ export const getGenderListStr = async () => {
   return data.content;
 };
 
+export const getReportTypeList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getReportTypeList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getPriorityList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getPriorityList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getHouseholdList = async (block, lot, purok) => {
   const response = await fetch(`${BASE_URL}/household/findActiveHousehold/${block}/${lot}/${purok}`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
@@ -279,8 +332,40 @@ export const getHouseholdList = async (block, lot, purok) => {
   return data.content;
 };
 
+export const findMembersById = async (id) => {
+  const response = await fetch(`${BASE_URL}/household/findMembersById/${id}`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getBrgyPositionList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getBrgyPositionList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getBrgyOfficialList = async () => {
+  const response = await fetch(`${BASE_URL}/commReport/getBrgyOfficialList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getStatusListForCommReport = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getStatusListForCommReport`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getStatusListForHousehold = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getStatusListForHousehold`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();
