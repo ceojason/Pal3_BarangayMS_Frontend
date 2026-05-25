@@ -107,7 +107,8 @@ class InputField extends Component {
       name,
       inst,
       disabled,
-      icon
+      icon,
+      currency
     } = this.props;
 
     const { error, showPassword, isFocused } = this.state;
@@ -138,13 +139,21 @@ class InputField extends Component {
             'input_wrapper',
             error && 'input_error',
             isFocused && 'input_focus',
-            disabled && 'input_disabled'
+            disabled && 'input_disabled',
+            currency && 'input_has_currency'
           )}
         >
           {/* LEFT ICON */}
           {icon && (
             <div className="input_icon">
               {icon}
+            </div>
+          )}
+
+          {/* ₱ PREFIX */}
+          {currency && (
+            <div className="input_currency_prefix" style={{ marginRight: '5px' }}>
+              ₱
             </div>
           )}
 

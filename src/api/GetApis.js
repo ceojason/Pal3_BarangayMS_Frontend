@@ -404,6 +404,14 @@ export const getResidentTypeList = async () => {
   return data.content;
 };
 
+export const getConfigList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getConfigList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getDocumentTypeList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getDocumentList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
@@ -430,6 +438,22 @@ export const getDocuCategoryList = async () => {
 
 export const getDocuSubCatListByKey = async (key) => {
   const response = await fetch(`${BASE_URL}/enumApi/getDocuSubCatListByKey/${key}`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getRegionList = async () => {
+  const response = await fetch(`${BASE_URL}/enumApi/getRegionList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getFeePricingList = async () => {
+  const response = await fetch(`${BASE_URL}/config/getFeePricingList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();

@@ -91,7 +91,7 @@ class BaseTemplate extends Component {
                   onClick={onClickNext}
                   label={isConfirm ? 'Save' : 'Next'}
                   hasIcon={true}
-                  icon={isConfirm ? <i class="bi bi-download"></i> : <i class="bi bi-arrow-right-circle-fill"></i>}
+                  icon={isConfirm ? <i class="bi bi-floppy"></i> : <i class="bi bi-arrow-right-circle-fill"></i>}
                 />
               )}
               {onClickReject!=null && (

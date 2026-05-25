@@ -116,7 +116,7 @@ class Navbar extends Component {
                         }
                       }}
                     >
-                      <i class="bi bi-door-open-fill"></i>Sign Out
+                      <i class="bi bi-box-arrow-left"></i>Sign Out
                     </a>
                   </li>
                 </ul>
@@ -146,7 +146,7 @@ class Navbar extends Component {
                   <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li className="nav-item">
                       <Link className="nav-link" to="/dashboard" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-house-door-fill"></i>Dashboard
+                        <i class="bi bi-house"></i>Dashboard
                       </Link>
                     </li>
 
@@ -157,7 +157,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-people-fill"/>Residents
+                        <i class="bi bi-people"></i>Residents
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -175,7 +175,7 @@ class Navbar extends Component {
 
                     <li className="nav-item">
                       <Link className="nav-link" to="/household" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-house-lock-fill"></i>Household
+                        <i class="bi bi-house-gear"></i>Household
                       </Link>
                     </li>
 
@@ -186,7 +186,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-send-arrow-up-fill"></i>Announcement
+                        <i class="bi bi-send-plus"></i>Announcement
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -209,7 +209,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>User Request
+                        <i class="bi bi-file-earmark-pdf"></i>User Request
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -233,13 +233,13 @@ class Navbar extends Component {
 
                     <li className="nav-item">
                       <Link className="nav-link" to="/notificationLogs" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-stickies-fill"></i>Notification Logs
+                        <i class="bi bi-journal-check"></i>Notification Logs
                       </Link>
                     </li>
                     
                     <li className="nav-item">
                       <Link className="nav-link" to="/systemSettings" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-sliders"></i>System Configuration
+                        <i class="bi bi-gear"></i>System Configuration
                       </Link>
                     </li>
                   </ul>
@@ -247,7 +247,7 @@ class Navbar extends Component {
                   <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li className="nav-item">
                       <Link className="nav-link" to="/dashboard" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-house-door-fill"></i>Dashboard
+                        <i class="bi bi-house"></i>Dashboard
                       </Link>
                     </li>
 
@@ -258,7 +258,7 @@ class Navbar extends Component {
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>Request Document/s
+                        <i class="bi bi-file-earmark-pdf"></i>Request Document/s
                       </a>
                       <ul className="dropdown-menu">
                         <li>
@@ -288,7 +288,7 @@ class Navbar extends Component {
 
                     <li className="nav-item">
                       <Link className="nav-link" to="/announcementLogs" onClick={this.closeOffcanvas}>
-                        <i class="bi bi-send-arrow-up-fill"></i>Announcement History
+                        <i class="bi bi-send-plus"></i>Announcement History
                       </Link>
                     </li>
 

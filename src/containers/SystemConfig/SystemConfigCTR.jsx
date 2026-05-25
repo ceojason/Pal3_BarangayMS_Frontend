@@ -6,7 +6,10 @@ const SystemConfigCTR = () => {
   return (
     <MainContainer>
       <div className="SystemConfigCTR">
-        <SystemConfigPanel />
+        <SystemConfigPanel 
+          currentStep={1} 
+          totalSteps={1}
+        />
       </div>
     </MainContainer>
   );

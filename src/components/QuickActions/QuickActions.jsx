@@ -6,25 +6,25 @@ import { withRouter } from '../../utils/RouterUtils';
 const ADMIN_ACTIONS = [
   {
     label: 'Add New Resident',
-    icon: 'bi-person-plus-fill',
+    icon: 'bi-people',
     url: '/usersAdd',
     className: 'orange'
   },
   {
     label: 'Manage Household',
-    icon: 'bi-house-lock-fill',
+    icon: 'bi-house-gear',
     url: '/household',
     className: 'green'
   },
   {
     label: 'Create and Send New Announcement',
-    icon: 'bi-send-arrow-up-fill',
+    icon: 'bi-send-plus',
     url: '/announcementAdd',
     className: 'green'
   },
   {
     label: 'View Document Requests',
-    icon: 'bi-file-earmark-pdf-fill',
+    icon: 'bi-file-earmark-pdf',
     url: '/viewDocumentRequests',
     className: 'blue'
   },
@@ -36,7 +36,7 @@ const ADMIN_ACTIONS = [
   },
   {
     label: 'View Notification Logs',
-    icon: 'bi-bar-chart-fill',
+    icon: 'bi-journal-check',
     url: '/notificationLogs',
     className: 'orange'
   }
@@ -45,7 +45,7 @@ const ADMIN_ACTIONS = [
 const RESIDENT_ACTIONS = [
   {
     label: 'Request a Document',
-    icon: 'bi-file-earmark-pdf-fill',
+    icon: 'bi-file-earmark-pdf',
     url: '/documentRequest',
     className: 'orange'
   },
@@ -63,7 +63,7 @@ const RESIDENT_ACTIONS = [
   },
   {
     label: 'View Announcement History',
-    icon: 'bi-megaphone-fill',
+    icon: 'bi-send-plus',
     url: '/announcementLogs',
     className: 'blue'
   },

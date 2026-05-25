@@ -70,7 +70,7 @@ class AddUsersPanel extends Component {
       UsersStore.enrollmentRequest[fieldId]=null;
     }
 
-    if (fieldId=='block' || fieldId=='lot') {
+    if (fieldId=='block' || fieldId=='lot' || fieldId=='street') {
       this.getHouseholdListWithHead();
       this.getTempHouseholdStringForSave();
     }

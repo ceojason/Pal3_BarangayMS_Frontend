@@ -12,6 +12,8 @@ import DocumentStore from './DocumentStore';
 import UserRequestStore from './UserRequestStore';
 import CommunityReportStore from './CommunityReportStore';
 import HouseholdStore from './HouseholdStore';
+import SystemConfigStore from './SystemConfigStore';
+
 
 
 
@@ -25,6 +27,8 @@ import HouseholdStore from './HouseholdStore';
 
 class RootStore {
   constructor() {
+    this.SystemConfigStore = new SystemConfigStore();
+
     this.HouseholdStore = new HouseholdStore();
 
     this.CommunityReportStore = new CommunityReportStore();
