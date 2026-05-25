@@ -7,6 +7,7 @@ import BaseImageSlider from '../base/BaseImageSlider/BaseImageSlider';
 import QuickActions from '../QuickActions/QuickActions';
 import DashboardCalendar from '../DashboardCalendar/DashboardCalendar';
 import DashboardLogsCard from '../DashboardLogsCard/DashboardLogsCard';
+import DashboardConnectionPanelCard from '../DashboardConnectionPanelCard/DashboardConnectionPanelCard';
 
 class MyAdminDashboard extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class MyAdminDashboard extends Component {
               <DashboardLogsCard header={'Recent System Logs'} data={DashboardStore.data.logsList} />
             </div>
             <div>
-              <DashboardLogsCard />
+              <DashboardConnectionPanelCard header={'Connection Details'} data={DashboardStore.data.systemActiveCount} />
             </div>
           </div>
         </div>

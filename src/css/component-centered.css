@@ -1839,3 +1839,75 @@
 .attachment__add input {
   display: none;
 }
+
+.systemstatus_ctr {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+}
+
+.systemstatus_hdr {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f3f3;
+    background: #fafafa;
+}
+
+.systemstatus_hdr span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.systemstatus_content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.systemstatus_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    border: 1px solid #f1f1f1;
+}
+
+.systemstatus_item .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    width: 50%;
+}
+
+.systemstatus_item .badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.systemstatus_item .badge.success {
+    background: #e8fff1;
+    color: #00a854;
+    border: 1px solid #b7eb8f;
+}
+
+.systemstatus_item .badge.success i {
+    color: #00a854;
+}
+
+.systemstatus_footer {
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px dashed #e6e6e6;
+    font-size: 13px;
+    color: #666;
+}
