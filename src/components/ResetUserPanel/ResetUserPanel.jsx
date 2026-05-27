@@ -103,22 +103,31 @@ class ResetUserPanel extends Component {
     window.location.href="/login";
   };
 
-  onClickSaveChanges = () => {
+  onClickSaveChanges = async () => {
     const { SettingsStore, UsersStore } = this.context.store;
 
-    SettingsStore.showModal({
-      type: 'update',
-      headerTitle: 'Reset User Credentials',
-      valueToDisplay: 'yourself',
-      data: UsersStore.enrollmentRequest,
-      additionalBtn: (data, closeModal) => (
-        <BaseButton
-          customClassName="btn_update"
-          label="Reset"
-          onClick={() => this.onClickReset(data, closeModal)}
-        />
-      )
-    });
+    try {
+      const res = await UsersStore.findUserByRequest(UsersStore.enrollmentRequest);
+
+      console.log("RESULT:", res);
+
+      SettingsStore.showModal({
+        type: 'update',
+        headerTitle: 'Reset User Credentials',
+        valueToDisplay: ' yourself <' + res?.fullNm + '>', // 👈 here
+        data: UsersStore.enrollmentRequest,
+        additionalBtn: (data, closeModal) => (
+          <BaseButton
+            customClassName="btn_update"
+            label="Reset"
+            onClick={() => this.onClickReset(data, closeModal)}
+          />
+        )
+      });
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   onChangeInputs = (fieldId, val) => {

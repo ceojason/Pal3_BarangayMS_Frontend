@@ -278,13 +278,13 @@
 }
 
 .login_footer span {
-  border-top: 1px solid var(--main-green) ;
-  border-bottom: 1px solid var(--main-green);
+  /* border-top: 1px solid var(--main-green) ;
+  border-bottom: 1px solid var(--main-green); */
   padding: 10px 0;
 }
 
 .login_footer span, .login_footer span i {
-  margin-top: 35px;
+  margin-top: 15px;
   font-weight: 500;
   font-size: 12px;
   color: var(--main-green);
@@ -1160,7 +1160,7 @@
 }
 
 .add_width button {
-  width: 250px !important;
+  width: 220px !important;
 }
 
 .clickablelink button:hover{

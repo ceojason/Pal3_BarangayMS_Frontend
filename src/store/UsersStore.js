@@ -144,6 +144,10 @@ class UsersStore {
   async getResidentTypeList() {
     return await api.get.getResidentTypeList();
   };
+  
+  async findUserByRequest(requestObj) {
+    return await api.get.findUserByRequest(requestObj);
+  };
 
   async getProfileImage(userId) {
     return await api.get.getProfileImage(userId);

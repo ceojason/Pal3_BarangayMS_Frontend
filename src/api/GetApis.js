@@ -414,6 +414,21 @@ export const getResidentTypeList = async () => {
   return data.content;
 };
 
+export const findUserByRequest = async (requestObj) => {
+  const response = await fetch(`${BASE_URL}/users/findUserByRequest`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(requestObj)
+  });
+
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getConfigList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getConfigList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);

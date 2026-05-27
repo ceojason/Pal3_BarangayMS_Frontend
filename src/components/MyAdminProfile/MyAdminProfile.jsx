@@ -76,7 +76,25 @@ class MyAdminProfile extends Component {
 
         canvas.toBlob(async (blob) => {
           const base64 = await this.blobToBase64(blob);
+
           this.setState({ profileImage: base64, imageSaved: true });
+
+          const { AdminEnrollmentStore, SessionStore } = this.context.store;
+
+          const userId = SessionStore.currentUser?.userId;
+
+          const compressedFile = new File([blob], "profile.jpg", {
+            type: "image/jpeg",
+            lastModified: Date.now(),
+          });
+
+          UsersStore.uploadImageToServer(compressedFile, userId)
+            .then(() => {
+              console.log("Upload success");
+            })
+            .catch((err) => {
+              console.error("Upload failed", err);
+            });
 
           setTimeout(() => this.setState({ imageSaved: false }), 8000);
         }, 'image/jpeg', 0.7);
