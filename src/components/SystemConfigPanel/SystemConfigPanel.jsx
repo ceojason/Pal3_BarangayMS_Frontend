@@ -42,6 +42,18 @@ class SystemConfigPanel extends Component {
     if (fieldId=='configCd' && value=='CONFIG_PRICING') {
       this.getFeePricing();
     }
+
+    if (fieldId=='configCd' && value=='CONFIG_BRGY_SETTINGS') {
+      this.getBrgyDetailsAndMap();
+    }
+  };
+
+  getBrgyDetailsAndMap = () => {
+    const { SystemConfigStore } = this.context.store;
+
+    SystemConfigStore.getBarangayDetails().then(res => {
+      SystemConfigStore.enrollmentRequest = res;
+    });
   };
 
   getFeePricing = () => {

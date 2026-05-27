@@ -55,13 +55,12 @@ class SearchUsersPanel extends Component {
       //   sortBy: 'mobileNo'
       // },
       {
-        name: 'HOME ADDRESS',
-        index: 'homeAddress',
-        sortBy: 'homeAddress'
+        name: 'HOUSEHOLD HEAD?',
+        index: 'isHouseholdHeadString',
       },
       {
-        name: 'PUROK #',
-        index: 'phaseString'
+        name: 'DATE ENROLLED',
+        index: 'dateEnrolledString'
       },
       // {
       //   name: 'Date Enrolled',
@@ -73,7 +72,7 @@ class SearchUsersPanel extends Component {
         cell: data => (
           <div className="actionbtns_ctr">
             <BaseButton
-              customClassName="btn_update"
+              customClassName="btn_reset"
               onClick={() => this.onClickReset(data)}
               label="Reset"
               hasIcon
@@ -86,10 +85,29 @@ class SearchUsersPanel extends Component {
               hasIcon
               icon={<i className="bi bi-trash"></i>}
             />
+            <BaseButton
+              customClassName="btn_update"
+              onClick={() => this.updateData(data)}
+              label="Update"
+              hasIcon
+              icon={<i class="bi bi-pencil-square"></i>}
+            />
           </div>
         )
       }
     ];
+  };
+
+  updateData = data => {
+    console.log("CLICKED UPDATE", data);
+
+    const { UsersStore } = this.context.store;
+    UsersStore.enrollmentRequest = {
+      ...data
+    };
+    UsersStore.searchStep = StepperContants.MANUAL_ENROLL_CREATE;
+    UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+
   };
 
   onClickReset = data => {

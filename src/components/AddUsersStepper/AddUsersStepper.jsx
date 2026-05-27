@@ -12,16 +12,36 @@ class AddUsersStepper extends Component {
   }
 
   onClickBack = isAckPage => {
-    const { UsersStore } = this.context.store;
+    const { UsersStore, SettingsStore } = this.context.store;
+    const { isAdd } = this.props;
 
     if (!isAckPage) {
-      UsersStore.validatedData = null;
-      UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+      if (isAdd) {
+        UsersStore.validatedData = null;
+        UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+      } else {
+        if (UsersStore.currentStep==StepperContants.MANUAL_ENROLL__CONFIRM) {
+          UsersStore.searchStep = StepperContants.MANUAL_ENROLL_CREATE;
+          UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+        }else{
+          UsersStore.enrollmentRequest = {};
+          UsersStore.searchStep = StepperContants.INQUIRY_INITIAL;
+          UsersStore.currentStep = StepperContants.INQUIRY_INITIAL;
+        }
+      }
     }else{
       UsersStore.reset();
       UsersStore.validatedData = null;
       UsersStore.savedData = null;
-      UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+
+      if (isAdd) {
+        UsersStore.currentStep = StepperContants.MANUAL_ENROLL_CREATE;
+      }else{
+        SettingsStore.showSuccessPanel=false;
+        UsersStore.enrollmentRequest = {};
+        UsersStore.searchStep = StepperContants.INQUIRY_INITIAL;
+        UsersStore.currentStep = StepperContants.INQUIRY_INITIAL;
+      }
     }
   };
 
@@ -35,9 +55,10 @@ class AddUsersStepper extends Component {
         content: (
           <AddUsersPanel
             isAdd={isAdd} 
-            header={header}
+            header={isAdd ? header : 'Update Resident Details'}
             subHeader={subHeader}
             icon={icon}
+            onClickBack={!isAdd ? () => this.onClickBack() : null}
           />
         )
       },
@@ -48,11 +69,12 @@ class AddUsersStepper extends Component {
             currentStep={2}
             totalSteps={3}
             isConfirm={true}
-            header={header + ' Confirmation'}
+            header={isAdd ? header + ' Confirmation' : 'Update Resident Details' + ' Confirmation'}
             subHeader={subHeader}
             data={UsersStore.validatedData}
             onClickBack={() => this.onClickBack(false)}
             icon={icon}
+            isAdd={isAdd} 
           />
         )
       },
@@ -70,6 +92,8 @@ class AddUsersStepper extends Component {
             refNo={UsersStore.ackHeader.refNo}
             isUser={true}
             icon={icon}
+            isAdd={isAdd} 
+            hideBackToDashboardBtn={!isAdd}
           />
         )
       }

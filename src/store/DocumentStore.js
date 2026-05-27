@@ -93,6 +93,10 @@ class DocumentStore {
     return await api.get.getDocuSubCatListByKey(key);
   };
 
+  async findConfigById(id) {
+    return await api.get.findConfigById(id);
+  };
+
   async getProcessFeeByKey(key) {
     return await api.get.getProcessFeeByKey(key);
   };

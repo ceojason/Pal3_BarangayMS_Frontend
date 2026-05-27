@@ -108,7 +108,7 @@ class AddUsersPanel extends Component {
       UsersStore.enrollmentRequest.phaseKey!=null
     ) {
       try {
-        const res = await UsersStore.getHouseholdList(UsersStore.enrollmentRequest.block, UsersStore.enrollmentRequest.lot, UsersStore.enrollmentRequest.phaseKey);
+        const res = await UsersStore.getHouseholdList(UsersStore.enrollmentRequest.block, UsersStore.enrollmentRequest.lot, UsersStore.enrollmentRequest.street, UsersStore.enrollmentRequest.phaseKey);
         this.setState({
           householdList: res
         });
@@ -364,6 +364,7 @@ class AddUsersPanel extends Component {
                     label={'Household Description'}
                     value={UsersStore.enrollmentRequest.tempHouseholdForSave}
                     customClassName={'custom_viewfield'}
+                    icon={<i class="bi bi-house-up-fill"></i>}
                   />
                 </Col>
               )}
@@ -384,7 +385,7 @@ class AddUsersPanel extends Component {
           )}
 
           <Row>
-            <Col md={6}>
+            <Col md={3}>
               <InputField
                 label={'Contact Number'}
                 placeholder={'09XXXXXXXXX'}
@@ -396,7 +397,7 @@ class AddUsersPanel extends Component {
                 isMobileNumber={true}
               />
             </Col>
-            <Col md={6}>
+            <Col md={3}>
               <InputField
                 label={'Email Address'}
                 placeholder={'resident.user@example.com'}
@@ -456,12 +457,15 @@ class AddUsersPanel extends Component {
   };
 
   render() {
+    const { isAdd } = this.props;
+
     return (
       <BaseTemplate
         onClickNext={() => this.onClickNext()}
         onReset={() => this.onReset()}
         currentStep={1}
         totalSteps={3}
+        hideBackToDashboardBtn={!isAdd}
         {...this.props}>
           {this.form()}
       </BaseTemplate>

@@ -41,6 +41,10 @@ class SystemConfigStore {
     return await api.get.getRegionList();
   };
 
+  async getBarangayDetails() {
+    return await api.get.getBarangayDetails();
+  };
+
   async getFeePricingList() {
     return await api.get.getFeePricingList();
   };

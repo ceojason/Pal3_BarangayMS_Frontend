@@ -117,8 +117,8 @@ class UsersStore {
     return await api.get.getGenderListStr();
   };
 
-  async getHouseholdList(block, lot, purok) {
-    return await api.get.getHouseholdList(block, lot, purok);
+  async getHouseholdList(block, lot, street, purok) {
+    return await api.get.getHouseholdList(block, lot, street, purok);
   };
 
   async findMembersById(id) {
@@ -183,6 +183,15 @@ class UsersStore {
   saveEnrollment(requestObj, onSuccess, onError) {
     api.post.postRequest(
       '/users/saveEnrollment',
+      requestObj,
+      onSuccess,
+      onError
+    );
+  };
+
+  updateResident(requestObj, onSuccess, onError) {
+    api.post.postRequest(
+      '/users/updateResident',
       requestObj,
       onSuccess,
       onError

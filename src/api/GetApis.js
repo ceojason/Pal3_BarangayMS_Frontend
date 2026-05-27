@@ -324,8 +324,18 @@ export const getPriorityList = async () => {
   return data.content;
 };
 
-export const getHouseholdList = async (block, lot, purok) => {
-  const response = await fetch(`${BASE_URL}/household/findActiveHousehold/${block}/${lot}/${purok}`);
+export const getHouseholdList = async (block, lot, street, purok) => {
+  const params = new URLSearchParams();
+
+  if (block) params.append("block", block);
+  if (lot) params.append("lot", lot);
+  if (street) params.append("street", street);
+  if (purok) params.append("phaseKey", purok);
+
+  const response = await fetch(
+    `${BASE_URL}/household/findActiveHousehold?${params.toString()}`
+  );
+
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();
@@ -444,8 +454,24 @@ export const getDocuSubCatListByKey = async (key) => {
   return data.content;
 };
 
+export const findConfigById = async (id) => {
+  const response = await fetch(`${BASE_URL}/config/findConfigById/${id}`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getRegionList = async () => {
   const response = await fetch(`${BASE_URL}/enumApi/getRegionList`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
+export const getBarangayDetails = async () => {
+  const response = await fetch(`${BASE_URL}/config/getBarangayDetails`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);
 
   const data = await response.json();

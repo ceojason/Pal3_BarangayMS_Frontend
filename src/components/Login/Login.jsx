@@ -13,8 +13,34 @@ class Login extends Component {
     super(props);
     this.state = {
       redirect: false, // <-- add redirect flag
+      barangayNm: null,
+      municipalAddress: null,
+      province: null,
+      zipCode: null,
+      country: null
     };
   }
+
+  async componentDidMount() {
+    const { DocumentStore } = this.context.store;
+
+    const CONFIG_BRGY_SETTINGS = 'CONFIG_BRGY_SETTINGS';
+
+    try {
+      const res = await DocumentStore.findConfigById(CONFIG_BRGY_SETTINGS);
+
+      this.setState({
+        barangayNm: res?.barangayNmString ?? null,
+        municipalAddress: res?.municipalAddressString ?? null,
+        province: res?.provinceString ?? null,
+        zipCode: res?.zipCodeString ?? null,
+        country: res?.countryString ?? null,
+      });
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   onClickLogin = async (e) => {
     const { LoginStore, SettingsStore, SessionStore } = this.context.store;
@@ -117,7 +143,7 @@ class Login extends Component {
 
           <div className='login_btm_links'>
             <span>
-              <i className="bi bi-c-circle"></i> Copyright 2026 - Barangay Paliparan III
+              <i className="bi bi-c-circle"></i> Copyright 2026 - {this.state.barangayNm}
             </span>
             <span className='link_divider'>|</span>
             <span className='portal_nm'>
@@ -125,7 +151,7 @@ class Login extends Component {
             </span>
             <span className='link_divider'>|</span>
             <span className='web_link'>
-              <a href='https://cavite.gov.ph/home/cities-and-municipalities/city-of-dasmarinas/' target='_blank'>City of Dasmariñas</a>
+              <a href='https://cavite.gov.ph/home/cities-and-municipalities/city-of-dasmarinas/' target='_blank'>{this.state.municipalAddress}, {this.state.province}</a>
             </span>
           </div>
         </div>

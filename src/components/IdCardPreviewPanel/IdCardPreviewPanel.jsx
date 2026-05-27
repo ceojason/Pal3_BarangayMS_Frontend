@@ -6,9 +6,39 @@ import paliparan_icon from '../../assets/images/paliparan_icon.jpg';
 import default_profile from '../../assets/images/user.png';
 
 class IdPreviewPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      barangayNm: null,
+      municipalAddress: null,
+      province: null,
+      zipCode: null,
+      country: null
+    };
+  }
+
+  async componentDidMount() {
+    const { DocumentStore } = this.context.store;
+
+    const CONFIG_BRGY_SETTINGS = 'CONFIG_BRGY_SETTINGS';
+
+    try {
+      const res = await DocumentStore.findConfigById(CONFIG_BRGY_SETTINGS);
+
+      this.setState({
+        barangayNm: res?.barangayNmString ?? null,
+        municipalAddress: res?.municipalAddressString ?? null,
+        province: res?.provinceString ?? null,
+        zipCode: res?.zipCodeString ?? null,
+        country: res?.countryString ?? null,
+      });
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   render() {
-
     const { hideHeader } = this.props;
 
     const {
@@ -47,15 +77,15 @@ class IdPreviewPanel extends Component {
               <div className="barangayid_header_text">
 
                 <span className="ph_text">
-                  Republic of the Philippines
+                  REPUBLIC OF THE {this.state.country}
                 </span>
 
                 <span className="brgy_text">
-                  BARANGAY PALIPARAN III
+                  BARANGAY {this.state.barangayNm}
                 </span>
 
                 <span className="city_text">
-                  Dasmariñas City, Cavite
+                  {this.state.municipalAddress}, {this.state.province}
                 </span>
 
               </div>

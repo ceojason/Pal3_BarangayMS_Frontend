@@ -10,6 +10,7 @@ const AddUsersCTR = () => {
           // icon={<i class="bi bi-people-fill"></i>}
           header={'Register New Resident'}
           subHeader={'Please make sure all the details are correct before proceeding with the registration.'}
+          isAdd={true}
         />
       </div>
     </MainContainer>

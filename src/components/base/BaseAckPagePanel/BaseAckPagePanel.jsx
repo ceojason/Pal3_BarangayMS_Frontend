@@ -29,7 +29,8 @@ class BaseAckPagePanel extends Component {
       icon, 
       isDocumentRequest, 
       showRefNo, 
-      isCommunityReport 
+      isCommunityReport,
+      isAdd
     } = this.props;
     const { showDetails } = this.state;
 
@@ -62,6 +63,7 @@ class BaseAckPagePanel extends Component {
             // header={'Transaction was successful!'}
             // subHeader={'The user information below was successfully saved in the system.'}
             icon={icon}
+            hideBackToDashboardBtn={!isAdd}
           />
         )}
 

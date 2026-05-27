@@ -5,6 +5,7 @@ import MainStepper from '../base/MainStepper/MainStepper';
 import StepperContants from '../../../contants/StepperContants';
 import SearchUsersPanel from '../../components/SearchUsersPanel/SearchUsersPanel';
 import UsersViewPanel from '../UsersViewPanel/UsersViewPanel';
+import AddUsersStepper from '../AddUsersStepper/AddUsersStepper';
 
 class SearchUsersStepper extends Component {
   constructor(props) {
@@ -37,6 +38,10 @@ class SearchUsersStepper extends Component {
             isView={true}
           />
         )
+      },
+      {
+        key: StepperContants.MANUAL_ENROLL_CREATE,
+        content: <AddUsersStepper isAdd={false} subHeader={'Please make sure all the details are correct before proceeding.'} />
       }
     ];
 

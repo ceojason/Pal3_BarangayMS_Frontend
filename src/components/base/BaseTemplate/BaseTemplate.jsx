@@ -29,7 +29,8 @@ class BaseTemplate extends Component {
       onClickGenerate,
       onClickReject,
       onClickProcess,
-      onClickUpdate
+      onClickUpdate,
+      hideBackToDashboardBtn
     } = this.props;
     let isInitial = currentStep!=null && currentStep===1;
     const { SettingsStore } = this.context.store;
@@ -42,8 +43,7 @@ class BaseTemplate extends Component {
             {header}
           </span>
 
-          {currentStep!=null &&
-           currentStep==1 && (
+          {!hideBackToDashboardBtn && !isAck && (
             <button
               className='header_back_btn'
               onClick={() => window.location.href = '/dashboard'}

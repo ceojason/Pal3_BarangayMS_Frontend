@@ -8,6 +8,8 @@ const StepperContants = Object.freeze({
   //search steps
   INQUIRY_INITIAL: 'searchInitial',
   INQUIRY_VIEW: 'searchView',
+  INQUIRY_UPDATE: 'searchInitial',
+
 });
 
 export default StepperContants;

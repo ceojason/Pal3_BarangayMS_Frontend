@@ -167,7 +167,7 @@ class UserRequestView extends Component {
     SettingsStore.showModal({
       type: 'reject',
       headerTitle: 'Reject Confirmation',
-      valueToDisplay: ' ' + data.documentTypeString + ' request',
+      valueToDisplay: ' ' + data.docuSubCategoryKeyString + ' request',
       data: data,
       additionalBtn: (data, closeModal) => (
         <BaseButton

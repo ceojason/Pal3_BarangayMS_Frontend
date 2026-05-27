@@ -34,6 +34,7 @@ class SearchHouseholdPanel extends Component {
       {
         name: 'HOUSEHOLD',
         index: 'householdDesc',
+        width: '30%',
         cell: data => (
           <BaseHyperlink value={data.householdDesc} onClick={() => this.onClickLink(data)} customClassName={'add_width'} />
         )
@@ -44,15 +45,15 @@ class SearchHouseholdPanel extends Component {
         sortBy: 'lastNm',
         // width: '290px',
         cell: data => (
-          <BaseColumnWithSubData data={data.householdHead} subData={data.userStatusString} className={data.userStatus===1 ? 'is_green' : 'is_red'} />
+          data!=null && data.householdHead!=null ? <BaseColumnWithSubData data={data.householdHead} subData={data.userStatusString} className={data.userStatus===1 ? 'is_green' : 'is_red'} /> : 'N/A'
         )
       },
-      {
-        name: 'HOME ADDRESS',
-        index: 'homeAddress',
-        sortBy: 'homeAddress',
-        width: '30%',
-      },
+      // {
+      //   name: 'HOME ADDRESS',
+      //   index: 'homeAddress',
+      //   sortBy: 'homeAddress',
+      //   width: '30%',
+      // },
       {
         name: 'MEMBER COUNT',
         index: 'memberCount',

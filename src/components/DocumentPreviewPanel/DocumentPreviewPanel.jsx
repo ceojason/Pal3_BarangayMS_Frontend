@@ -9,9 +9,39 @@ import BasePanel from '../base/BasePanel/BasePanel';
 import paliparan_icon from '../../assets/images/paliparan_icon.jpg';
 
 class DocumentPreviewPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      barangayNm: null,
+      municipalAddress: null,
+      province: null,
+      zipCode: null,
+      country: null
+    };
+  }
+
+  async componentDidMount() {
+    const { DocumentStore } = this.context.store;
+
+    const CONFIG_BRGY_SETTINGS = 'CONFIG_BRGY_SETTINGS';
+
+    try {
+      const res = await DocumentStore.findConfigById(CONFIG_BRGY_SETTINGS);
+
+      this.setState({
+        barangayNm: res?.barangayNmString ?? null,
+        municipalAddress: res?.municipalAddressString ?? null,
+        province: res?.provinceString ?? null,
+        zipCode: res?.zipCodeString ?? null,
+        country: res?.countryString ?? null,
+      });
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   render() {
-
     const {
       hideHeader,
       isGeneratingPdf,
@@ -51,11 +81,11 @@ class DocumentPreviewPanel extends Component {
             <div className="header_text">
 
               <div className="gov_title">
-                REPUBLIC OF THE PHILIPPINES
+                REPUBLIC OF THE {this.state.country}
               </div>
 
               <div className="gov_subtitle">
-                BARANGAY PALIPARAN III • DASMARIÑAS CITY, CAVITE
+                Barangay {this.state.barangayNm} • {this.state.municipalAddress}, {this.state.province}
               </div>
 
               <div className="doc_type">
@@ -102,7 +132,7 @@ class DocumentPreviewPanel extends Component {
 
             <div className="doc_paragraph mt-2">
               Issued this <b>{dateIssued != null ? dateIssued : currentDate}</b>
-              {' '}at Barangay Paliparan III, Dasmariñas City, Cavite.
+              {' '}at Barangay {this.state.barangayNm}, {this.state.municipalAddress}, {this.state.province}.
             </div>
 
             <div className="doc_paragraph mt-3">
@@ -119,7 +149,7 @@ class DocumentPreviewPanel extends Component {
             </div>
 
             <div className="footer_subtext">
-              Barangay Paliparan III • Official Document System
+              Barangay {this.state.barangayNm} • Official Document System
             </div>
 
           </div>

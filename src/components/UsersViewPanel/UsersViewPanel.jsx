@@ -31,24 +31,43 @@ class UsersViewPanel extends Component {
 
   submitForm = () => {
     const { UsersStore, SettingsStore } = this.context.store;
+    const { isAdd } = this.props;
     SettingsStore.isLoading=true;
     SettingsStore.isProcessing = true;
 
-    UsersStore.saveEnrollment(UsersStore.validatedData, res => {
-      SettingsStore.isLoading=false;
-      UsersStore.validatedData=null;
-      UsersStore.ackHeader.ackMessage=res.ackMessage;
-      UsersStore.ackHeader.refNo=res.refNo;
-      UsersStore.savedData=res;
-      SettingsStore.isProcessing = false;
-      UsersStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
-      SettingsStore.showSuccessPanel=true;
-    }, err => {
+    if (isAdd) {
+      UsersStore.saveEnrollment(UsersStore.validatedData, res => {
         SettingsStore.isLoading=false;
+        UsersStore.validatedData=null;
+        UsersStore.ackHeader.ackMessage=res.ackMessage;
+        UsersStore.ackHeader.refNo=res.refNo;
+        UsersStore.savedData=res;
         SettingsStore.isProcessing = false;
-        SettingsStore.showModal({ type: 'error', errorList: err });
-      }
-    );
+        UsersStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
+        SettingsStore.showSuccessPanel=true;
+      }, err => {
+          SettingsStore.isLoading=false;
+          SettingsStore.isProcessing = false;
+          SettingsStore.showModal({ type: 'error', errorList: err });
+        }
+      );
+    }else{
+      UsersStore.updateResident(UsersStore.validatedData, res => {
+        SettingsStore.isLoading=false;
+        UsersStore.validatedData=null;
+        UsersStore.ackHeader.ackMessage=res.ackMessage;
+        UsersStore.ackHeader.refNo=res.refNo;
+        UsersStore.savedData=res;
+        SettingsStore.isProcessing = false;
+        UsersStore.currentStep=StepperContants.MANUAL_ENROLL__ACK;
+        SettingsStore.showSuccessPanel=true;
+      }, err => {
+          SettingsStore.isLoading=false;
+          SettingsStore.isProcessing = false;
+          SettingsStore.showModal({ type: 'error', errorList: err });
+        }
+      );
+    }
   };
 
   getViewPanel = () => {
@@ -167,6 +186,7 @@ class UsersViewPanel extends Component {
                   label={'Household Description'}
                   value={data.tempHouseholdForSave}
                   customClassName={'custom_viewfield'}
+                  icon={<i class="bi bi-house-up-fill"></i>}
                 />
               </Col>
             </Row>
