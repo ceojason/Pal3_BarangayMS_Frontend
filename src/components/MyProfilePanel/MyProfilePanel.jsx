@@ -648,7 +648,7 @@ const styles = {
     borderRadius: '24px',
     padding: '35px',
     marginBottom: '25px',
-    boxShadow: '0 6px 24px rgba(0,0,0,0.06)',
+    boxShadow: '0 6px 24px rgba(0,0,0,0.09)',
   },
 
   row: {

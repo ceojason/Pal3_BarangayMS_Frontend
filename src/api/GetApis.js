@@ -493,6 +493,14 @@ export const getBarangayDetails = async () => {
   return data.content;
 };
 
+export const getHotlines = async () => {
+  const response = await fetch(`${BASE_URL}/config/getHotlines`);
+  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
+
+  const data = await response.json();
+  return data.content;
+};
+
 export const getFeePricingList = async () => {
   const response = await fetch(`${BASE_URL}/config/getFeePricingList`);
   if (!response.ok) throw new Error(`${UNIV_ERROR}`);

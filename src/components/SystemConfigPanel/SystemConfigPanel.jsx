@@ -46,6 +46,18 @@ class SystemConfigPanel extends Component {
     if (fieldId=='configCd' && value=='CONFIG_BRGY_SETTINGS') {
       this.getBrgyDetailsAndMap();
     }
+
+    if (fieldId=='configCd' && value=='CONFIG_HOTLINES') {
+      this.getHotlines();
+    }
+  };
+
+  getHotlines = () => {
+    const { SystemConfigStore } = this.context.store;
+
+    SystemConfigStore.getHotlines().then(res => {
+      SystemConfigStore.enrollmentRequest = res;
+    });
   };
 
   getBrgyDetailsAndMap = () => {
@@ -319,6 +331,7 @@ class SystemConfigPanel extends Component {
                               this.onChangeInput(item.id, e.target.value)
                             }
                             currency="₱"
+                            maxLength={10}
                           />
 
                         </Col>
@@ -327,6 +340,135 @@ class SystemConfigPanel extends Component {
 
                   </div>
                 ))}
+              </Fragment>
+            )}
+
+            {SystemConfigStore.enrollmentRequest.configCd === 'CONFIG_HOTLINES' && (
+              <Fragment>
+                <Row>
+                  <Col md={6}>
+                    <InputField
+                      label={'National Emergency'}
+                      placeholder={'National Emergency Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string1}
+                      onChange={e =>
+                        this.onChangeInput('string1', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <InputField
+                      label={'Dasmariñas City Police Station'}
+                      placeholder={'Dasmariñas City Police Station Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string2}
+                      onChange={e =>
+                        this.onChangeInput('string2', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                </Row>
+                
+                <Row>
+                  <Col md={6}>
+                    <InputField
+                      label={'Dasmariñas City Fire Station'}
+                      placeholder={'Dasmariñas City Fire Station Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string3}
+                      onChange={e =>
+                        this.onChangeInput('string3', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <InputField
+                      label={'Ambulance Center'}
+                      placeholder={'Ambulance Center Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string4}
+                      onChange={e =>
+                        this.onChangeInput('string4', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={6}>
+                    <InputField
+                      label={'CDRRMO Dasmariñas'}
+                      placeholder={'CDRRMO Dasmariñas Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string5}
+                      onChange={e =>
+                        this.onChangeInput('string5', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <InputField
+                      label={'Pagamutan ng Dasmariñas'}
+                      placeholder={'Pagamutan ng Dasmariñas Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string6}
+                      onChange={e =>
+                        this.onChangeInput('string6', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={6}>
+                    <InputField
+                      label={'Dasmariñas City Hall'}
+                      placeholder={'City Hall Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string7}
+                      onChange={e =>
+                        this.onChangeInput('string7', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <InputField
+                      label={'Meralco Business Center - Dasmariñas Branch'}
+                      placeholder={'Meralco Business Cente Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string8}
+                      onChange={e =>
+                        this.onChangeInput('string8', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={6}>
+                    <InputField
+                      label={'Barangay Rescue / Emergency Operations Center'}
+                      placeholder={'Barangay Rescue / Emergency Operations Center Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string9}
+                      onChange={e =>
+                        this.onChangeInput('string9', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <InputField
+                      label={'Water Utility (PrimeWater Dasmariñas)'}
+                      placeholder={'PrimeWater Dasmariñas Hotline'}
+                      value={SystemConfigStore.enrollmentRequest.string10}
+                      onChange={e =>
+                        this.onChangeInput('string10', e.target.value)
+                      }
+                      maxLength={50}
+                    />
+                  </Col>
+                </Row>
               </Fragment>
             )}
           </BasePanel>

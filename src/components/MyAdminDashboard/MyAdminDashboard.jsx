@@ -8,6 +8,7 @@ import QuickActions from '../QuickActions/QuickActions';
 import DashboardCalendar from '../DashboardCalendar/DashboardCalendar';
 import DashboardLogsCard from '../DashboardLogsCard/DashboardLogsCard';
 import DashboardConnectionPanelCard from '../DashboardConnectionPanelCard/DashboardConnectionPanelCard';
+import DashboardEmergencyHotline from '../DashboardEmergencyHotline/DashboardEmergencyHotline';
 
 class MyAdminDashboard extends Component {
   constructor(props) {
@@ -92,7 +93,8 @@ class MyAdminDashboard extends Component {
               <DashboardLogsCard header={'Recent System Logs'} data={DashboardStore.data.logsList} />
             </div>
             <div>
-              <DashboardConnectionPanelCard header={'Connection Details'} data={DashboardStore.data.systemActiveCount} />
+              <DashboardConnectionPanelCard header={'Connection Details'} />
+              <DashboardEmergencyHotline header={"Emergency Hotlines"} data={DashboardStore.data.hotlineList} />
             </div>
           </div>
         </div>

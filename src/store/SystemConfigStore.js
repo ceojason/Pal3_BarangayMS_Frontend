@@ -29,6 +29,17 @@ class SystemConfigStore {
       region: null,
       country: 'PHILIPPINES',
 
+      string1: null,
+      string2: null,
+      string3: null,
+      string4: null,
+      string5: null,
+      string6: null,
+      string7: null,
+      string8: null,
+      string9: null,
+      string10: null,
+
       maintenanceMoode: null
     };
   };
@@ -43,6 +54,10 @@ class SystemConfigStore {
 
   async getBarangayDetails() {
     return await api.get.getBarangayDetails();
+  };
+
+  async getHotlines() {
+    return await api.get.getHotlines();
   };
 
   async getFeePricingList() {

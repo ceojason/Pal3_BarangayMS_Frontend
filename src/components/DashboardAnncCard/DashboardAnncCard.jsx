@@ -116,7 +116,7 @@ class DashboardAnncCard extends Component {
           ) : (
             <div className='dashboardannc_empty'>
               <i className='bi bi-megaphone'></i>
-              <span>No announcement logs found.</span>
+              <span>No announcement found.</span>
             </div>
           )}
         </div>

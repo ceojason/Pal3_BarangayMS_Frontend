@@ -6,6 +6,7 @@ import BaseAccordion from '../base/BaseAccordion/BaseAccordion';
 import QuickActions from '../QuickActions/QuickActions';
 import DashboardLogsCard from '../DashboardLogsCard/DashboardLogsCard';
 import DashboardAnncCard from '../DashboardAnncCard/DashboardAnncCard';
+import DashboardEmergencyHotline from '../DashboardEmergencyHotline/DashboardEmergencyHotline';
 
 class MyDashboard extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class MyDashboard extends Component {
             </div>
 
             <p className="dashboard_desc">
-              Welcome back, {currentUser.firstNm}! Check your latest news and updates with eBarangayConnect.
+              Welcome back, {currentUser.firstNm}! Check your latest news and updates with your eBarangayConnect portal!
             </p>
           </div>
 
@@ -70,7 +71,8 @@ class MyDashboard extends Component {
 
         <div className='grid_ctr'>
           <div>
-            <DashboardAnncCard header={"Today's Announcement Logs"} data={DashboardStore.data.announcementList} />
+            <DashboardAnncCard header={"Today's Announcement"} data={DashboardStore.data.announcementList} />
+            <DashboardEmergencyHotline header={"Emergency Hotlines"} data={DashboardStore.data.hotlineList} />
           </div>
           <div>
             <DashboardLogsCard header={'My Recent Activities'} data={DashboardStore.data.logsList} />

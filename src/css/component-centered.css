@@ -113,7 +113,7 @@
     gap: 8px;
 
     background: #e2e3e4;
-    border-radius: 999px;
+    border-radius: 10px;
 
     padding: 8px 16px;
     font-size: 13px;
@@ -990,7 +990,7 @@
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
-    height: 100%;
+    /* height: 100%; */
     overflow: hidden;
     border: 1px solid #f0f0f0;
 }
@@ -1194,6 +1194,7 @@
   /* height: 100%; */
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .dashboardannc_hdr {
@@ -1876,6 +1877,7 @@
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
     border: 1px solid #f0f0f0;
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .systemstatus_hdr {
@@ -1974,7 +1976,7 @@
     margin-bottom: 24px;
 
     box-shadow:
-        0 4px 20px rgba(0,0,0,0.04);
+        0 4px 20px rgba(0,0,0,0.09);
 
     border: 1px solid rgba(0,0,0,0.04);
 }
@@ -2078,4 +2080,325 @@
 input:disabled,
 select:disabled {
     opacity: 1 !important;
+}
+
+/* =========================
+   DASHBOARD EMERGENCY HOTLINE
+========================= */
+
+.dashboardhotline_ctr {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.dashboardhotline_hdr {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.dashboardhotline_hdr_left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.dashboardhotline_icon {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #dc2626
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 22px;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.25);
+}
+
+.dashboardhotline_title {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.dashboardhotline_subtitle {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+.dashboardhotline_badge {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #fee2e2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 12px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.dashboardhotline_content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* =========================
+   ITEM
+========================= */
+
+.dashboardhotline_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #f3f4f6;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.dashboardhotline_item:hover {
+  transform: translateY(-2px);
+  border-color: #e5e7eb;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.dashboardhotline_item_left {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+}
+
+.dashboardhotline_item_icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+/* =========================
+   ICON COLORS
+========================= */
+
+.dashboardhotline_item_icon.police,
+.dashboardhotline_type.police {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.dashboardhotline_item_icon.fire,
+.dashboardhotline_type.fire {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.dashboardhotline_item_icon.medical,
+.dashboardhotline_type.medical {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.dashboardhotline_item_icon.rescue,
+.dashboardhotline_type.rescue {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.dashboardhotline_item_icon.default,
+.dashboardhotline_type.default {
+  background: #e5e7eb;
+  color: #4b5563;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.dashboardhotline_item_info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboardhotline_item_header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.dashboardhotline_item_title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dashboardhotline_type {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dashboardhotline_number {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.dashboardhotline_number i {
+  color: #9ca3af;
+}
+
+.dashboardhotline_desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.dashboardhotline_actions {
+  display: flex;
+  align-items: center;
+}
+
+.dashboardhotline_callbtn {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(
+    135deg,
+    #22c55e,
+    #16a34a
+  );
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 14px rgba(34, 197, 94, 0.2);
+}
+
+.dashboardhotline_callbtn:hover {
+  transform: scale(1.05);
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.3);
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.dashboardhotline_empty {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.dashboardhotline_empty i {
+  font-size: 42px;
+  opacity: 0.7;
+}
+
+.dashboardhotline_empty span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .dashboardhotline_ctr {
+    padding: 16px;
+  }
+
+  .dashboardhotline_hdr {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboardhotline_item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboardhotline_actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .dashboardhotline_item_header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+.dashboardhotline_togglebtn {
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.dashboardhotline_togglebtn:hover {
+  color: #991b1b;
+  text-decoration: underline;
 }
