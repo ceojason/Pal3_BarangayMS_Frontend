@@ -18,7 +18,7 @@ class NoAccessCtr extends Component {
     return (
       <div className='no_access_ctr' style={{ textAlign: 'center', marginTop: '50px' }}>
         <span>
-          <i className="bi bi-pc-display-horizontal" style={{ marginRight: '8px' }}></i>
+          <i class="bi bi-window-x" style={{ marginRight: '8px' }}></i>
           Sorry, you have no access to this page.
         </span>
 
