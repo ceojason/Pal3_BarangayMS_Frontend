@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import StoreContext from '../../store/StoreContext';
 import { observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
-import ViewField from '../base/ViewPortlet/ViewPortlet';
+import { ViewField } from '../base/ViewPortlet/ViewPortlet';
 import ViewPortlet from '../base/ViewPortlet/ViewPortlet';
 import InputField from '../base/InputField/InputField';
 import SelectField from '../base/SelectField/SelectField';
@@ -232,6 +232,10 @@ class MyProfilePanel extends Component {
     const { SessionStore, UsersStore, SettingsStore } = this.context.store;
 
     const currentUser = SessionStore.currentUser;
+
+    let members = UsersStore.enrollmentRequest!=null && UsersStore.enrollmentRequest.householdMembers!=null && UsersStore.enrollmentRequest.householdMembers.length > 3
+      ? UsersStore.enrollmentRequest.householdMembersString.substring(0, 50) + '...'
+      : UsersStore.enrollmentRequest.householdMembersString;
 
     if (!currentUser) return null;
 
@@ -489,6 +493,38 @@ class MyProfilePanel extends Component {
                     value={UsersStore.enrollmentRequest.phaseKey}
                     onChange={e => this.onChangeSelect('phaseKey', e.target.value)}
                     disabled
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md={3}>
+                  <SelectField
+                    label={'Is Household Head?'}
+                    isRequired={true}
+                    options={yesNoList}
+                    value={UsersStore.enrollmentRequest.isHouseholdHead}
+                    onChange={e => this.onChangeSelect('isHouseholdHead', e.target.value)}
+                    disabled
+                  />
+                </Col>
+                <Col md={4}>
+                  <ViewField
+                    label={'Household Description'}
+                    value={UsersStore.enrollmentRequest.tempHouseholdForSave}
+                    customClassName={'custom_viewfield'}
+                    icon={<i class="bi bi-house-up-fill"></i>}
+                  />
+                </Col>
+                <Col md={5}>
+                  <ViewField
+                    label={'Household Members'}
+                    value={members}
+                    customClassName={'with_highlight'}
+                    icon={<i class="bi bi-person-check-fill"></i>}
+                    title={'Household Members'}
+                    modalContent={UsersStore.enrollmentRequest.householdMembers}
+                    isObjectList={true}
                   />
                 </Col>
               </Row>
