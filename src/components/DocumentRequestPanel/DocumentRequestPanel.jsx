@@ -116,7 +116,7 @@ class DocumentRequestPanel extends Component {
     return (
       <MainForm>
         <BasePanel
-          icon={<i class="bi bi-file-earmark-pdf-fill"></i>}
+          icon={<i class="bi bi-file-earmark-pdf"></i>}
           header={'Document Information'}>
             <Row>
               <Col md={6}>
