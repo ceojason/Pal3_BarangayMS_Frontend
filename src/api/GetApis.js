@@ -423,9 +423,10 @@ export const findUserByRequest = async (requestObj) => {
     body: JSON.stringify(requestObj)
   });
 
-  if (!response.ok) throw new Error(`${UNIV_ERROR}`);
-
   const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
   return data.content;
 };
 

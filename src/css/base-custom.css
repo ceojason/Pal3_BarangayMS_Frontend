@@ -1801,7 +1801,7 @@ select:active {
   font-weight: 700;
   letter-spacing: 0.3px;
 
-  color: #263238;
+  color: var(--main-text-color);
 
   margin: 18px 0 12px;
 

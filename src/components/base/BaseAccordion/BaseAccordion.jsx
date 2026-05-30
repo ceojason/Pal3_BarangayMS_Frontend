@@ -96,7 +96,7 @@ class BaseAccordion extends Component {
                 >
 
                   <div className="title">
-                    <i className="bi bi-megaphone-fill"></i>
+                    <i class="bi bi-send-plus"></i>
                     {item.header}
                   </div>
 

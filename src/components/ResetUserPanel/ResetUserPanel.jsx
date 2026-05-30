@@ -111,19 +111,28 @@ class ResetUserPanel extends Component {
 
       console.log("RESULT:", res);
 
-      SettingsStore.showModal({
-        type: 'update',
-        headerTitle: 'Reset User Credentials',
-        valueToDisplay: ' yourself <' + res?.fullNm + '>', // 👈 here
-        data: UsersStore.enrollmentRequest,
-        additionalBtn: (data, closeModal) => (
-          <BaseButton
-            customClassName="btn_update"
-            label="Reset"
-            onClick={() => this.onClickReset(data, closeModal)}
-          />
-        )
-      });
+      if (res!=null && res.fullNm!=null) {
+        SettingsStore.showModal({
+          type: 'update',
+          headerTitle: 'Reset User Credentials',
+          valueToDisplay: ' yourself <' + res?.fullNm + '>', // 👈 here
+          data: UsersStore.enrollmentRequest,
+          additionalBtn: (data, closeModal) => (
+            <BaseButton
+              customClassName="btn_update"
+              label="Reset"
+              onClick={() => this.onClickReset(data, closeModal)}
+            />
+          )
+        });
+      }else{
+         SettingsStore.isProcessing = false;
+          SettingsStore.isLoading=false;
+          SettingsStore.showModal({
+            type: 'error',
+            errorList: ['No user was found.']
+          });
+      }
 
     } catch (err) {
       console.error(err);
